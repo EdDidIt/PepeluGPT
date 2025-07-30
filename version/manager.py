@@ -135,6 +135,7 @@ def get_version_command_output() -> str:
   {age_msg}
 
 {milestones}
+"""
 
 def get_roadmap():
     return f"""
