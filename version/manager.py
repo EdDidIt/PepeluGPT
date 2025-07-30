@@ -145,7 +145,7 @@ def get_version_command_output() -> str:
 def validate():
     """Validate version consistency across the project."""
     print("🔍 Validating version consistency...")
-    
+
     # Check if version info is accessible
     try:
         info = get_version_info()
@@ -153,7 +153,7 @@ def validate():
     except Exception as e:
         print(f"❌ Version info validation failed: {e}")
         return False
-    
+
     # Check if age calculation works
     try:
         age = get_build_age()
@@ -161,9 +161,10 @@ def validate():
     except Exception as e:
         print(f"❌ Age calculation failed: {e}")
         return False
-    
+
     print("✅ All version validations passed!")
     return True
+
 
 if __name__ == "__main__":
     import sys
