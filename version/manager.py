@@ -100,6 +100,7 @@ def get_version_banner() -> str:
 ╚═══════════════════════════════════════════════════════════════╝
 """
 
+
 def get_milestone_history() -> str:
     """Get formatted milestone history."""
     history = "\n🔵 Version Timeline:\n"
@@ -114,7 +115,7 @@ def get_version_command_output() -> str:
     age_info = get_build_age()
     age_msg = get_age_message()
     milestones = get_milestone_history()
-    
+
     return f"""
 ╔════════════════════════════════════════════════════════════════╗
 ║                      VERSION INFORMATION                       ║
@@ -137,8 +138,9 @@ def get_version_command_output() -> str:
 {milestones}
 """
 
+
 def get_roadmap():
-    return f"""
+    return """
     Development Roadmap:
     - Enhanced analysis capabilities
     - Advanced compliance workflows
