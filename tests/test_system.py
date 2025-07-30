@@ -276,26 +276,26 @@ def test_pepelugpt():
     """Main test function - runs all test suites."""
     print("🔵 PepeluGPT Comprehensive Test Suite")
     print("=" * 50)
-    
+
     test_functions = [
         test_core_initialization,
-        test_environment_validation, 
+        test_environment_validation,
         test_configuration_management,
         test_document_parsing,
         test_vector_database,
         test_system_status
     ]
-    
+
     passed_suites = 0
     total_suites = len(test_functions)
-    
+
     for test_func in test_functions:
         try:
             if test_func():
                 passed_suites += 1
         except Exception as e:
             print(f"🔴 Test suite failed: {test_func.__name__} - {e}")
-    
+
     print("\n" + "=" * 50)
     print(f"🏁 Test Summary: {passed_suites}/{total_suites} test suites passed")
     
@@ -303,9 +303,10 @@ def test_pepelugpt():
         print("🎉 All tests passed! PepeluGPT is ready for action.")
     else:
         print("🔴  Some tests failed. Check the output above for details.")
-        print("💡 Try running: python core/cli.py setup")
-    
+        print("🔵 Try running: python core/cli.py setup")
+
     return passed_suites == total_suites
+
 
 if __name__ == "__main__":
     test_pepelugpt()
