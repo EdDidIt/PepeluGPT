@@ -1,0 +1,221 @@
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded by ^/ will apply only to files and directories
+# in the root of the project.
+^/(
+  (
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | __pycache__
+    | cyber_vector_db
+    | vector_db
+    | \.venv
+  )/
+)
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+# Ignore missing imports for third-party libraries
+[[tool.mypy.overrides]]
+module = [
+    "faiss",
+    "sentence_transformers",
+    "PyMuPDF",
+    "fitz",
+    "docx",
+    "openpyxl",
+    "xlrd",
+    "pptx",
+    "langdetect",
+    "nltk",
+    "tqdm"
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "*_test.py",
+]
+python_classes = [
+    "Test*",
+]
+python_functions = [
+    "test_*",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "security: marks tests as security-related",
+]
+
+[tool.coverage.run]
+source = [
+    "core",
+    "file_parser",
+    "interface",
+]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\bProtocol\):",
+    "@(abc\.)?abstractmethod",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "test_*", "*/.venv/*", "*/venv/*"]
+skips = ["B101", "B601"]  # Skip assert_used and shell=True warnings in tests
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = [
+    "E203",  # whitespace before ':'
+    "E501",  # line too long (handled by black)
+    "W503",  # line break before binary operator
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "*.egg-info",
+    "cyber_vector_db",
+    "vector_db",
+]
+per-file-ignores = [
+    "__init__.py:F401",  # Allow unused imports in __init__.py
+]
+
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pepelugpt"
+description = "Sacred Cybersecurity Intelligence Platform"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "PepeluGPT Team", email = "team@pepelugpt.dev"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "python-docx>=0.8.11",
+    "PyMuPDF>=1.23.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+    "openpyxl>=3.1.0",
+    "xlrd>=2.0.1",
+    "python-pptx>=0.6.21",
+    "sentence-transformers>=2.2.2",
+    "faiss-cpu>=1.7.4",
+    "numpy>=1.24.0",
+    "scikit-learn>=1.3.0",
+    "nltk>=3.8.0",
+    "langdetect>=1.0.9",
+    "regex>=2023.0.0",
+    "PyYAML>=6.0",
+    "jsonschema>=4.19.0",
+    "tqdm>=4.66.0",
+    "typing-extensions>=4.7.0",
+    "pathlib2>=2.3.7",
+    "click>=8.1.0",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "mypy>=1.5.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "bandit[toml]>=1.7.0",
+    "safety>=2.3.0",
+    "pre-commit>=3.0.0",
+]
+cli = [
+    "rich>=13.5.0",
+    "click>=8.1.0",
+]
+api = [
+    "fastapi>=0.103.0",
+    "uvicorn>=0.23.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+pepelugpt = "core.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/EdDidIt/PepeluGPT"
+Documentation = "https://github.com/EdDidIt/PepeluGPT/tree/main/docs"
+Repository = "https://github.com/EdDidIt/PepeluGPT.git"
+"Bug Tracker" = "https://github.com/EdDidIt/PepeluGPT/issues"
+Changelog = "https://github.com/EdDidIt/PepeluGPT/blob/main/CHANGELOG.md"
+
+[tool.setuptools_scm]
+write_to = "version.py"

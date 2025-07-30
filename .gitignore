@@ -1,0 +1,37 @@
+# PepeluGPT .gitignore
+
+# Generated data and databases
+cyber_vector_db/
+parsed_cyber_documents.json
+parsing_summary.json
+
+# User documents (sensitive)
+cyber_documents/
+
+# Python cache and logs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+file_parser/logs/
+*.log
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test outputs
+test_results/
+*.test

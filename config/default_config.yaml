@@ -1,0 +1,56 @@
+{
+  "application": {
+    "name": "PepeluGPT",
+    "version": "1.0.0",
+    "description": "Your Quantum-Secure Sidekick in the Age of Light and Logic",
+    "mode": "local"
+  },
+  "parsing": {
+    "supported_formats": ["pdf", "html", "docx", "xlsx", "txt", "xml"],
+    "chunk_size": 1000,
+    "chunk_overlap": 200,
+    "enable_ocr": false,
+    "parallel_processing": true
+  },
+  "vector_database": {
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "vector_dimension": 384,
+    "similarity_threshold": 0.7,
+    "max_results": 10,
+    "enable_reranking": true
+  },
+  "chat": {
+    "model_name": "gpt-3.5-turbo",
+    "max_tokens": 2048,
+    "temperature": 0.7,
+    "context_window": 8192,
+    "enable_citations": true,
+    "memory_turns": 10
+  },
+  "logging": {
+    "level": "INFO",
+    "enable_file_logging": true,
+    "enable_chat_session_logs": true,
+    "log_rotation": "daily",
+    "max_log_files": 30
+  },
+  "security": {
+    "offline_mode": true,
+    "data_encryption": false,
+    "secure_temp_files": true,
+    "sanitize_inputs": true
+  },
+  "cybersecurity": {
+    "compliance_frameworks": ["NIST", "DoD", "RMF", "STIG"],
+    "enable_control_mapping": true,
+    "threat_intelligence": true,
+    "acronym_expansion": true,
+    "validation_rules": true
+  },
+  "performance": {
+    "cache_enabled": true,
+    "cache_ttl": 3600,
+    "batch_processing": true,
+    "memory_optimization": true
+  }
+}

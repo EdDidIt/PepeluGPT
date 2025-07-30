@@ -1,0 +1,45 @@
+# PepeluGPT - Cybersecurity Intelligence Platform
+# Core Dependencies for Document Processing and AI Operations
+
+# Document parsing libraries
+python-docx>=0.8.11          # Microsoft Word documents
+PyMuPDF>=1.23.0              # PDF processing (fitz)
+beautifulsoup4>=4.12.0       # HTML/XML parsing
+lxml>=4.9.0                  # XML processing
+openpyxl>=3.1.0              # Excel spreadsheets (XLSX)
+xlrd>=2.0.1                  # Legacy Excel files (XLS)
+python-pptx>=0.6.21          # PowerPoint presentations
+
+# AI and Machine Learning
+sentence-transformers>=2.2.2  # Semantic embeddings
+faiss-cpu>=1.7.4             # Vector similarity search
+numpy>=1.24.0                # Numerical computing
+scikit-learn>=1.3.0          # Machine learning utilities
+
+# Text Processing and Analysis
+nltk>=3.8.0                  # Natural language processing
+langdetect>=1.0.9            # Language detection
+regex>=2023.0.0              # Advanced regex patterns
+
+# Configuration and Data Management
+PyYAML>=6.0                  # YAML configuration files
+jsonschema>=4.19.0           # JSON schema validation
+
+# Utilities and Progress Tracking
+tqdm>=4.66.0                 # Progress bars
+typing-extensions>=4.7.0     # Enhanced type hints
+pathlib2>=2.3.7              # Enhanced path operations
+click>=8.1.0                 # Command-line interface utilities
+
+# Optional: Enhanced CLI (install separately)
+# rich>=13.5.0               # Rich text and beautiful formatting
+
+# Development and Testing
+pytest>=7.4.0               # Testing framework
+pytest-cov>=4.1.0           # Coverage reporting
+mypy>=1.5.0                 # Static type checking
+
+# Optional: Future API development
+# fastapi>=0.103.0           # Modern web API framework
+# uvicorn>=0.23.0            # ASGI server
+# pydantic>=2.0.0            # Data validation

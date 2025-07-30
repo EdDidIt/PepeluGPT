@@ -1,0 +1,56 @@
+theme: jekyll-theme-midnight
+title: PepeluGPT - Encrypted Oracle
+description: Sacred Cybersecurity Intelligence Platform - Where technical mastery meets spiritual practice
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# SEO and social media
+author: PepeluGPT Team
+twitter:
+  username: pepelugpt
+social:
+  name: PepeluGPT
+  links:
+    - https://github.com/EdDidIt/PepeluGPT
+
+# GitHub Pages configuration
+repository: EdDidIt/PepeluGPT
+github_username: EdDidIt
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Documentation
+    url: /docs/
+  - title: Contributing
+    url: /CONTRIBUTING
+  - title: Security
+    url: /SECURITY
+  - title: Changelog
+    url: /CHANGELOG
+
+# Content settings
+show_downloads: true
+google_analytics: # Add your GA tracking ID here if desired
+
+# Exclude files from Jekyll processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - .github/
+  - .gitignore
+  - .venv/
+  - __pycache__/
+  - "*.pyc"
+  - requirements.txt
+  - tests/

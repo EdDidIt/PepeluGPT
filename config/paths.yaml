@@ -1,0 +1,28 @@
+# PepeluGPT Path Configuration
+# Centralized path management for all components
+
+# Input directories
+cyber_documents: "./cyber_documents"
+file_parser: "./file_parser"
+
+# Output directories  
+data: "./data"
+vector_db: "./cyber_vector_db"
+logs: "./logs"
+models: "./models"
+
+# Core application paths
+core: "./core"
+interface: "./interface"
+tests: "./tests"
+
+# Specific file paths
+parsed_documents: "./data/parsed_cyber_documents.json"
+parsing_summary: "./data/parsing_summary.json"
+runtime_logs: "./data/runtime_logs.txt"
+
+# Vector database files
+vector_chunks: "./cyber_vector_db/chunks.pkl"
+vector_metadata: "./cyber_vector_db/metadata.pkl"
+faiss_index: "./cyber_vector_db/faiss_index.bin"
+vector_config: "./cyber_vector_db/config.json"

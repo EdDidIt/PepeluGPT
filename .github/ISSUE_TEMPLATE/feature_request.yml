@@ -1,0 +1,141 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for PepeluGPT
+title: "[FEATURE] "
+labels: ["enhancement", "feature-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🌟 Thank you for contributing to PepeluGPT's cosmic evolution! 
+        
+        Your feature ideas help shape the future of cybersecurity intelligence. 
+        Please provide as much detail as possible to help us understand your vision.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feature Category
+      description: Which area does this feature relate to?
+      options:
+        - Core Engine
+        - Document Parsing
+        - User Interface
+        - Personality Modes
+        - Compliance Frameworks
+        - Security & Privacy
+        - Performance
+        - Integration
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature to you?
+      options:
+        - High - Critical for my use case
+        - Medium - Would significantly improve my workflow
+        - Low - Nice to have enhancement
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: |
+        Describe the current limitation or pain point that this feature would address.
+        Include specific use cases or scenarios where this would be helpful.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your ideal solution
+      placeholder: |
+        What would you like to see implemented? Be as detailed as possible.
+        Include any specific functionality, user interface ideas, or behavior expectations.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative approaches?
+      placeholder: |
+        Describe any alternative solutions or workarounds you've considered.
+        What are the pros and cons of different approaches?
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits
+      description: How would this feature benefit the PepeluGPT community?
+      placeholder: |
+        - Who would benefit from this feature?
+        - How would it improve the user experience?
+        - What workflows would it enable or enhance?
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Ideas
+      description: Any thoughts on how this could be implemented?
+      placeholder: |
+        If you have technical ideas about implementation:
+        - Suggested approach or architecture
+        - Technologies or libraries that might be useful
+        - Integration points with existing systems
+        - Potential challenges or considerations
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples & Use Cases
+      description: Provide concrete examples of how this feature would be used
+      placeholder: |
+        Example 1: [Describe a specific scenario]
+        Example 2: [Describe another use case]
+        Example 3: [Additional context]
+
+  - type: dropdown
+    id: personality
+    attributes:
+      label: Personality Mode Preference
+      description: Which personality mode would this feature best align with?
+      options:
+        - 🔮 Oracle - Deep wisdom and philosophical insight
+        - 📊 Compliance - Structured analysis and regulatory precision
+        - 🌠 Cosmic - Creative inspiration and innovation
+        - 🎭 All Modes - Universal enhancement
+        - ⚡ New Mode - This might need a new personality
+
+  - type: checkboxes
+    id: additional
+    attributes:
+      label: Additional Considerations
+      options:
+        - label: This feature would maintain PepeluGPT's privacy-first architecture
+        - label: This feature aligns with cybersecurity best practices
+        - label: I would be willing to contribute to the implementation
+        - label: This feature would benefit the broader cybersecurity community
+        - label: I have considered the security implications of this feature
+
+  - type: textarea
+    id: cosmic-vision
+    attributes:
+      label: 🌌 Cosmic Vision (Optional)
+      description: Share your creative vision for how this feature fits into PepeluGPT's cosmic mission
+      placeholder: |
+        This is your space to be creative! How does this feature contribute to PepeluGPT's
+        mission of being an "Encrypted Oracle in a World of Shadows"? 
+        
+        Feel free to be philosophical, mystical, or visionary in describing the 
+        deeper purpose and cosmic significance of this enhancement.

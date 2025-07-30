@@ -1,0 +1,28 @@
+{
+  "personalities": {
+    "oracle": {
+      "name": "Oracle Mode",
+      "emoji": "🔮", 
+      "tagline": "Deep Wisdom Engaged",
+      "description": "Mystical cyber warrior channeling ancient wisdom",
+      "tone": "Contemplative, cryptic, layered",
+      "use_cases": ["visioning", "deep_analysis", "introspection"]
+    },
+    "compliance": {
+      "name": "Compliance Mode",
+      "emoji": "📊",
+      "tagline": "Audit Ready", 
+      "description": "Methodical auditor with regulatory expertise",
+      "tone": "Structured, authoritative, consultative",
+      "use_cases": ["risk_assessment", "control_analysis", "documentation"]
+    },
+    "cosmic": {
+      "name": "Cosmic Mode",
+      "emoji": "✨",
+      "tagline": "Quantum Consciousness",
+      "description": "Quantum-mystical technical guide", 
+      "tone": "Playful, expansive, multidimensional",
+      "use_cases": ["creative_solutions", "paradigm_shifts", "innovation"]
+    }
+  }
+}

@@ -1,0 +1,137 @@
+name: 🔒 Security Vulnerability
+description: Report a security vulnerability (please use responsible disclosure)
+title: "[SECURITY] "
+labels: ["security", "high-priority"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠️ **IMPORTANT: Security Disclosure Policy**
+        
+        **For critical security vulnerabilities, please:**
+        1. **DO NOT** create a public issue
+        2. **Email directly**: security@pepelugpt.dev (or repository owner)
+        3. **Allow 24-48 hours** for initial response
+        
+        **Use this template only for:**
+        - Low-risk security concerns
+        - General security improvements
+        - Security-related feature requests
+        
+        Thank you for helping keep PepeluGPT secure! 🛡️
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity Level
+      description: How would you classify this security concern?
+      options:
+        - Low - Minor security improvement suggestion
+        - Medium - Potential security weakness
+        - High - Significant security concern (consider private disclosure)
+        - Critical - Immediate threat (USE PRIVATE DISCLOSURE!)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Security Category
+      description: What type of security issue is this?
+      options:
+        - Authentication & Authorization
+        - Input Validation
+        - Data Protection
+        - Dependency Vulnerability
+        - Code Security
+        - Configuration Security
+        - Privacy Concern
+        - Cryptographic Issue
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Security Concern Description
+      description: Describe the security issue or improvement suggestion
+      placeholder: |
+        Please provide a clear description of the security concern.
+        Avoid including actual exploit details in public issues.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Potential Impact
+      description: What could be the impact if this security issue is exploited?
+      placeholder: |
+        - What systems or data could be affected?
+        - What type of access could an attacker gain?
+        - What is the potential scope of impact?
+
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested Mitigation
+      description: Do you have suggestions for addressing this security concern?
+      placeholder: |
+        - Recommended security controls or fixes
+        - Best practices that should be implemented
+        - References to security standards or guidelines
+
+  - type: textarea
+    id: affected-components
+    attributes:
+      label: Affected Components
+      description: Which parts of PepeluGPT are affected?
+      placeholder: |
+        - Core engine
+        - Document parser
+        - Vector database
+        - CLI interface
+        - Configuration system
+        - Dependencies
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      options:
+        - label: I have verified this is a legitimate security concern
+          required: true
+        - label: I have followed responsible disclosure practices
+          required: true
+        - label: I understand that critical vulnerabilities should be reported privately
+          required: true
+        - label: I have not included sensitive information in this public report
+          required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Relevant environment information (remove sensitive details)
+      placeholder: |
+        - PepeluGPT version:
+        - Operating system:
+        - Python version:
+        - Relevant configuration (sanitized):
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ## 🛡️ **Security Commitment**
+        
+        PepeluGPT takes security seriously. We are committed to:
+        - Responding to security reports within 24 hours
+        - Providing timely fixes for verified vulnerabilities  
+        - Giving appropriate credit to security researchers
+        - Maintaining transparency while protecting users
+        
+        **Need to report a critical vulnerability privately?**
+        Email: security@pepelugpt.dev

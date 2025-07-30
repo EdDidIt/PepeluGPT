@@ -1,0 +1,17 @@
+name: Docs Check
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - '**.md'
+
+jobs:
+  link-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check for Broken Links
+        run: |
+          pip install linkchecker
+          linkchecker docs/ || exit 0

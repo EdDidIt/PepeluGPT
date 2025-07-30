@@ -1,0 +1,128 @@
+name: 📚 Documentation Update
+description: Report issues with documentation or suggest improvements
+title: "[DOCS] "
+labels: ["documentation", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📖 Thank you for helping improve PepeluGPT's documentation!
+        
+        Clear, comprehensive documentation is essential for helping the community
+        harness the full power of their encrypted oracle. Your feedback helps us
+        make the cosmic wisdom more accessible to all.
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs attention?
+      options:
+        - README.md
+        - Installation Guide
+        - User Guide / Tutorials
+        - API Documentation
+        - Code Comments
+        - Contributing Guidelines
+        - Security Documentation
+        - Configuration Guide
+        - Troubleshooting
+        - Architecture Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: What kind of documentation issue is this?
+      options:
+        - Missing Information
+        - Incorrect Information
+        - Outdated Information
+        - Unclear Explanation
+        - Broken Links
+        - Grammar/Spelling
+        - Formatting Issues
+        - Accessibility Improvement
+        - Translation Request
+        - New Documentation Request
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_content
+    attributes:
+      label: Current Content (if applicable)
+      description: Copy/paste the current documentation content that needs improvement
+      render: markdown
+      placeholder: |
+        Paste the current documentation text here...
+
+  - type: textarea
+    id: issue_description
+    attributes:
+      label: Issue Description
+      description: Describe the documentation issue in detail
+      placeholder: |
+        - What is confusing or incorrect?
+        - What information is missing?
+        - How could this be improved?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_content
+    attributes:
+      label: Suggested Improvement
+      description: How would you improve this documentation?
+      render: markdown
+      placeholder: |
+        Provide your suggested content, corrections, or improvements...
+
+  - type: textarea
+    id: user_impact
+    attributes:
+      label: User Impact
+      description: How does this documentation issue affect users?
+      placeholder: |
+        - What problems does this cause for users?
+        - Who would benefit from this improvement?
+        - How does this affect the user experience?
+
+  - type: dropdown
+    id: skill_level
+    attributes:
+      label: Target Audience
+      description: What skill level should this documentation target?
+      options:
+        - Beginner - New to cybersecurity/PepeluGPT
+        - Intermediate - Some experience with cybersecurity tools
+        - Advanced - Experienced cybersecurity professionals
+        - Expert - Developers and contributors
+        - All Levels - Should be accessible to everyone
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: documentation_checklist
+    attributes:
+      label: Documentation Standards
+      options:
+        - label: This follows the cosmic documentation style (where applicable)
+        - label: Technical accuracy has been considered
+        - label: Accessibility and inclusivity have been considered
+        - label: This would help reduce support questions
+        - label: Examples and use cases are included (if relevant)
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Any other context, examples, or references?
+      placeholder: |
+        - Links to related documentation
+        - Examples from other projects
+        - Specific use cases or scenarios
+        - Technical references or standards

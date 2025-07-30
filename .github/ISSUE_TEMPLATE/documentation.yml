@@ -1,0 +1,149 @@
+name: 📚 Documentation Improvement
+description: Suggest improvements to documentation, tutorials, or examples
+title: "[DOCS] "
+labels: ["documentation", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📖 Help us improve PepeluGPT's documentation!
+        
+        Clear, comprehensive documentation is essential for helping the community
+        harness PepeluGPT's cosmic power. Your suggestions help make the knowledge
+        more accessible to fellow digital guardians.
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs improvement?
+      options:
+        - README.md
+        - Installation Guide
+        - User Guide / Tutorials
+        - API Documentation
+        - Configuration Guide
+        - Troubleshooting
+        - Contributing Guidelines
+        - Security Documentation
+        - Architecture Documentation
+        - Examples & Use Cases
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What kind of improvement is needed?
+      options:
+        - Missing Information
+        - Incorrect Information
+        - Unclear Instructions
+        - Outdated Content
+        - New Documentation Needed
+        - Better Examples Needed
+        - Accessibility Improvement
+        - Translation/Localization
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-problem
+    attributes:
+      label: Current Problem
+      description: What specific issue did you encounter with the documentation?
+      placeholder: |
+        - What were you trying to accomplish?
+        - What documentation did you consult?
+        - What was confusing, missing, or incorrect?
+        - How did this impact your experience?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested-improvement
+    attributes:
+      label: Suggested Improvement
+      description: How would you improve this documentation?
+      placeholder: |
+        - What specific changes would you make?
+        - What additional information should be included?
+        - How could the explanation be clearer?
+        - What examples would be helpful?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-content
+    attributes:
+      label: Proposed Content (Optional)
+      description: If you have specific content suggestions, share them here
+      placeholder: |
+        You can provide:
+        - Draft text for new sections
+        - Improved wording for existing content
+        - Example code snippets
+        - Step-by-step instructions
+        - Links to helpful resources
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Target Audience
+      description: Who would benefit most from this documentation improvement?
+      options:
+        - Beginners / New Users
+        - Intermediate Users
+        - Advanced Users / Power Users
+        - Developers / Contributors
+        - System Administrators
+        - Cybersecurity Professionals
+        - All Users
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this documentation improvement?
+      options:
+        - High - Blocking user success
+        - Medium - Would significantly help users
+        - Low - Minor improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-context
+    attributes:
+      label: User Context
+      description: Tell us about your background and use case
+      placeholder: |
+        - Your experience level with PepeluGPT
+        - Your cybersecurity background
+        - How you discovered this documentation gap
+        - What you were trying to achieve
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution Interest
+      options:
+        - label: I would be willing to help write or review the improved documentation
+        - label: I can provide additional examples or use cases
+        - label: I can help test the improved documentation with other users
+        - label: I have expertise in this area and can serve as a technical reviewer
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that would be helpful?
+      placeholder: |
+        - Related issues or discussions
+        - Screenshots of confusing sections
+        - Links to external resources that might be helpful
+        - Specific file paths or section names
