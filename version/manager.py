@@ -103,9 +103,10 @@ def get_version_banner() -> str:
 def get_milestone_history() -> str:
     """Get formatted milestone history."""
     history = "\n🔵 Version Timeline:\n"
-    for date, version, codename, description in __major_milestones__:
-        history += f"  {date} - v{version} \"{codename}\" - {description}\n"
+    for milestone_date, version, codename, description in __major_milestones__:
+        history += f"  {milestone_date} - v{version} \"{codename}\" - {description}\n"
     return history
+
 
 def get_version_command_output() -> str:
     """Get comprehensive version output for CLI commands."""
@@ -140,7 +141,8 @@ def get_version_command_output() -> str:
   • Advanced compliance workflows
   • Real-time collaboration features
   • Multi-language document support
-"""
+     return f""" ... """
+
 
 def validate():
     """Validate version consistency across the project."""
