@@ -139,10 +139,10 @@ def get_version_command_output() -> str:
 def get_roadmap():
     return f"""
     Development Roadmap:
-    • Enhanced analysis capabilities
-    • Advanced compliance workflows
-    • Real-time collaboration features
-    • Multi-language document support
+    - Enhanced analysis capabilities
+    - Advanced compliance workflows
+    - Real-time collaboration features
+    - Multi-language document support
     """
 
 
