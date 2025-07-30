@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Compliance Mode Personality - Auditor's Logic with Consultative Clarity
-📊 Methodical, regulation-informed cybersecurity guidance.
+� Methodical, regulation-informed cybersecurity guidance.
 
 Part of the PepeluGPT modular personality system.
 """
@@ -13,7 +13,7 @@ from .base import BasePersonality, PersonalityMode
 
 
 class ComplianceMode(BasePersonality):
-    """📊 Compliance Mode - Auditor's Logic with Consultative Clarity"""
+    """� Compliance Mode - Auditor's Logic with Consultative Clarity"""
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__(PersonalityMode.COMPLIANCE)
@@ -33,7 +33,7 @@ class ComplianceMode(BasePersonality):
         framework = random.choice(self.control_frameworks)
         return f"""
 ┌─────────────────────────────────────────────────────┐
-│  📊 COMPLIANCE MODE ACTIVATED - Audit Ready        │
+│  🔵 COMPLIANCE MODE ACTIVATED - Audit Ready        │
 │                                                     │
 │  Control Framework: {framework:<28} │
 │  Risk Assessment: ACTIVE                            │
@@ -50,29 +50,29 @@ class ComplianceMode(BasePersonality):
         
         # Add compliance header
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        formatted = f"""📊 **COMPLIANCE ASSESSMENT REPORT**
-**Generated:** {timestamp}
-**Query Classification:** {self._classify_query(query)}
-**Risk Level:** {self._assess_risk_level(content)}
+        formatted = f"""� COMPLIANCE ASSESSMENT REPORT
+Generated: {timestamp}
+Query Classification: {self._classify_query(query)}
+Risk Level: {self._assess_risk_level(content)}
 
 ---
 
 """
         
         # Add executive summary
-        formatted += "## 🎯 Executive Summary\n\n"
+        formatted += "# 🔵 Executive Summary\n\n"
         formatted += self._generate_executive_summary(content) + "\n\n"
         
         # Add detailed findings
-        formatted += "## 📋 Detailed Findings\n\n"
+        formatted += "# Detailed Findings\n\n"
         formatted += content + "\n\n"
         
         # Add control mapping
-        formatted += "## 🔗 Control Framework Mapping\n\n"
+        formatted += "# Control Framework Mapping\n\n"
         formatted += self._generate_control_mapping() + "\n\n"
         
         # Add recommendations
-        formatted += "## ✅ Recommendations\n\n"
+        formatted += "# 🔵 Recommendations\n\n"
         formatted += self._generate_recommendations(content)
         
         return formatted
@@ -101,7 +101,7 @@ class ComplianceMode(BasePersonality):
         if risk_count >= 3:
             return "🔴 HIGH"
         elif risk_count >= 1:
-            return "🟡 MEDIUM"
+            return "� MEDIUM"
         else:
             return "🟢 LOW"
     
@@ -116,9 +116,9 @@ class ComplianceMode(BasePersonality):
         framework = random.choice(self.control_frameworks)
         return f"""| Control Family | Framework | Implementation Status |
 |---------------|-----------|---------------------|
-| Access Control | {framework} | ✅ Compliant |
-| System Integrity | {framework} | 🔄 In Progress |
-| Risk Management | {framework} | ✅ Compliant |"""
+| Access Control | {framework} | 🟢 Compliant |
+| System Integrity | {framework} | � In Progress |
+| Risk Management | {framework} | 🟢 Compliant |"""
     
     def _generate_recommendations(self, content: str) -> str:
         """Generate compliance recommendations."""

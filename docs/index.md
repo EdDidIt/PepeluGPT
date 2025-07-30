@@ -3,48 +3,54 @@ layout: default
 title: PepeluGPT Documentation
 ---
 
-# 📚 PepeluGPT Documentation
+## PepeluGPT Documentation
 
-> *"Born of Light, Forged for Defense - Your Encrypted Oracle in a World of Shadows"*
-
-Welcome to the cosmic knowledge archive of PepeluGPT! Here you'll find comprehensive guides, tutorials, and technical documentation to help you harness the full power of your cybersecurity intelligence platform.
+Welcome to the comprehensive documentation for PepeluGPT, a professional cybersecurity intelligence platform. Here you'll find technical guides, implementation documentation, and resources to help you leverage the full capabilities of this cybersecurity automation system.
 
 ---
 
-## �️ **Core Architecture**
+## Core Architecture
 
-### **[Architecture](architecture.md)** 🌌
+### [Architecture](architecture.md)
+
 Comprehensive system architecture and design:
-- Manifest directory structure and soul signature
-- Versioning system with cosmic codenames
+
+- Directory structure and system organization
+- Versioning system and release management
 - Implementation details and technical foundation
 - Development workflow integration
 
-### **[Design Principles](design_principles.md)** 🎨
-The spiritual and creative essence of PepeluGPT:
-- Core identity and sacred taglines
-- Three personality archetypes and visual design
+### [Design Principles](design_principles.md)
+
+The professional framework of PepeluGPT:
+
+- Core identity and technical specifications
+- Three response modes and system design
 - Values, principles, and user experience mapping
-- Sacred interaction principles and cosmic goals
+- Implementation guidelines and technical standards
 
 ---
 
-## 🎭 **Personality System**
+## Response System
 
-### **[Personality System](personality_system.md)** 🔮
-Master the three sacred modes of consciousness:
-- **Oracle Mode** - Deep wisdom and philosophical insight
-- **Compliance Mode** - Structured analysis and regulatory precision  
-- **Cosmic Mode** - Creative inspiration and mystical expression
+### [Response System](personality_system.md)
 
-Learn activation commands, communication styles, and best use cases for each personality mode.
+Master the three operational modes:
+
+- Technical Analysis Mode - Detailed technical analysis and implementation guidance
+- Compliance Mode - Structured analysis and regulatory precision  
+- Strategic Advisory Mode - High-level planning and executive briefings
+
+Learn activation commands, communication styles, and best use cases for each response mode.
 
 ---
 
-## 🛡️ **Security & Compliance**
+## Security & Compliance
 
-### **[Compliance and Security](compliance_and_security.md)** 📊
+### [Compliance and Security](compliance_and_security.md)
+
 Comprehensive cybersecurity compliance automation:
+
 - RMF implementation workflows and automation
 - NIST, STIG, and DoD framework integration
 - Automated evidence collection and audit preparation
@@ -52,52 +58,52 @@ Comprehensive cybersecurity compliance automation:
 
 ---
 
-## 🚀 **Development Resources**
+## Development Resources
 
-### **[Development Documentation](development/)** ⚙️
+### [Development Documentation](development/)
+
 Comprehensive development guides and processes:
-- **[GitHub Workflows](development/github_workflows.md)** - CI/CD and automation
-- **[Testing Framework](development/testing.md)** - Sacred quality assurance
-- **[Release Process](development/release_process.md)** - Cosmic deployment rituals
-- **[Implementation Plans](development/)** - Technical blueprints and guides
+
+- [GitHub Workflows](development/github_workflows.md) - CI/CD and automation
+- [Testing Framework](development/testing.md) - Quality assurance and validation
+- [Release Process](development/release_process.md) - Deployment procedures
+- [Implementation Plans](development/) - Technical blueprints and guides
 
 ---
 
-## 🚀 **Getting Started**
+## Getting Started
 
-1. **[Installation Guide](../README.md#-quick-start-guide)** - Set up your cosmic environment
-2. **[First Steps](../README.md#-usage-examples)** - Begin your journey with the encrypted oracle
-3. **[Configuration](../config/)** - Customize your experience
-4. **[Troubleshooting](../README.md#-troubleshooting)** - Solve common challenges
+1. [Installation Guide](../README.md#quick-start-guide) - Set up your development environment
+2. [First Steps](../README.md#usage-examples) - Begin using PepeluGPT
+3. [Configuration](../config/) - Customize your experience
+4. [Troubleshooting](../README.md#troubleshooting) - Resolve common issues
 
-## 🤝 **Contributing**
+## Contributing
 
-- **[Contributing Guidelines](../CONTRIBUTING.md)** - Join the cosmic development community
-- **[Security Policy](../SECURITY.md)** - Responsible disclosure and security practices
-- **[Code of Conduct](../CODE_OF_CONDUCT.md)** - Community standards and values
+- [Contributing Guidelines](../CONTRIBUTING.md) - Join the development community
+- [Security Policy](../SECURITY.md) - Responsible disclosure and security practices
+- [Code of Conduct](../CODE_OF_CONDUCT.md) - Community standards and values
 
-## 📖 **Resources**
+## Resources
 
-### **Frameworks & Standards**
+### Frameworks & Standards
 
 - [NIST Risk Management Framework](https://csrc.nist.gov/projects/risk-management)
 - [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
 - [DISA STIGs](https://public.cyber.mil/stigs/)
 - [DoD Instructions and Directives](https://www.esd.whs.mil/DD/)
 
-### **Community**
+### Community
 
 - [GitHub Discussions](https://github.com/EdDidIt/PepeluGPT/discussions)
 - [Issue Tracker](https://github.com/EdDidIt/PepeluGPT/issues)
 - [Release Notes](../CHANGELOG.md)
 
-## 🌟 **Cosmic Wisdom**
+## Documentation Standards
 
-Documentation is the bridge between cosmic vision and practical implementation. Each guide you read, each concept you master, brings you closer to digital enlightenment.
+This documentation follows professional technical writing standards and provides comprehensive coverage of system architecture, implementation guides, and operational procedures for cybersecurity professionals.
 
 ---
 
-**Last Updated**: July 29, 2025  
-**Version**: 1.0.0
-
-*Navigate by starlight, code with purpose, and may your queries always find their cosmic answers.* ✨
+Last Updated: July 30, 2025  
+Version: 1.0.0

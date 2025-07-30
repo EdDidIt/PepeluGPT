@@ -11,17 +11,22 @@ Enhancements:
 """
 
 import logging
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Callable
 from datetime import datetime
-from pathlib import Path
+
+# Type aliases for better type checking
+SecurityEvent = Dict[str, Any]
+ComplianceCheck = Dict[str, Any]
+ControlData = Dict[str, Any]
+FrameworkResult = Dict[str, Any]
 
 class VerboseSecurityLogger:
     """Enhanced security logging with verbose mode support."""
     
-    def __init__(self, verbose: bool = False):
+    def __init__(self, verbose: bool = False) -> None:
         self.verbose = verbose
-        self.security_events = []
-        self.compliance_checks = []
+        self.security_events: List[SecurityEvent] = []
+        self.compliance_checks: List[ComplianceCheck] = []
         
         # Setup logging
         log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -32,9 +37,9 @@ class VerboseSecurityLogger:
             
         self.logger = logging.getLogger("PepeluGPT.Security")
     
-    def log_security_event(self, event_type: str, details: Dict[str, Any], level: str = "INFO"):
+    def log_security_event(self, event_type: str, details: Dict[str, Any], level: str = "INFO") -> None:
         """Log security events with optional verbose details."""
-        event = {
+        event: SecurityEvent = {
             'timestamp': datetime.now(),
             'type': event_type,
             'details': details,
@@ -61,17 +66,17 @@ class VerboseSecurityLogger:
             return {'status': 'No security events recorded'}
         
         # Analyze events by type and level
-        events_by_type = {}
-        events_by_level = {}
+        events_by_type: Dict[str, int] = {}
+        events_by_level: Dict[str, int] = {}
         
         for event in self.security_events:
-            event_type = event['type']
-            event_level = event['level']
+            event_type: str = event['type']
+            event_level: str = event['level']
             
             events_by_type[event_type] = events_by_type.get(event_type, 0) + 1
             events_by_level[event_level] = events_by_level.get(event_level, 0) + 1
         
-        recent_events = self.security_events[-10:] if total_events > 10 else self.security_events
+        recent_events: List[SecurityEvent] = self.security_events[-10:] if total_events > 10 else self.security_events
         
         return {
             'total_events': total_events,
@@ -85,15 +90,15 @@ class VerboseSecurityLogger:
 class ComplianceSimulator:
     """Mock compliance framework simulation for NIST, GDPR, etc."""
     
-    def __init__(self, security_logger: VerboseSecurityLogger):
+    def __init__(self, security_logger: VerboseSecurityLogger) -> None:
         self.logger = security_logger
-        self.frameworks = {
+        self.frameworks: Dict[str, Callable[[Dict[str, Any]], FrameworkResult]] = {
             'NIST': self._nist_controls,
             'GDPR': self._gdpr_controls,
             'SOC2': self._soc2_controls
         }
     
-    def simulate_compliance_check(self, framework: str, data_context: Dict[str, Any]) -> Dict[str, Any]:
+    def simulate_compliance_check(self, framework: str, data_context: Dict[str, Any]) -> FrameworkResult:
         """Simulate a compliance check for a given framework."""
         
         if framework not in self.frameworks:
@@ -128,9 +133,9 @@ class ComplianceSimulator:
         
         return check_results
     
-    def _nist_controls(self, data_context: Dict[str, Any]) -> Dict[str, Any]:
+    def _nist_controls(self, data_context: Dict[str, Any]) -> FrameworkResult:
         """Simulate NIST Cybersecurity Framework controls."""
-        controls = {
+        controls: Dict[str, ControlData] = {
             'AC-1': {'name': 'Access Control Policy', 'status': 'compliant'},
             'AU-2': {'name': 'Audit Events', 'status': 'compliant'},
             'CM-2': {'name': 'Baseline Configuration', 'status': 'compliant'},
@@ -160,9 +165,9 @@ class ComplianceSimulator:
             'recommendations': self._generate_nist_recommendations(controls)
         }
     
-    def _gdpr_controls(self, data_context: Dict[str, Any]) -> Dict[str, Any]:
+    def _gdpr_controls(self, data_context: Dict[str, Any]) -> FrameworkResult:
         """Simulate GDPR compliance checks."""
-        articles = {
+        articles: Dict[str, ControlData] = {
             'Art-6': {'name': 'Lawful basis for processing', 'status': 'compliant'},
             'Art-25': {'name': 'Data protection by design', 'status': 'compliant'},
             'Art-32': {'name': 'Security of processing', 'status': 'compliant'},
@@ -191,9 +196,9 @@ class ComplianceSimulator:
             'recommendations': self._generate_gdpr_recommendations(articles)
         }
     
-    def _soc2_controls(self, data_context: Dict[str, Any]) -> Dict[str, Any]:
+    def _soc2_controls(self, data_context: Dict[str, Any]) -> FrameworkResult:
         """Simulate SOC 2 Type II controls."""
-        trust_criteria = {
+        trust_criteria: Dict[str, ControlData] = {
             'Security': {'status': 'compliant', 'controls': 15},
             'Availability': {'status': 'compliant', 'controls': 8},
             'Processing Integrity': {'status': 'review_required', 'controls': 6},
@@ -213,9 +218,9 @@ class ComplianceSimulator:
             'compliance_score': (passed_criteria / len(trust_criteria)) * 100
         }
     
-    def _generate_nist_recommendations(self, controls: Dict[str, Dict]) -> List[str]:
+    def _generate_nist_recommendations(self, controls: Dict[str, ControlData]) -> List[str]:
         """Generate NIST-specific recommendations."""
-        recommendations = []
+        recommendations: List[str] = []
         for control_id, control in controls.items():
             if control['status'] == 'non_compliant':
                 recommendations.append(f"Address {control_id}: {control['name']}")
@@ -223,9 +228,9 @@ class ComplianceSimulator:
                 recommendations.append(f"Review {control_id}: {control['name']}")
         return recommendations
     
-    def _generate_gdpr_recommendations(self, articles: Dict[str, Dict]) -> List[str]:
+    def _generate_gdpr_recommendations(self, articles: Dict[str, ControlData]) -> List[str]:
         """Generate GDPR-specific recommendations."""
-        recommendations = []
+        recommendations: List[str] = []
         for article_id, article in articles.items():
             if article['status'] == 'non_compliant':
                 recommendations.append(f"Implement {article_id}: {article['name']}")
@@ -294,7 +299,7 @@ def create_enhanced_security_wrapper(verbose: bool = False) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    print("🛡️ Enhanced Security System Demo")
+    print("� Enhanced Security System Demo")
     print("=" * 40)
     
     # Create enhanced security system with verbose logging
@@ -304,7 +309,7 @@ if __name__ == "__main__":
     print("🔍 Running compliance simulation...")
     results = security_system['run_simulation']()
     
-    print("\n📊 Simulation Results:")
+    print("\n� Simulation Results:")
     for framework, result in results['simulation_results'].items():
         if 'compliance_score' in result:
             score = result['compliance_score']

@@ -14,7 +14,7 @@ class PersonalityMode(Enum):
     """Available response personality modes."""
     ORACLE = "oracle"
     COMPLIANCE = "compliance" 
-    COSMIC = "cosmic"
+    PROFESSIONAL = "professional"
     DEFAULT = "default"
 
 
@@ -24,9 +24,9 @@ class BasePersonality(ABC):
     def __init__(self, mode: PersonalityMode):
         self.mode = mode
         self.active_since = datetime.now()
-        self.config = {}
+        self.config: Dict[str, Any] = {}
     
-    def update_config(self, config: Dict[str, Any]):
+    def update_config(self, config: Dict[str, Any]) -> None:
         """Update personality configuration."""
         self.config.update(config)
     

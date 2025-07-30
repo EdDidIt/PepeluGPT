@@ -8,8 +8,8 @@ specialized responses for various use cases.
 Modules:
     - base: Base personality class and common interfaces
     - compliance: Compliance-focused personality (regulatory, audit)
-    - cosmic: Creative, expansive personality mode
-    - oracle: Deep wisdom, analytical personality mode
+    - professional: Professional business communication mode
+    - oracle: Deep analysis, analytical personality mode
     - router: Personality selection and switching logic
 
 Usage:
@@ -23,7 +23,7 @@ from .router import PersonalityRouter
 from .base import PersonalityMode, BasePersonality
 from .oracle import OracleMode
 from .compliance import ComplianceMode  
-from .cosmic import CosmicMode
+from .professional import ProfessionalMode
 
 __all__ = [
     'PersonalityRouter',
@@ -31,5 +31,5 @@ __all__ = [
     'BasePersonality',
     'OracleMode',
     'ComplianceMode',
-    'CosmicMode'
+    'ProfessionalMode'
 ]

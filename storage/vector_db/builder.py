@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PepeluGPT - Vector Database Builder and Interface
+PepeluGPT - Vector Database  Builder and Interface
 Provides backward compatibility with the refactored vector_db module
 """
 
@@ -9,13 +9,13 @@ from pathlib import Path
 from typing import Optional, List, Dict, Any
 
 try:
-    from .vector_builder import build_vector_db
+    from .vector_builder import build_vector_db  # type: ignore
     from .database_io import load_database  # type: ignore  # Dynamic module with varying return types
-    from .embedding import EmbeddingModel
-    from .indexing import FaissIndex
-    from .config import PARSED_DOCS_FILE, DB_PATH, MODEL_NAME
+    from .embedding import EmbeddingModel  # type: ignore
+    from .indexing import FaissIndex  # type: ignore
+    from .config import PARSED_DOCS_FILE, DB_PATH, MODEL_NAME  # type: ignore
 except ImportError as e:
-    print(f"❌ Error importing vector_db modules: {e}")
+    print(f"🔴 Error importing vector_db modules: {e}")
     sys.exit(1)
 
 class CyberVectorDB:
@@ -37,7 +37,7 @@ class CyberVectorDB:
         if not Path(self.db_path).exists():
             raise FileNotFoundError(f"Vector database not found at {self.db_path}")
         
-        print(f"🔄 Loading vector database from {self.db_path}")
+        print(f"� Loading vector database from {self.db_path}")
         
         # Load using the new database_io module
         raw_index, self.chunks, self.metadata = load_database(self.db_path)  # type: ignore
@@ -48,9 +48,9 @@ class CyberVectorDB:
         self.index.index = raw_index  # Replace with the loaded index
         
         # Create model instance for queries
-        self.model = EmbeddingModel(MODEL_NAME)
+        self.model = EmbeddingModel(MODEL_NAME)  # type: ignore
         
-        print(f"✅ Loaded {len(self.chunks)} chunks with embeddings")
+        print(f"🟢 Loaded {len(self.chunks)} chunks with embeddings")
         
     def search(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
         """Search the database for relevant chunks"""
@@ -86,7 +86,7 @@ class CyberVectorDB:
     
     def build(self) -> None:
         """Build the vector database from parsed documents"""
-        print("🔄 Building vector database...")
+        print("� Building vector database...")
         
         # Use the new vector_builder module
         result = build_vector_db()  # type: ignore
@@ -94,7 +94,7 @@ class CyberVectorDB:
         if result:
             self.model, index_obj, self.chunks, self.metadata = result  # type: ignore
             self.index = index_obj  # Store the FaissIndex wrapper, not the raw index
-            print("✅ Vector database built successfully")
+            print("🟢 Vector database built successfully")
         else:
             raise RuntimeError("Failed to build vector database")
 
@@ -105,8 +105,8 @@ def main() -> bool:
     """
     try:
         # Check if parsed documents exist
-        if not Path(PARSED_DOCS_FILE).exists():
-            print(f"❌ Parsed documents not found: {PARSED_DOCS_FILE}")
+        if not Path(PARSED_DOCS_FILE).exists():  # type: ignore
+            print(f"🔴 Parsed documents not found: {PARSED_DOCS_FILE}")  # type: ignore
             print("   Please run document parsing first")
             return False
         
@@ -115,20 +115,20 @@ def main() -> bool:
         
         if result:
             _model, indexer, chunks, _metadata = result  # type: ignore
-            print("🎉 Vector database build completed!")
-            print(f"   📊 Processed {len(chunks)} chunks")  # type: ignore
-            if hasattr(indexer, 'index') and hasattr(indexer.index, 'ntotal'):
-                print(f"   🧠 Created {indexer.index.ntotal} embeddings")  # type: ignore
+            print("🟢 Vector database build completed!")
+            print(f"   Processed {len(chunks)} chunks")  # type: ignore
+            if hasattr(indexer, 'index') and indexer.index is not None and hasattr(indexer.index, 'ntotal'):  # type: ignore
+                print(f"   🔵 Created {indexer.index.ntotal} embeddings")  # type: ignore
             else:
-                print(f"   🧠 Created embeddings for all chunks")
-            print(f"   💾 Saved to {DB_PATH}/")
+                print(f"   🔵 Created embeddings for all chunks")
+            print(f"   � Saved to {DB_PATH}/")  # type: ignore
             return True
         else:
-            print("❌ Vector database build returned no result")
+            print("🔴 Vector database build returned no result")
             return False
         
     except Exception as e:
-        print(f"❌ Error building vector database: {e}")
+        print(f"🔴 Error building vector database: {e}")
         import traceback
         traceback.print_exc()
         return False

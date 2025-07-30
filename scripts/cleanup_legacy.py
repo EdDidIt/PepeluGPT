@@ -14,14 +14,19 @@ import shutil
 import json
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, List, Union
+from typing import Dict, Any, List
 
-def analyze_vector_systems() -> Dict[str, Any]:
+# Type aliases for better type checking
+SystemInfo = Dict[str, Any]
+UsageAnalysis = Dict[str, List[str]]
+RecommendationData = Dict[str, Any]
+
+def analyze_vector_systems() -> Dict[str, SystemInfo]:
     """Analyze the structure and differences between vector systems."""
     
     base_dir = Path(__file__).parent.parent
     
-    analysis = {
+    analysis: Dict[str, SystemInfo] = {
         'vector_db': {
             'path': base_dir / 'vector_db',
             'files': [],
@@ -41,8 +46,8 @@ def analyze_vector_systems() -> Dict[str, Any]:
         }
     }
     
-    for system_name, system_info in analysis.items():
-        path = system_info['path']
+    for _, system_info in analysis.items():
+        path: Path = system_info['path']
         
         if path.exists():
             system_info['exists'] = True
@@ -61,15 +66,15 @@ def analyze_vector_systems() -> Dict[str, Any]:
                     system_info['total_lines'] += lines
                     
                 except Exception as e:
-                    print(f"  ⚠️ Could not analyze {py_file}: {e}")
+                    print(f"  Could not analyze {py_file}: {e}")
     
     return analysis
 
-def analyze_import_usage() -> Dict[str, List[str]]:
+def analyze_import_usage() -> UsageAnalysis:
     """Analyze which vector system is being used in the codebase."""
     
     base_dir = Path(__file__).parent.parent
-    usage_analysis = {
+    usage_analysis: UsageAnalysis = {
         'vector_db': [],
         'vector_storage': []
     }
@@ -89,7 +94,7 @@ def analyze_import_usage() -> Dict[str, List[str]]:
             if 'from vector_storage' in content or 'import vector_storage' in content:
                 usage_analysis['vector_storage'].append(str(py_file.relative_to(base_dir)))
                 
-        except Exception as e:
+        except Exception:
             continue  # Skip files that can't be read
     
     return usage_analysis
@@ -108,7 +113,7 @@ def create_legacy_archive() -> str:
     # Archive legacy vector indices
     legacy_indices = base_dir / 'data' / 'vector_indices' / 'legacy'
     if legacy_indices.exists():
-        print("  🗂️ Archiving legacy vector indices...")
+        print("  � Archiving legacy vector indices...")
         shutil.copytree(legacy_indices, archive_dir / 'legacy_vector_indices')
         
         # Remove the legacy directory after successful backup
@@ -116,7 +121,7 @@ def create_legacy_archive() -> str:
         print("  ✅ Legacy vector indices archived and removed")
     
     # Create documentation of what was archived
-    archive_manifest = {
+    archive_manifest: Dict[str, Any] = {
         'archive_date': datetime.now().isoformat(),
         'archived_components': ['legacy_vector_indices'],
         'archive_reason': 'Legacy system cleanup and consolidation',
@@ -128,10 +133,10 @@ def create_legacy_archive() -> str:
     
     return str(archive_dir)
 
-def generate_consolidation_recommendation(analysis: Dict[str, Any], usage: Dict[str, List[str]]) -> Dict[str, Any]:
+def generate_consolidation_recommendation(analysis: Dict[str, SystemInfo], usage: UsageAnalysis) -> RecommendationData:
     """Generate recommendations for vector system consolidation."""
     
-    recommendation = {
+    recommendation: RecommendationData = {
         'primary_system': None,
         'confidence': 0.0,
         'reasoning': [],
@@ -143,7 +148,7 @@ def generate_consolidation_recommendation(analysis: Dict[str, Any], usage: Dict[
     db_usage_count = len(usage['vector_db'])
     storage_usage_count = len(usage['vector_storage'])
     
-    print(f"📊 Usage Analysis:")
+    print(f"� Usage Analysis:")
     print(f"  vector_db imports found in {db_usage_count} files")
     print(f"  vector_storage imports found in {storage_usage_count} files")
     
@@ -151,7 +156,7 @@ def generate_consolidation_recommendation(analysis: Dict[str, Any], usage: Dict[
     db_lines = analysis['vector_db']['total_lines'] if analysis['vector_db']['exists'] else 0
     storage_lines = analysis['vector_storage']['total_lines'] if analysis['vector_storage']['exists'] else 0
     
-    print(f"📋 Code Complexity:")
+    print(f"� Code Complexity:")
     print(f"  vector_db: {db_lines} lines of code")
     print(f"  vector_storage: {storage_lines} lines of code")
     
@@ -201,10 +206,8 @@ def generate_consolidation_recommendation(analysis: Dict[str, Any], usage: Dict[
     
     return recommendation
 
-def create_migration_script(recommendation: Dict[str, Any]) -> str:
+def create_migration_script(recommendation: RecommendationData) -> str:
     """Create a migration script for the recommended consolidation."""
-    
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     
     script_content = f'''#!/usr/bin/env python3
 """
@@ -225,7 +228,7 @@ from datetime import datetime
 def migrate_vector_system():
     """Execute the vector system migration."""
     
-    print("🚀 Starting Vector System Migration...")
+    print("� Starting Vector System Migration...")
     print("=" * 40)
     
     base_dir = Path(__file__).parent.parent
@@ -241,13 +244,13 @@ def migrate_vector_system():
     {'vector_storage' if recommendation['primary_system'] == 'vector_db' else 'vector_db'}_dir = base_dir / '{'vector_storage' if recommendation['primary_system'] == 'vector_db' else 'vector_db'}'
     
     if {'vector_storage' if recommendation['primary_system'] == 'vector_db' else 'vector_db'}_dir.exists():
-        print("🗂️ Archiving deprecated vector system...")
+        print("� Archiving deprecated vector system...")
         shutil.copytree({'vector_storage' if recommendation['primary_system'] == 'vector_db' else 'vector_db'}_dir, backup_dir / '{'vector_storage' if recommendation['primary_system'] == 'vector_db' else 'vector_db'}_archived')
         shutil.rmtree({'vector_storage' if recommendation['primary_system'] == 'vector_db' else 'vector_db'}_dir)
         print("✅ Deprecated system archived and removed")
     
     print("\\n🎉 Migration completed successfully!")
-    print("🌌 The cosmic vector orchestra now plays in perfect harmony!")
+    print("🔵 The vector database now operates in professional harmony!")
 
 if __name__ == "__main__":
     migrate_vector_system()
@@ -266,10 +269,10 @@ def main():
     print("=" * 40)
     
     # Analyze vector systems
-    print("🔍 Analyzing vector systems...")
+    print("� Analyzing vector systems...")
     analysis = analyze_vector_systems()
     
-    print("📊 System Analysis:")
+    print("� System Analysis:")
     for system_name, system_info in analysis.items():
         if system_info['exists']:
             files_count = len(system_info['files'])
@@ -279,32 +282,32 @@ def main():
             print(f"  ❌ {system_name}: Not found")
     
     # Analyze usage patterns
-    print("\\n🔍 Analyzing import usage...")
+    print("\\n� Analyzing import usage...")
     usage = analyze_import_usage()
     
     # Archive legacy components
-    print("\\n🗂️ Archiving legacy components...")
+    print("\\n� Archiving legacy components...")
     archive_path = create_legacy_archive()
     
     # Generate recommendations
-    print("\\n🎯 Generating consolidation recommendations...")
+    print("\\n🔵 Generating consolidation recommendations...")
     recommendation = generate_consolidation_recommendation(analysis, usage)
     
     # Display results
-    print("\\n📋 CONSOLIDATION RECOMMENDATIONS")
+    print("\\n� CONSOLIDATION RECOMMENDATIONS")
     print("=" * 35)
-    print(f"🏆 Recommended System: {recommendation['primary_system']}")
-    print(f"🔮 Confidence: {recommendation['confidence']:.1%}")
-    print("\\n📝 Reasoning:")
+    print(f"🟢 Recommended System: {recommendation['primary_system']}")
+    print(f"� Confidence: {recommendation['confidence']:.1%}")
+    print("\\n� Reasoning:")
     for reason in recommendation['reasoning']:
         print(f"  • {reason}")
     
-    print("\\n📋 Migration Steps:")
+    print("\\n� Migration Steps:")
     for step in recommendation['migration_steps']:
         print(f"  {step}")
     
     if recommendation['files_to_update']:
-        print(f"\\n📄 Files to Update ({len(recommendation['files_to_update'])}):")
+        print(f"\\n� Files to Update ({len(recommendation['files_to_update'])}):")
         for file_path in recommendation['files_to_update'][:5]:  # Show first 5
             print(f"  • {file_path}")
         if len(recommendation['files_to_update']) > 5:
@@ -316,8 +319,8 @@ def main():
     print(f"\\n✅ CLEANUP SUMMARY")
     print("=" * 20)
     print(f"📁 Legacy components archived: {archive_path}")
-    print(f"📝 Migration script created: {migration_script}")
-    print("🌌 Cosmic harmony restored through strategic consolidation!")
+    print(f"� Migration script created: {migration_script}")
+    print("🔵 Professional harmony restored through strategic consolidation!")
 
 if __name__ == "__main__":
     main()

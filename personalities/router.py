@@ -4,29 +4,29 @@ Personality Router - Central personality selection and management.
 Implements the modular personality system for PepeluGPT.
 """
 
-from typing import Dict, Optional, List
+from typing import Dict, Optional, List, Any
 from datetime import datetime
 from .base import PersonalityMode, BasePersonality
 from .oracle import OracleMode
 from .compliance import ComplianceMode
-from .cosmic import CosmicMode
+from .professional import ProfessionalMode
 
 
 class PersonalityRouter:
     """Routes requests to appropriate personality modes."""
     
     def __init__(self):
-        self._personalities = {
+        self._personalities: Dict[PersonalityMode, BasePersonality] = {
             PersonalityMode.ORACLE: OracleMode(),
             PersonalityMode.COMPLIANCE: ComplianceMode(),
-            PersonalityMode.COSMIC: CosmicMode()
+            PersonalityMode.PROFESSIONAL: ProfessionalMode()
         }
-        self._current_mode = PersonalityMode.ORACLE
-        self.mode_history = []
+        self._current_mode: PersonalityMode = PersonalityMode.PROFESSIONAL
+        self.mode_history: List[Dict[str, Any]] = []
     
     def get_personality(self, mode: PersonalityMode) -> BasePersonality:
         """Get personality instance by mode."""
-        return self._personalities.get(mode, self._personalities[PersonalityMode.ORACLE])
+        return self._personalities.get(mode, self._personalities[PersonalityMode.PROFESSIONAL])
     
     def switch_mode(self, mode: PersonalityMode) -> str:
         """Switch to specified personality mode."""
@@ -39,90 +39,71 @@ class PersonalityRouter:
                 'timestamp': datetime.now()
             })
             
-            if mode == PersonalityMode.DEFAULT:
-                return "🔄 **Switched to Default Mode** - Standard PepeluGPT responses"
-            else:
-                return self._personalities[mode].get_greeting()
+            return self._personalities[mode].get_greeting()
         else:
-            return f"❌ Unknown personality mode: {mode}"
+            return f"🔴 Unknown personality mode: {mode}"
     
     def get_current_personality(self) -> Optional[BasePersonality]:
         """Get the current active personality."""
-        if self._current_mode in self._personalities:
-            return self._personalities[self._current_mode]
-        return None
+        return self._personalities.get(self._current_mode)
     
-    def format_response(self, content: str, query: str = "", metadata: Optional[Dict] = None) -> str:
+    def get_current_mode(self) -> PersonalityMode:
+        """Get the current personality mode."""
+        return self._current_mode
+    
+    def format_response(self, content: str, query: str = "", metadata: Optional[Dict[str, Any]] = None) -> str:
         """Format response using current personality."""
         personality = self.get_current_personality()
         if personality:
             return personality.format_response(content, query, metadata)
         return content
     
-    def auto_detect_mode(self, query: str) -> PersonalityMode:
-        """Auto-detect personality mode based on query keywords."""
-        query_lower = query.lower()
-        
-        # Compliance keywords
-        compliance_keywords = ["audit", "control", "framework", "risk", "policy", "compliance"]
-        if any(keyword in query_lower for keyword in compliance_keywords):
-            return PersonalityMode.COMPLIANCE
-            
-        # Cosmic keywords  
-        cosmic_keywords = ["quantum", "dimension", "possibility", "consciousness", "cosmic"]
-        if any(keyword in query_lower for keyword in cosmic_keywords):
-            return PersonalityMode.COSMIC
-            
-        # Default to Oracle
-        return PersonalityMode.ORACLE
-    
-    def get_available_modes(self) -> List[str]:
-        """Get list of available personality modes."""
-        return [mode.value for mode in PersonalityMode]
-    
-    def get_mode_status(self) -> str:
-        """Get current mode status."""
-        if self._current_mode == PersonalityMode.DEFAULT:
-            return "🤖 **Current Mode:** Default"
-        
+    def get_system_prompt(self) -> str:
+        """Get system prompt for current personality."""
         personality = self.get_current_personality()
         if personality:
-            active_time = datetime.now() - personality.active_since
-            minutes = int(active_time.total_seconds() / 60)
-            return f"🎭 **Current Mode:** {self._current_mode.value.title()} (Active: {minutes}m)"
-        
-        return "❓ **Current Mode:** Unknown"
+            return personality.get_system_prompt()
+        return "You are PepeluGPT, a professional cybersecurity assistant."
+    
+    def list_available_modes(self) -> List[PersonalityMode]:
+        """List all available personality modes."""
+        return list(self._personalities.keys())
+    
+    def get_mode_info(self) -> Dict[str, Any]:
+        """Get information about current mode and available modes."""
+        return {
+            'current_mode': self._current_mode.value,
+            'available_modes': [mode.value for mode in self._personalities.keys()],
+            'history_count': len(self.mode_history),
+            'current_personality_class': self.get_current_personality().__class__.__name__
+        }
+    
+    def reset_to_default(self) -> str:
+        """Reset to professional mode."""
+        return self.switch_mode(PersonalityMode.PROFESSIONAL)
 
 
-# Global personality router instance
-personality_router = PersonalityRouter()
+# Global router instance
+_router_instance: Optional[PersonalityRouter] = None
 
+def get_router() -> PersonalityRouter:
+    """Get or create the global personality router instance."""
+    global _router_instance
+    if _router_instance is None:
+        _router_instance = PersonalityRouter()
+    return _router_instance
 
-def switch_personality_mode(mode_name: str) -> str:
-    """Switch personality mode by name."""
-    try:
-        mode = PersonalityMode(mode_name.lower())
-        return personality_router.switch_mode(mode)
-    except ValueError:
-        available = ", ".join(personality_router.get_available_modes())
-        return f"❌ Invalid mode '{mode_name}'. Available: {available}"
+def set_personality_mode(mode: PersonalityMode) -> str:
+    """Convenience function to set personality mode."""
+    router = get_router()
+    return router.switch_mode(mode)
 
+def get_current_personality() -> Optional[BasePersonality]:
+    """Convenience function to get current personality."""
+    router = get_router()
+    return router.get_current_personality()
 
-def get_personality_help() -> str:
-    """Get help text for personality modes."""
-    return """
-🎭 **PepeluGPT Response Personalities**
-
-**Available Modes:**
-• `/mode oracle` - 🔮 Deep, mystical insights with cosmic wisdom
-• `/mode compliance` - 📊 Precise audit-ready analysis with risk focus  
-• `/mode cosmic` - 🌠 Creative, inspirational responses with spiritual flow
-• `/mode default` - 🤖 Standard PepeluGPT responses
-
-**Commands:**
-• `/mode [name]` - Switch personality mode
-• `/mode status` - Show current mode and duration
-• `/mode help` - Show this help message
-
-Each mode channels a different facet of the cyber warrior spirit! 🛡️✨
-"""
+def format_response(content: str, query: str = "", metadata: Optional[Dict[str, Any]] = None) -> str:
+    """Convenience function to format response with current personality."""
+    router = get_router()
+    return router.format_response(content, query, metadata)

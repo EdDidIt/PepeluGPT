@@ -1,18 +1,21 @@
-import fitz  # PyMuPDF
+from typing import Dict, Any
+import fitz  # type: ignore # PyMuPDF
 
-def parse(filepath):
+def parse(filepath: str) -> Dict[str, Any]:
     try:
         # Open PDF with PyMuPDF
-        doc = fitz.open(filepath)
+        doc = fitz.open(filepath)  # type: ignore
         content = ""
         
         # Extract text from all pages
-        for page_num in range(len(doc)):
-            page = doc.load_page(page_num)
-            content += page.get_text("text")
+        for page_num in range(len(doc)):  # type: ignore
+            page = doc.load_page(page_num)  # type: ignore
+            page_text = page.get_text("text")  # type: ignore
+            if isinstance(page_text, str):
+                content += page_text
             content += "\n"  # Add page break
         
-        doc.close()
+        doc.close()  # type: ignore
         
         return {
             "status": "success",

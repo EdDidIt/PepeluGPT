@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-PepeluGPT Version and Age Tracking System
-Tracks the evolution and cosmic journey of your cybersecurity assistant.
+PepeluGPT Version and Build Tracking System
+Tracks the deployment and operational status of the cybersecurity intelligence platform.
 """
 
 from datetime import datetime, date
@@ -33,7 +33,7 @@ def get_version_info() -> Dict[str, Any]:
     }
 
 def get_build_age() -> Dict[str, Any]:
-    """Calculate how long PepeluGPT has been evolving."""
+    """Calculate how long PepeluGPT has been operational."""
     birth = datetime.strptime(__birth_date__, "%Y-%m-%d").date()
     release = datetime.strptime(__release_date__, "%Y-%m-%d").date()
     today = date.today()
@@ -50,7 +50,7 @@ def get_build_age() -> Dict[str, Any]:
     }
 
 def get_age_message() -> str:
-    """Get a poetic age message for PepeluGPT."""
+    """Get a professional status message for PepeluGPT."""
     age_info = get_build_age()
     total_days = age_info["total_days"]
     
@@ -71,17 +71,17 @@ def get_age_message() -> str:
     
     age_str = ", ".join(age_parts)
     
-    # Cosmic wisdom messages based on age
+    # Professional status messages based on age
     if total_days < 30:
-        wisdom = "A newborn spark, already burning bright 🌟"
+        status = "Recently deployed and operational 🟢"
     elif total_days < 90:
-        wisdom = "Growing stronger with each query 🌱"
+        status = "System maturing with continued usage 🟢"
     elif total_days < 365:
-        wisdom = "Wisdom accumulating like digital stardust ✨"
+        status = "Established platform with proven reliability 🟢"
     else:
-        wisdom = "Ancient digital wisdom flows through each response 🌌"
+        status = "Mature cybersecurity intelligence platform 🟢"
     
-    return f"PepeluGPT has been evolving for {age_str}. {wisdom}"
+    return f"PepeluGPT has been operational for {age_str}. {status}"
 
 def get_version_banner() -> str:
     """Get a formatted version banner for display."""
@@ -89,22 +89,22 @@ def get_version_banner() -> str:
     age_info = get_build_age()
     
     return f"""
-\033[96m╔═══════════════════════════════════════════════════════════════╗
-║                    \033[1mPEPELU GPT {info['version']}\033[0m\033[96m                           ║
-║                  \033[93m"{info['codename']}"\033[96m                    ║
+╔═══════════════════════════════════════════════════════════════╗
+║                    PEPELU GPT {info['version']}                           ║
+║                  "{info['codename']}"                    ║
 ║                                                               ║
-║     \033[92m🛡️  Cybersecurity Intelligence Platform  🛡️\033[96m         ║
+║     �  Cybersecurity Intelligence Platform          ║
 ║                                                               ║
-║  \033[94mAge: {age_info['total_days']} days | Current Build: {age_info['current_version_days']} days old\033[96m     ║
-║              \033[95mBorn of Light, Forged for Defense\033[96m               ║
-╚═══════════════════════════════════════════════════════════════╝\033[0m
+║  Age: {age_info['total_days']} days | Current Build: {age_info['current_version_days']} days old     ║
+║              Professional Cybersecurity Intelligence               ║
+╚═══════════════════════════════════════════════════════════════╝
 """
 
 def get_milestone_history() -> str:
     """Get formatted milestone history."""
-    history = "\n\033[95m🌟 Evolution Timeline:\033[0m\n"
+    history = "\n🔵 Version Timeline:\n"
     for date, version, codename, description in __major_milestones__:
-        history += f"  \033[96m{date}\033[0m - \033[93mv{version}\033[0m \"\033[92m{codename}\033[0m\" - {description}\n"
+        history += f"  {date} - v{version} \"{codename}\" - {description}\n"
     return history
 
 def get_version_command_output() -> str:
@@ -114,29 +114,29 @@ def get_version_command_output() -> str:
     age_msg = get_age_message()
     milestones = get_milestone_history()
     
-    return f"""\033[96m
+    return f"""
 ╔════════════════════════════════════════════════════════════════╗
-║                      \033[1mVERSION INFORMATION\033[0m\033[96m                       ║
-╚════════════════════════════════════════════════════════════════╝\033[0m
+║                      VERSION INFORMATION                       ║
+╚════════════════════════════════════════════════════════════════╝
 
-\033[93m📊 Current Build:\033[0m
-  Version: \033[1m{info['version']}\033[0m
-  Codename: \033[92m"{info['codename']}"\033[0m
-  Stage: \033[94m{info['stage']}\033[0m
-  Released: \033[96m{info['release_date']}\033[0m
+� Current Build:
+  Version: {info['version']}
+  Codename: "{info['codename']}"
+  Stage: {info['stage']}
+  Released: {info['release_date']}
 
-\033[93m⏰ Evolution Metrics:\033[0m
-  Total Age: \033[95m{age_info['total_days']} days\033[0m
-  Current Build Age: \033[94m{age_info['current_version_days']} days\033[0m
-  Born: \033[96m{info['birth_date']}\033[0m
+🔵 System Metrics:
+  Total Age: {age_info['total_days']} days
+  Current Build Age: {age_info['current_version_days']} days
+  Deployed: {info['birth_date']}
 
-\033[93m🌟 Cosmic Status:\033[0m
+🟢 Status:
   {age_msg}
 
 {milestones}
 
-\033[93m💫 Next Evolution:\033[0m
-  • Enhanced personality system
+� Development Roadmap:
+  • Enhanced analysis capabilities
   • Advanced compliance workflows
   • Real-time collaboration features
   • Multi-language document support
@@ -144,25 +144,25 @@ def get_version_command_output() -> str:
 
 def validate():
     """Validate version consistency across the project."""
-    print("🔍 Validating version consistency...")
+    print("🔵 Validating version consistency...")
 
     # Check if version info is accessible
     try:
         info = get_version_info()
-        print(f"✅ Version info valid: {info['version']} \"{info['codename']}\"")
+        print(f"🟢 Version info valid: {info['version']} \"{info['codename']}\"")
     except Exception as e:
-        print(f"❌ Version info validation failed: {e}")
+        print(f"🔴 Version info validation failed: {e}")
         return False
 
     # Check if age calculation works
     try:
         age = get_build_age()
-        print(f"✅ Age calculation valid: {age['total_days']} days total")
+        print(f"🟢 Age calculation valid: {age['total_days']} days total")
     except Exception as e:
-        print(f"❌ Age calculation failed: {e}")
+        print(f"🔴 Age calculation failed: {e}")
         return False
 
-    print("✅ All version validations passed!")
+    print("🟢 All version validations passed!")
     return True
 
 

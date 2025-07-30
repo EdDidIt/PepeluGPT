@@ -11,107 +11,106 @@ env:
 
 jobs:
   test:
-    name: 🧪 Test on Python ${{ matrix.python-version }}
+    name: Test on Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     
     steps:
-    - name: 📡 Checkout Cosmic Code
+    - name: Checkout Cosmic Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Setup Python ${{ matrix.python-version }}
+    - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
         
-    - name: 📦 Cache Dependencies
+    - name: Cache Dependencies
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-${{ matrix.python-version }}-
           ${{ runner.os }}-pip-
           
-    - name: 🔧 Install Dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest pytest-cov black flake8 mypy
       continue-on-error: false
         
-    - name: 🎨 Code Style Check (Black)
+    - name: Code Style Check (Black)
       run: |
         black --check --diff .
       continue-on-error: false
         
-    - name: 🔍 Lint Check (Flake8)
+    - name: Lint Check (Flake8)
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
       continue-on-error: false
         
-    - name: 🧪 Type Check (MyPy)
+    - name: Type Check (MyPy)
       run: |
         mypy core/ --ignore-missing-imports
       continue-on-error: true
         
-    - name: 🚀 Run Tests
+    - name: Run Tests
       run: |
         python -m pytest tests/ -v --cov=. --cov-report=xml --cov-report=html
       continue-on-error: false
         
-    - name: 📊 Upload Coverage to Codecov
+    - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
-        file: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
         fail_ci_if_error: false
 
   security:
-    name: 🛡️ Security Scan
+    name:  Security Scan
     runs-on: ubuntu-latest
     
     steps:
-    - name: 📡 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Setup Python
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         
-    - name: � Cache Security Tools
+    - name: Cache Security Tools
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-security-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-security-${{ hashFiles('/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-security-
           ${{ runner.os }}-pip-
       
-    - name: 🔧 Install Dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
       continue-on-error: false
       
-    - name: 🔒 Run Security Scan (Bandit)
+    - name:  Run Security Scan (Bandit)
       run: |
         pip install bandit[toml]
         bandit -r . -f json -o bandit-report.json
       continue-on-error: true
         
-    - name: 🔍 Dependency Security Check
+    - name: Dependency Security Check
       run: |
         pip install safety
         safety check --json --output safety-report.json
       continue-on-error: true
         
-    - name: 📋 Upload Security Reports
+    - name: Upload Security Reports
       uses: actions/upload-artifact@v4
       if: always()
       with:
@@ -121,48 +120,48 @@ jobs:
           safety-report.json
         retention-days: 30
 
-  build:
-    name: 🏗️ Build Verification
+  Build:
+    name:  Build Verification
     runs-on: ubuntu-latest
     needs: [test, security]
     
     steps:
-    - name: 📡 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Setup Python
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         
-    - name: � Cache Build Dependencies
+    - name: Cache  Build Dependencies
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-build-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip- Build-${{ hashFiles('/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pip-build-
+          ${{ runner.os }}-pip- Build-
           ${{ runner.os }}-pip-
         
-    - name: �🔧 Install Dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install build wheel
+        pip install  Build wheel
       continue-on-error: false
         
-    - name: 🏗️ Build Package
+    - name:  Build Package
       run: |
-        python -m build
+        python -m  Build
       continue-on-error: false
         
-    - name: 🧪 Test Installation
+    - name: Test Installation
       run: |
         pip install dist/*.whl
-        python -c "import core.pepelugpt; print('✅ Import successful')"
+        python -c "import core.pepelugpt; print('Import successful')"
       continue-on-error: false
         
-    - name: 📦 Upload Build Artifacts
+    - name: Upload  Build Artifacts
       uses: actions/upload-artifact@v4
       if: always()
       with:
@@ -171,15 +170,15 @@ jobs:
         retention-days: 30
 
   docs:
-    name: 📚 Documentation Check
+    name: Documentation Check
     runs-on: ubuntu-latest
     continue-on-error: true
     
     steps:
-    - name: 📡 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🔗 Check Links in Markdown
+    - name: Check Links in Markdown
       uses: gaurav-nelson/github-action-markdown-link-check@v1
       continue-on-error: true
       with:
@@ -187,9 +186,9 @@ jobs:
         use-verbose-mode: 'yes'
         config-file: '.github/workflows/markdown-link-check-config.json'
         
-    - name: 📝 Spell Check
+    - name: Spell Check
       uses: streetsidesoftware/cspell-action@v7
       continue-on-error: true
       with:
-        files: "**/*.md"
+        files: "/*.md"
         config: ".github/workflows/cspell.json"

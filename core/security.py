@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 PepeluGPT - Enhanced Security Utilities
-Comprehensive security functions for the cosmic intelligence platform.
-Born of Light, Forged for Defense.
+Comprehensive security functions for the professional intelligence platform.
+Enterprise-grade security and protection.
 """
 
 import os
@@ -11,7 +11,7 @@ import hashlib
 import subprocess
 import sys
 from pathlib import Path
-from typing import Union, List, Dict, Any, Optional, Tuple
+from typing import Union, List, Dict, Any, Optional, Tuple, Callable
 import logging
 from functools import wraps
 import traceback
@@ -20,8 +20,8 @@ class SecurityError(Exception):
     """Custom exception for security violations."""
     pass
 
-class CosmicSecurityValidator:
-    """Enhanced security validation with cosmic-level protection."""
+class ProfessionalSecurityValidator:
+    """Enhanced security validation with enterprise-level protection."""
     
     ALLOWED_EXTENSIONS = {
         '.pdf', '.docx', '.doc', '.xlsx', '.xls', '.html', '.xml', 
@@ -42,16 +42,16 @@ class CosmicSecurityValidator:
         try:
             path = Path(file_path).resolve()
         except (OSError, ValueError) as e:
-            raise SecurityError(f"🛡️ Invalid path format: {e}")
+            raise SecurityError(f"🔴 Invalid path format: {e}")
         
         # Check for path traversal attempts
         if '..' in str(file_path):
-            raise SecurityError(f"🛡️ Path traversal attempt detected: {file_path}")
+            raise SecurityError(f"🔴 Path traversal attempt detected: {file_path}")
         
         # Validate against dangerous patterns
-        for pattern in CosmicSecurityValidator.DANGEROUS_PATTERNS:
+        for pattern in ProfessionalSecurityValidator.DANGEROUS_PATTERNS:
             if re.search(pattern, str(file_path), re.IGNORECASE):
-                raise SecurityError(f"🛡️ Dangerous pattern detected in path: {file_path}")
+                raise SecurityError(f"🔴 Dangerous pattern detected in path: {file_path}")
         
         # Check if path is within allowed roots
         if allowed_roots:
@@ -65,19 +65,18 @@ class CosmicSecurityValidator:
                     continue
             
             if not path_allowed:
-                raise SecurityError(f"🛡️ Path outside allowed boundaries: {path}")
+                raise SecurityError(f"🔴 Path outside allowed boundaries: {path}")
         
         return path
     
     @staticmethod
     def sanitize_input(user_input: str, max_length: int = 1000) -> str:
-        """Sanitize user input with cosmic precision."""
-        if not isinstance(user_input, str):
-            raise SecurityError("🛡️ Input must be a string")
+        """Sanitize user input with professional precision."""
+        # user_input is already typed as str, no need for isinstance check
         
         # Length validation
         if len(user_input) > max_length:
-            raise SecurityError(f"🛡️ Input too long: {len(user_input)} > {max_length}")
+            raise SecurityError(f"🔴 Input too long: {len(user_input)} > {max_length}")
         
         # Remove control characters except tab, newline, carriage return
         sanitized = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]', '', user_input)
@@ -90,11 +89,10 @@ class CosmicSecurityValidator:
     @staticmethod
     def validate_command_safety(command: List[str]) -> bool:
         """Validate command arguments for safe execution."""
-        if not isinstance(command, list):
-            raise SecurityError("🛡️ Command must be a list")
+        # command is already typed as List[str], no need for isinstance check
         
         if not command:
-            raise SecurityError("🛡️ Empty command not allowed")
+            raise SecurityError("🔴 Empty command not allowed")
         
         # Check for dangerous commands
         dangerous_commands = {
@@ -105,23 +103,23 @@ class CosmicSecurityValidator:
         
         base_command = Path(command[0]).name.lower()
         if base_command in dangerous_commands:
-            raise SecurityError(f"🛡️ Dangerous command not allowed: {base_command}")
+            raise SecurityError(f"🔴 Dangerous command not allowed: {base_command}")
         
         # Check for shell injection patterns in arguments
         shell_patterns = [r'[;&|`$]', r'\$\(', r'`.*`']
         for arg in command[1:]:
             for pattern in shell_patterns:
                 if re.search(pattern, str(arg)):
-                    raise SecurityError(f"🛡️ Shell injection pattern detected: {arg}")
+                    raise SecurityError(f"🔴 Shell injection pattern detected: {arg}")
         
         return True
     
     @staticmethod
     def secure_subprocess_run(command: List[str], timeout: int = 30, 
-                            capture_output: bool = True) -> subprocess.CompletedProcess:
+                            capture_output: bool = True) -> subprocess.CompletedProcess[str]:
         """Securely execute subprocess with validation and timeouts."""
         # Validate command safety
-        CosmicSecurityValidator.validate_command_safety(command)
+        ProfessionalSecurityValidator.validate_command_safety(command)
         
         try:
             result = subprocess.run(
@@ -133,33 +131,33 @@ class CosmicSecurityValidator:
             )
             return result
         except subprocess.TimeoutExpired:
-            raise SecurityError(f"🛡️ Command timed out after {timeout} seconds")
+            raise SecurityError(f"🔴 Command timed out after {timeout} seconds")
         except FileNotFoundError:
-            raise SecurityError(f"🛡️ Command not found: {command[0]}")
+            raise SecurityError(f"🔴 Command not found: {command[0]}")
         except Exception as e:
-            raise SecurityError(f"🛡️ Command execution failed: {e}")
+            raise SecurityError(f"🔴 Command execution failed: {e}")
 
-class CosmicInputValidator:
-    """Enhanced input validation for cosmic-level security."""
+class ProfessionalInputValidator:
+    """Enhanced input validation for enterprise-level security."""
     
     @staticmethod
     def validate_query(query: str) -> str:
         """Validate search query input."""
         if not query or not query.strip():
-            raise SecurityError("🛡️ Empty query not allowed")
+            raise SecurityError("🔴 Empty query not allowed")
         
-        sanitized = CosmicSecurityValidator.sanitize_input(query, max_length=500)
+        sanitized = ProfessionalSecurityValidator.sanitize_input(query, max_length=500)
         
         # Additional query-specific validation
         if len(sanitized) < 2:
-            raise SecurityError("🛡️ Query too short")
+            raise SecurityError("🔴 Query too short")
         
         return sanitized
     
     @staticmethod
     def validate_filename(filename: str) -> str:
         """Validate filename for security."""
-        sanitized = CosmicSecurityValidator.sanitize_input(filename, max_length=255)
+        sanitized = ProfessionalSecurityValidator.sanitize_input(filename, max_length=255)
         
         # Remove or replace dangerous characters
         sanitized = re.sub(r'[<>:"/\\|?*]', '_', sanitized)
@@ -176,18 +174,18 @@ class CosmicInputValidator:
                             min_val: Any = None, max_val: Any = None) -> Any:
         """Validate configuration values."""
         if not isinstance(value, expected_type):
-            raise SecurityError(f"🛡️ Invalid config type: expected {expected_type}, got {type(value)}")
+            raise SecurityError(f"🔴 Invalid config type: expected {expected_type}, got {type(value)}")
         
         if min_val is not None and value < min_val:
-            raise SecurityError(f"🛡️ Config value too small: {value} < {min_val}")
+            raise SecurityError(f"🔴 Config value too small: {value} < {min_val}")
         
         if max_val is not None and value > max_val:
-            raise SecurityError(f"🛡️ Config value too large: {value} > {max_val}")
+            raise SecurityError(f"🔴 Config value too large: {value} > {max_val}")
         
         return value
 
 class SecureFileHandler:
-    """Secure file operations with cosmic protection."""
+    """Secure file operations with professional protection."""
     
     def __init__(self, allowed_roots: Optional[List[Path]] = None):
         """Initialize with allowed root directories."""
@@ -197,39 +195,39 @@ class SecureFileHandler:
     def safe_read_file(self, file_path: Union[str, Path], 
                       max_size: int = 100 * 1024 * 1024) -> str:  # 100MB limit
         """Safely read file with size and path validation."""
-        validated_path = CosmicSecurityValidator.validate_file_path_security(
+        validated_path = ProfessionalSecurityValidator.validate_file_path_security(
             file_path, self.allowed_roots
         )
         
         if not validated_path.exists():
-            raise SecurityError(f"🛡️ File not found: {validated_path}")
+            raise SecurityError(f"🔴 File not found: {validated_path}")
         
         if not validated_path.is_file():
-            raise SecurityError(f"🛡️ Not a file: {validated_path}")
+            raise SecurityError(f"🔴 Not a file: {validated_path}")
         
         # Check file size
         file_size = validated_path.stat().st_size
         if file_size > max_size:
-            raise SecurityError(f"🛡️ File too large: {file_size} > {max_size}")
+            raise SecurityError(f"🔴 File too large: {file_size} > {max_size}")
         
         try:
             with open(validated_path, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
             return content
         except (IOError, OSError) as e:
-            raise SecurityError(f"🛡️ Failed to read file: {e}")
+            raise SecurityError(f"🔴 Failed to read file: {e}")
     
     def safe_write_file(self, file_path: Union[str, Path], content: str,
                        max_size: int = 10 * 1024 * 1024) -> bool:  # 10MB limit
         """Safely write file with validation."""
-        validated_path = CosmicSecurityValidator.validate_file_path_security(
+        validated_path = ProfessionalSecurityValidator.validate_file_path_security(
             file_path, self.allowed_roots
         )
         
         # Check content size
         content_size = len(content.encode('utf-8'))
         if content_size > max_size:
-            raise SecurityError(f"🛡️ Content too large: {content_size} > {max_size}")
+            raise SecurityError(f"🔴 Content too large: {content_size} > {max_size}")
         
         # Ensure parent directory exists and is writable
         validated_path.parent.mkdir(parents=True, exist_ok=True)
@@ -240,7 +238,7 @@ class SecureFileHandler:
             self.logger.info(f"Safely wrote file: {validated_path}")
             return True
         except (IOError, OSError) as e:
-            raise SecurityError(f"🛡️ Failed to write file: {e}")
+            raise SecurityError(f"🔴 Failed to write file: {e}")
 
 
 # ========== ENHANCED SECURITY INTEGRATION ==========
@@ -249,28 +247,32 @@ class SecureFileHandler:
 # Add validation modules to path
 try:
     sys.path.append(str(Path(__file__).parent.parent / 'validation'))
-    from ..validation.input_sanitizer import EnhancedInputSanitizer
-    from ..validation.privacy_check import PrivacyGuard
-    from ..validation.security_validator import SecurityValidator as ValidationSecurityValidator
-    from ..validation.module_guard import ModuleGuard as ValidationModuleGuard
+    from ..validation.input_sanitizer import EnhancedInputSanitizer  # type: ignore
+    from ..validation.privacy_check import PrivacyGuard  # type: ignore
+    from ..validation.security_validator import SecurityValidator as ValidationSecurityValidator  # type: ignore
+    from ..validation.module_guard import ModuleGuard as ValidationModuleGuard  # type: ignore
 except ImportError as e:
     print(f"⚠️ Validation modules not found: {e}")
     # Create mock classes for backward compatibility
     class EnhancedInputSanitizer:
         @staticmethod
-        def sanitize_input(text): return text, True, {}
+        def sanitize_input(text: str) -> Tuple[str, bool, Dict[str, Any]]: 
+            return text, True, {}
     
     class PrivacyGuard:
         @staticmethod
-        def scan_for_pii(text): return False, {}
+        def scan_for_pii(text: str) -> Tuple[bool, Dict[str, Any]]: 
+            return False, {}
     
     class ValidationSecurityValidator:
         @staticmethod
-        def validate_comprehensive_security(text): return {"overall_score": 100, "is_safe": True}
+        def validate_comprehensive_security(text: str) -> Dict[str, Any]: 
+            return {"overall_score": 100, "is_safe": True}
     
     class ValidationModuleGuard:
         @staticmethod
-        def create_secure_environment(): return {}
+        def create_secure_environment() -> Dict[str, Any]: 
+            return {}
 
 
 class EnhancedSecurityCore:
@@ -284,7 +286,7 @@ class EnhancedSecurityCore:
         self.module_guard = ValidationModuleGuard()
         
         # Security configuration
-        self.security_config = {
+        self.security_config: Dict[str, Any] = {
             'strict_mode': True,
             'log_security_events': True,
             'block_suspicious_input': True,
@@ -293,7 +295,7 @@ class EnhancedSecurityCore:
         }
         
         # Security metrics
-        self.security_metrics = {
+        self.security_metrics: Dict[str, Any] = {
             'total_validations': 0,
             'blocked_inputs': 0,
             'pii_detections': 0,
@@ -345,7 +347,7 @@ class EnhancedSecurityCore:
                     }
             
             # All validations passed
-            validation_report = {
+            validation_report: Dict[str, Any] = {
                 'status': 'validated',
                 'sanitization': sanitization_report,
                 'privacy': pii_report,
@@ -411,15 +413,15 @@ class EnhancedSecurityCore:
             return False
 
 
-def security_validation_decorator(func):
+def security_validation_decorator(func: Callable[..., Any]) -> Callable[..., Any]:
     """Decorator to add security validation to any function."""
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
         # Create security core instance for this execution
         security_core = EnhancedSecurityCore()
         
         # Validate input arguments that are strings
-        validated_args = []
+        validated_args: List[Any] = []
         for arg in args:
             if isinstance(arg, str):
                 validated_input, is_safe, report = security_core.validate_and_sanitize_input(arg)
@@ -467,7 +469,8 @@ def create_secure_pepelugpt_wrapper():
                 }
             
             # Step 2: Create secure execution environment
-            secure_env = security_core.module_guard.create_secure_environment()
+            # Note: secure_env would be used for enhanced security in production
+            # secure_env = security_core.module_guard.create_secure_environment()
             
             # Step 3: Process query (placeholder for actual PepeluGPT integration)
             try:
@@ -476,10 +479,10 @@ def create_secure_pepelugpt_wrapper():
                 response += f"Query processed: {validated_query}\n\n"
                 response += "✅ Security validation passed\n"
                 response += f"🎭 Personality mode: {personality_mode}\n"
-                response += f"🛡️ Security score: {validation_report.get('security', {}).get('overall_score', 'N/A')}"
+                response += f"🔴 Security score: {validation_report.get('security', {}).get('overall_score', 'N/A')}"
                 
                 # Step 4: Validate output
-                validated_response, output_safe, output_report = security_core.validate_output(response)
+                validated_response, _output_safe, output_report = security_core.validate_output(response)
                 
                 return {
                     'response': validated_response,
@@ -508,7 +511,7 @@ def create_secure_pepelugpt_wrapper():
 def get_enhanced_security_help() -> str:
     """Get help text for enhanced security features."""
     return """
-🛡️ **PepeluGPT Enhanced Security System**
+🔴 **PepeluGPT Enhanced Security System**
 
 **Security Features:**
 • **Input Sanitization**: Removes malicious content and validates input
@@ -553,9 +556,9 @@ def secure_clear_screen():
     """Securely clear the terminal screen."""
     try:
         if os.name == 'nt':  # Windows
-            result = CosmicSecurityValidator.secure_subprocess_run(['cls'], timeout=5)
+            result = ProfessionalSecurityValidator.secure_subprocess_run(['cls'], timeout=5)
         else:  # Unix/Linux/Mac
-            result = CosmicSecurityValidator.secure_subprocess_run(['clear'], timeout=5)
+            result = ProfessionalSecurityValidator.secure_subprocess_run(['clear'], timeout=5)
         
         if result.returncode != 0:
             # Fallback: print newlines
@@ -567,7 +570,7 @@ def secure_clear_screen():
 def generate_secure_hash(data: str, algorithm: str = 'sha256') -> str:
     """Generate secure hash of data."""
     if algorithm not in ['sha256', 'sha512', 'blake2b']:
-        raise SecurityError(f"🛡️ Unsupported hash algorithm: {algorithm}")
+        raise SecurityError(f"🔴 Unsupported hash algorithm: {algorithm}")
     
     data_bytes = data.encode('utf-8')
     
@@ -579,12 +582,12 @@ def generate_secure_hash(data: str, algorithm: str = 'sha256') -> str:
         return hashlib.blake2b(data_bytes).hexdigest()
 
 # Security configuration
-SECURITY_CONFIG = {
+SECURITY_CONFIG: Dict[str, Any] = {
     'max_file_size': 100 * 1024 * 1024,  # 100MB
     'max_query_length': 500,
     'max_filename_length': 255,
     'subprocess_timeout': 30,
-    'allowed_file_extensions': CosmicSecurityValidator.ALLOWED_EXTENSIONS,
+    'allowed_file_extensions': ProfessionalSecurityValidator.ALLOWED_EXTENSIONS,
     'hash_algorithm': 'sha256'
 }
 
@@ -596,31 +599,31 @@ def update_security_config(updates: Dict[str, Any]) -> None:
     """Update security configuration with validation."""
     for key, value in updates.items():
         if key not in SECURITY_CONFIG:
-            raise SecurityError(f"🛡️ Unknown security config key: {key}")
+            raise SecurityError(f"🔴 Unknown security config key: {key}")
         
         # Validate specific config values
         if key == 'max_file_size':
-            CosmicInputValidator.validate_config_value(value, int, 1024, 1024**3)
+            ProfessionalInputValidator.validate_config_value(value, int, 1024, 1024**3)
         elif key == 'max_query_length':
-            CosmicInputValidator.validate_config_value(value, int, 10, 10000)
+            ProfessionalInputValidator.validate_config_value(value, int, 10, 10000)
         elif key == 'subprocess_timeout':
-            CosmicInputValidator.validate_config_value(value, int, 1, 300)
+            ProfessionalInputValidator.validate_config_value(value, int, 1, 300)
         
         SECURITY_CONFIG[key] = value
 
 if __name__ == "__main__":
     # Security validation tests
-    print("🛡️ Testing PepeluGPT Security Utilities")
+    print("🔴 Testing PepeluGPT Security Utilities")
     
     # Test path validation
     try:
-        CosmicSecurityValidator.validate_file_path_security("../../../etc/passwd")
+        ProfessionalSecurityValidator.validate_file_path_security("../../../etc/passwd")
         print("❌ Path traversal not detected!")
     except SecurityError:
         print("✅ Path traversal detected and blocked")
     
     # Test input sanitization
-    sanitized = CosmicSecurityValidator.sanitize_input("Hello\x00World\x1f!")
+    sanitized = ProfessionalSecurityValidator.sanitize_input("Hello\x00World\x1f!")
     print(f"✅ Sanitized input: '{sanitized}'")
     
     # Test secure clear
@@ -652,7 +655,7 @@ if __name__ == "__main__":
         result = test_function("Test message")
         print(f"✅ Decorator test result: {result}")
     except SecurityError as e:
-        print(f"🛡️ Security decorator blocked input: {e}")
+        print(f"🔴 Security decorator blocked input: {e}")
     
     # Test secure wrapper creation
     secure_wrapper = create_secure_pepelugpt_wrapper()

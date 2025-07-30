@@ -11,9 +11,12 @@ import time
 import psutil
 import tracemalloc
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Callable, TypeVar
 from functools import wraps
 from datetime import datetime
+
+# Type variables for better type safety
+F = TypeVar('F', bound=Callable[..., Any])
 
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -22,16 +25,16 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 class PerformanceMonitor:
     """Monitor system performance and resource usage."""
     
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the performance monitor."""
-        self.metrics = {}
+        self.metrics: Dict[str, List[Dict[str, Any]]] = {}
         self.start_time = time.time()
         tracemalloc.start()
     
-    def measure_function(self, func):
+    def measure_function(self, func: F) -> F:
         """Decorator to measure function performance."""
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             start_time = time.time()
             start_memory = tracemalloc.get_traced_memory()[0]
             
@@ -61,7 +64,7 @@ class PerformanceMonitor:
             })
             
             return result
-        return wrapper
+        return wrapper  # type: ignore
     
     def get_system_metrics(self) -> Dict[str, Any]:
         """Get current system resource usage."""
@@ -75,7 +78,7 @@ class PerformanceMonitor:
     
     def get_performance_report(self) -> Dict[str, Any]:
         """Generate comprehensive performance report."""
-        report = {
+        report: Dict[str, Any] = {
             'system_metrics': self.get_system_metrics(),
             'function_metrics': {},
             'summary': {
@@ -106,10 +109,10 @@ class PerformanceMonitor:
     
     def identify_bottlenecks(self) -> List[Dict[str, Any]]:
         """Identify performance bottlenecks."""
-        bottlenecks = []
+        bottlenecks: List[Dict[str, Any]] = []
         
         for func_name, metrics in self.get_performance_report()['function_metrics'].items():
-            issues = []
+            issues: List[str] = []
             
             # Check for slow functions (> 1 second average)
             if metrics['avg_duration'] > 1.0:
@@ -124,48 +127,49 @@ class PerformanceMonitor:
                 issues.append(f"Low success rate: {metrics['success_rate']:.1%}")
             
             if issues:
-                bottlenecks.append({
+                bottleneck_info: Dict[str, Any] = {
                     'function': func_name,
                     'issues': issues,
                     'call_count': metrics['call_count'],
                     'severity': len(issues)
-                })
+                }
+                bottlenecks.append(bottleneck_info)
         
         # Sort by severity and call count
         bottlenecks.sort(key=lambda x: (x['severity'], x['call_count']), reverse=True)
         return bottlenecks
 
 
-def run_performance_analysis():
+def run_performance_analysis() -> Dict[str, Any]:
     """Run comprehensive performance analysis."""
-    print("📊 PepeluGPT Performance Analysis")
+    print("� PepeluGPT Performance Analysis")
     print("=" * 50)
     
     monitor = PerformanceMonitor()
     
     # Test core imports
-    print("🧪 Testing Core Imports...")
+    print("🔵 Testing Core Imports...")
     
     @monitor.measure_function
-    def test_core_imports():
+    def test_core_imports() -> str:
         try:
-            from core import utilities
+            from core import utilities  # type: ignore
             return "success"
         except Exception as e:
             return f"error: {e}"
     
     @monitor.measure_function
-    def test_personality_imports():
+    def test_personality_imports() -> str:
         try:
-            from personalities import PersonalityRouter
+            from personalities import PersonalityRouter  # type: ignore
             return "success"
         except Exception as e:
             return f"error: {e}"
     
     @monitor.measure_function
-    def test_vector_db_imports():
+    def test_vector_db_imports() -> str:
         try:
-            from storage.vector_db import config
+            from storage.vector_db import config  # type: ignore
             return "success"
         except Exception as e:
             return f"error: {e}"
@@ -179,57 +183,57 @@ def run_performance_analysis():
     
     # Display results
     for module, result in results.items():
-        status = "✅" if "success" in result else "❌"
+        status = "🟢" if "success" in result else "🔴"
         print(f"  {status} {module}: {result}")
     
     # Generate performance report
-    print("\n📈 Performance Report:")
+    print("\n� Performance Report:")
     print("-" * 30)
     
     report = monitor.get_performance_report()
     system_metrics = report['system_metrics']
     
-    print(f"💾 Memory Usage: {system_metrics['memory_percent']:.1f}%")
-    print(f"🖥️  CPU Usage: {system_metrics['cpu_percent']:.1f}%")
-    print(f"💿 Disk Usage: {system_metrics['disk_usage']:.1f}%")
-    print(f"📊 Process Memory: {system_metrics['process_memory']:.1f} MB")
-    print(f"⏱️  Uptime: {system_metrics['uptime']:.2f} seconds")
+    print(f"� Memory Usage: {system_metrics['memory_percent']:.1f}%")
+    print(f"�  CPU Usage: {system_metrics['cpu_percent']:.1f}%")
+    print(f"� Disk Usage: {system_metrics['disk_usage']:.1f}%")
+    print(f"� Process Memory: {system_metrics['process_memory']:.1f} MB")
+    print(f"🔵  Uptime: {system_metrics['uptime']:.2f} seconds")
     
     # Check for bottlenecks
-    print("\n🔍 Bottleneck Analysis:")
+    print("\n� Bottleneck Analysis:")
     print("-" * 30)
     
     bottlenecks = monitor.identify_bottlenecks()
     if bottlenecks:
         for bottleneck in bottlenecks[:3]:  # Show top 3
-            print(f"⚠️  {bottleneck['function']}:")
+            print(f"🔴  {bottleneck['function']}:")
             for issue in bottleneck['issues']:
                 print(f"    • {issue}")
     else:
-        print("✅ No significant bottlenecks detected")
+        print("🟢 No significant bottlenecks detected")
     
     # Optimization recommendations
-    print("\n💡 Optimization Recommendations:")
+    print("\n� Optimization Recommendations:")
     print("-" * 30)
     
-    recommendations = []
+    recommendations: List[str] = []
     
     if system_metrics['memory_percent'] > 80:
-        recommendations.append("🔧 Consider implementing memory caching strategies")
+        recommendations.append("� Consider implementing memory caching strategies")
     
     if system_metrics['cpu_percent'] > 80:
-        recommendations.append("🔧 Consider optimizing CPU-intensive operations")
+        recommendations.append("� Consider optimizing CPU-intensive operations")
     
     if bottlenecks:
-        recommendations.append("🔧 Focus on optimizing identified bottleneck functions")
+        recommendations.append("� Focus on optimizing identified bottleneck functions")
     
     if not recommendations:
-        recommendations.append("✅ System performance is within acceptable ranges")
+        recommendations.append("🟢 System performance is within acceptable ranges")
     
     for rec in recommendations:
         print(f"  {rec}")
     
-    print(f"\n🎯 Analysis Complete: {report['summary']['total_calls']} function calls monitored")
+    print(f"\n🔵 Analysis Complete: {report['summary']['total_calls']} function calls monitored")
     
     return report
 
@@ -238,7 +242,7 @@ if __name__ == "__main__":
     try:
         report = run_performance_analysis()
     except KeyboardInterrupt:
-        print("\n⏹️  Performance analysis interrupted by user")
+        print("\n🔴  Performance analysis interrupted by user")
     except Exception as e:
-        print(f"\n❌ Performance analysis failed: {e}")
+        print(f"\n🔴 Performance analysis failed: {e}")
         sys.exit(1)

@@ -1,51 +1,53 @@
 """
 Vector Database Retriever
 Enhanced semantic search and retrieval functionality for PepeluGPT.
-Born of Light, Forged for Defense. 🔮⚡
+Professional cybersecurity intelligence platform.
 """
 
 import pickle
 import json
-import numpy as np
 from pathlib import Path
-from typing import List, Dict, Any, Tuple, Optional
+from typing import List, Dict, Any, Optional
 from datetime import datetime
 import logging
 
 # Conditional imports for robustness
 try:
-    import faiss
-    FAISS_AVAILABLE = True
+    import faiss  # type: ignore
+    faiss_available = True
 except ImportError:
-    FAISS_AVAILABLE = False
+    faiss_available = False
     logging.warning("🔴 FAISS not available - vector search disabled")
 
 try:
     from sentence_transformers import SentenceTransformer
-    TRANSFORMERS_AVAILABLE = True
+    transformers_available = True
 except ImportError:
-    TRANSFORMERS_AVAILABLE = False
-    SentenceTransformer = None
+    transformers_available = False
+    SentenceTransformer = None  # type: ignore
     logging.warning("🔴 SentenceTransformers not available - embedding disabled")
 
-# Import cosmic utilities
+# Import system utilities
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
 try:
-    from core.utilities import CosmicLogger, PepeluValidator, CosmicConstants
+    from core.utilities import SystemLogger  # type: ignore
+    system_available = True
 except ImportError:
     # Fallback for standalone usage
-    class CosmicConstants:
+    system_available = False
+    
+    class SystemConstants:
         SIMILARITY_THRESHOLD = 0.5
-        STATUS_ICONS = {"ready": "🌟", "error": "🔴"}
+        STATUS_ICONS = {"ready": "🟢", "error": "🔴"}
 
 class PepeluRetriever:
-    """Advanced retrieval system for cybersecurity document search with cosmic validation."""
+    """Advanced retrieval system for cybersecurity document search."""
     
     def __init__(self, vector_db_path: str = "cyber_vector_db"):
-        """Initialize the cosmic retriever with enhanced validation."""
+        """Initialize the professional retriever system."""
         self.vector_db_path = Path(vector_db_path)
         
         # Core components with proper initialization
@@ -65,21 +67,23 @@ class PepeluRetriever:
         # Load database if available
         self._load_components()
         
-        # Setup cosmic logger if utilities available
-        try:
-            from core.utilities import CosmicLogger
-            self.logger = CosmicLogger.setup_cosmic_logger(self.__class__.__name__)
-        except ImportError:
-            pass
+        # Setup system logger if utilities available
+        if system_available:
+            try:
+                from core.utilities import SystemLogger
+                self.logger = SystemLogger.setup_logger(self.__class__.__name__)
+            except ImportError:
+                pass
     
-    def _load_components(self):
+    def _load_components(self) -> None:
         """Load all vector database components."""
         try:
             # Load FAISS index
             index_path = self.vector_db_path / "faiss_index.bin"
-            if index_path.exists():
-                self.index = faiss.read_index(str(index_path))
-                self.logger.info(f"Loaded FAISS index with {self.index.ntotal} vectors")
+            if index_path.exists() and faiss_available:
+                self.index = faiss.read_index(str(index_path))  # type: ignore
+                if self.index:  # type: ignore
+                    self.logger.info(f"Loaded FAISS index with {getattr(self.index, 'ntotal', 0)} vectors")  # type: ignore
             
             # Load chunks
             chunks_path = self.vector_db_path / "chunks.pkl"
@@ -103,7 +107,7 @@ class PepeluRetriever:
                 self.logger.info("Loaded vector database configuration")
             
             # Initialize embedding model
-            if SentenceTransformer and self.config:
+            if SentenceTransformer and self.config and transformers_available:
                 model_name = self.config.get('model_name', 'sentence-transformers/all-MiniLM-L6-v2')
                 self.model = SentenceTransformer(model_name)
                 self.logger.info(f"Loaded embedding model: {model_name}")
@@ -115,8 +119,8 @@ class PepeluRetriever:
         """Check if the retriever is ready for queries."""
         return all([
             self.index is not None,
-            self.chunks is not None,
-            self.metadata is not None,
+            len(self.chunks) > 0,
+            len(self.metadata) > 0,
             self.model is not None
         ])
     
@@ -129,18 +133,22 @@ class PepeluRetriever:
         
         try:
             # Generate query embedding
-            query_embedding = self.model.encode([query])
+            if self.model is None:
+                return []
+            query_embedding = self.model.encode([query])  # type: ignore
             
             # Search the index
-            distances, indices = self.index.search(
+            if self.index is None:
+                return []
+            distances, indices = self.index.search(  # type: ignore
                 query_embedding.astype('float32'), 
-                min(top_k * 2, self.index.ntotal)  # Get more results for filtering
+                min(top_k * 2, getattr(self.index, 'ntotal', len(self.chunks)))  # Get more results for filtering
             )
             
-            results = []
-            seen_documents = set()
+            results: List[Dict[str, Any]] = []
+            seen_documents: set[str] = set()
             
-            for i, (distance, idx) in enumerate(zip(distances[0], indices[0])):
+            for distance, idx in zip(distances[0], indices[0]):
                 if idx == -1:  # Invalid index
                     continue
                 
@@ -151,17 +159,17 @@ class PepeluRetriever:
                     continue
                 
                 # Get chunk and metadata
-                chunk = self.chunks[idx]
-                chunk_metadata = self.metadata[idx]
+                chunk: str = self.chunks[idx]  # type: ignore
+                chunk_metadata: Dict[str, Any] = self.metadata[idx]  # type: ignore
                 
                 # Avoid duplicate documents in top results
-                doc_path = chunk_metadata.get('file_path', '')
+                doc_path: str = chunk_metadata.get('file_path', '')  # type: ignore
                 if doc_path in seen_documents and len(results) >= top_k // 2:
                     continue
                 
-                seen_documents.add(doc_path)
+                seen_documents.add(doc_path)  # type: ignore
                 
-                result = {
+                result: Dict[str, Any] = {
                     "chunk_text": chunk,
                     "similarity_score": round(similarity, 4),
                     "rank": len(results) + 1,
@@ -190,7 +198,7 @@ class PepeluRetriever:
     def _enhance_search_results(self, results: List[Dict[str, Any]], 
                               query: str) -> List[Dict[str, Any]]:
         """Enhance search results with additional context and formatting."""
-        enhanced = []
+        enhanced: List[Dict[str, Any]] = []
         
         for result in results:
             metadata = result["metadata"]
@@ -205,17 +213,15 @@ class PepeluRetriever:
             file_ext = Path(metadata.get('file_path', '')).suffix.lower()
             doc_type = self._get_document_type(file_ext)
             
-            # Create enhanced result
-            enhanced_result = {
-                **result,
-                "display": {
-                    "filename": filename,
-                    "document_type": doc_type,
-                    "quality_score": quality_score,
-                    "quality_label": self._get_quality_label(quality_score),
-                    "file_size": metadata.get('file_size', 0),
-                    "cybersecurity_confidence": metadata.get('cybersecurity_analysis', {}).get('confidence', 0)
-                }
+            # Create enhanced result by copying original result and adding display info
+            enhanced_result: Dict[str, Any] = result.copy()
+            enhanced_result["display"] = {
+                "filename": filename,
+                "document_type": doc_type,
+                "quality_score": quality_score,
+                "quality_label": self._get_quality_label(quality_score),
+                "file_size": metadata.get('file_size', 0),
+                "cybersecurity_confidence": metadata.get('cybersecurity_analysis', {}).get('confidence', 0)
             }
             
             enhanced.append(enhanced_result)
@@ -313,27 +319,27 @@ class PepeluRetriever:
             return []
         
         # Group by document
-        documents = {}
+        documents: Dict[str, List[Dict[str, Any]]] = {}
         for chunk_meta in self.metadata:
             file_path = chunk_meta.get('file_path', '')
             if file_path not in documents:
                 documents[file_path] = []
-            documents[file_path].append(chunk_meta)
+            documents[file_path].append(chunk_meta)  # type: ignore
         
         # Create summary for each document
-        doc_summaries = []
-        for file_path, chunks in documents.items():
+        doc_summaries: List[Dict[str, Any]] = []
+        for file_path, chunks in documents.items():  # type: ignore
             if file_path:  # Skip empty paths
-                summary = self.get_document_summary(file_path)
+                summary = self.get_document_summary(file_path)  # type: ignore
                 if summary:
-                    doc_summaries.append(summary)
+                    doc_summaries.append(summary)  # type: ignore
         
         # Sort by cybersecurity confidence and filename
-        doc_summaries.sort(
-            key=lambda x: (-x['cybersecurity_confidence'], x['filename'])
+        doc_summaries.sort(  # type: ignore
+            key=lambda x: (-x['cybersecurity_confidence'], x['filename'])  # type: ignore
         )
         
-        return doc_summaries
+        return doc_summaries  # type: ignore
     
     def search_similar_chunks(self, chunk_index: int, top_k: int = 5) -> List[Dict[str, Any]]:
         """Find chunks similar to a given chunk."""
@@ -343,34 +349,38 @@ class PepeluRetriever:
         try:
             # Get embedding for the reference chunk
             chunk_text = self.chunks[chunk_index]
-            chunk_embedding = self.model.encode([chunk_text])
+            if self.model is None:
+                return []
+            chunk_embedding = self.model.encode([chunk_text])  # type: ignore
             
             # Search for similar chunks
-            distances, indices = self.index.search(
+            if self.index is None:
+                return []
+            distances, indices = self.index.search(  # type: ignore
                 chunk_embedding.astype('float32'), 
                 top_k + 1  # +1 to exclude the original chunk
             )
             
-            results = []
+            results: List[Dict[str, Any]] = []
             for distance, idx in zip(distances[0], indices[0]):
                 if idx == chunk_index or idx == -1:  # Skip self and invalid indices
                     continue
                 
                 similarity = 1 / (1 + distance)
                 
-                result = {
+                result: Dict[str, Any] = {
                     "chunk_text": self.chunks[idx],
                     "similarity_score": round(similarity, 4),
                     "metadata": self.metadata[idx],
                     "chunk_index": int(idx)
                 }
                 
-                results.append(result)
+                results.append(result)  # type: ignore
                 
                 if len(results) >= top_k:
                     break
             
-            return results
+            return results  # type: ignore
             
         except Exception as e:
             self.logger.error(f"Similar chunks search error: {e}")
@@ -382,14 +392,14 @@ class PepeluRetriever:
             return {"error": "Database not ready"}
         
         # Count documents
-        unique_docs = set()
+        unique_docs: set[str] = set()
         cybersec_docs = 0
         total_content_length = 0
         
         for chunk_meta in self.metadata:
             file_path = chunk_meta.get('file_path', '')
             if file_path:
-                unique_docs.add(file_path)
+                unique_docs.add(file_path)  # type: ignore
             
             total_content_length += chunk_meta.get('content_length', 0)
             
@@ -397,11 +407,11 @@ class PepeluRetriever:
                 cybersec_docs += 1
         
         return {
-            "total_documents": len(unique_docs),
+            "total_documents": len(unique_docs),  # type: ignore
             "total_chunks": len(self.chunks),
             "cybersecurity_chunks": cybersec_docs,
             "total_content_length": total_content_length,
-            "vector_dimension": self.index.d if self.index else 0,
+            "vector_dimension": getattr(self.index, 'd', 0) if self.index else 0,
             "model_name": self.config.get('model_name', 'unknown') if self.config else 'unknown',
             "last_updated": datetime.now().isoformat(),
             "database_ready": self.is_ready()

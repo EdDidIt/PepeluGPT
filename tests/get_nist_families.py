@@ -17,7 +17,7 @@ def get_control_families_info():
     # Search for control families information
     results = retriever.search('NIST SP 800-53 control families', top_k=5, similarity_threshold=0.4)
     
-    print("🛡️ NIST SP 800-53 Control Families Information:")
+    print("� NIST SP 800-53 Control Families Information:")
     print("=" * 60)
     
     if results:
@@ -26,9 +26,9 @@ def get_control_families_info():
             text = result['chunk_text']
             score = float(result['similarity_score']) * 100
             
-            print(f"\n📄 Source {i}: {filename}")
-            print(f"🎯 Relevance: {score:.1f}%")
-            print(f"📝 Content: {text}")
+            print(f"\n� Source {i}: {filename}")
+            print(f"🔵 Relevance: {score:.1f}%")
+            print(f"� Content: {text}")
             print("-" * 40)
     else:
         print("No results found.")
@@ -45,7 +45,7 @@ def get_control_families_info():
             score = float(result['similarity_score']) * 100
             
             print(f"\n📄 Additional Source {i}: {filename}")
-            print(f"🎯 Relevance: {score:.1f}%")
+            print(f"🔵 Relevance: {score:.1f}%")
             print(f"📝 Content: {text}")
 
 if __name__ == "__main__":

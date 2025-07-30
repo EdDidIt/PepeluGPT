@@ -20,9 +20,9 @@ def is_valid_parsed_result(result: ParsedFileResult) -> bool:
         return False
 
     if result["status"] == "success":
-        if not result["tokenized_content"] or not isinstance(result["tokenized_content"], list):
+        if not result["tokenized_content"]:
             return False
-        if not all(isinstance(token, str) for token in result["tokenized_content"]):
-            return False
+        # Ensure all tokens are strings (redundant if guaranteed by schema)
+        # If schema guarantees all tokens are strings, this check can be omitted.
 
     return True

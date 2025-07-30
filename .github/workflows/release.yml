@@ -21,89 +21,89 @@ env:
 
 jobs:
   validate:
-    name: ✅ Validate Release
+    name: Validate Release
     runs-on: ubuntu-latest
     steps:
-    - name: 📡 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Setup Python
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         
-    - name: 📦 Cache Dependencies
+    - name: Cache Dependencies
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-release-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-release-${{ hashFiles('/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-release-
           ${{ runner.os }}-pip-
         
-    - name: 🔧 Install Dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest black flake8
       continue-on-error: false
         
-    - name: ✅ Run Full Test Suite
+    - name: Run Full Test Suite
       run: |
         python -m pytest tests/ -v
       continue-on-error: false
         
-    - name: 🎨 Validate Code Style
+    - name: Validate Code Style
       run: |
         black --check .
         flake8 .
       continue-on-error: false
         
-    - name: 🔢 Validate Version Consistency
+    - name: Validate Version Consistency
       run: |
         python manifest/version_manager.py validate
       continue-on-error: false
 
   build:
-    name: 🏗️ Build Release Artifacts
+    name: Build Release Artifacts
     runs-on: ubuntu-latest
     needs: validate
     
     steps:
-    - name: 📡 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Setup Python
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         
-    - name: � Cache Build Dependencies
+    - name: Cache  Build Dependencies
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-build-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip- Build-${{ hashFiles('/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pip-build-
+          ${{ runner.os }}-pip- Build-
           ${{ runner.os }}-pip-
         
-    - name: �🔧 Install Build Tools
+    - name: Install  Build Tools
       run: |
         python -m pip install --upgrade pip
-        pip install build wheel twine
+        pip install  Build wheel twine
       continue-on-error: false
         
-    - name: 🏗️ Build Distribution
+    - name:  Build Distribution
       run: |
-        python -m build
+        python -m  Build
       continue-on-error: false
         
-    - name: 🔍 Check Distribution
+    - name: Check Distribution
       run: |
         twine check dist/*
       continue-on-error: false
         
-    - name: 📦 Upload Artifacts
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: dist-packages-${{ github.run_number }}
@@ -111,36 +111,36 @@ jobs:
         retention-days: 30
 
   create-release:
-    name: 🌟 Create GitHub Release
+    name: Create GitHub Release
     runs-on: ubuntu-latest
     needs: build
     permissions:
       contents: write
     
     steps:
-    - name: 📡 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
         
-    - name: 🐍 Setup Python
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         
-    - name: 🔧 Install Dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
       continue-on-error: false
         
-    - name: 📥 Download Artifacts
+    - name: Download Artifacts
       uses: actions/download-artifact@v4
       with:
         name: dist-packages-${{ github.run_number }}
         path: dist/
         
-    - name: 🏷️ Extract Version Info
+    - name: Extract Version Info
       id: version_info
       run: |
         if [ '${{ github.event_name }}' = 'workflow_dispatch' ]; then
@@ -167,20 +167,20 @@ jobs:
         echo "Version: $VERSION"
         echo "Codename: $CODENAME"
         
-    - name: 📝 Generate Release Notes
+    - name: Generate Release Notes
       id: release_notes
       run: |
         if [ -f "scripts/generate_release_notes.py" ]; then
           python scripts/generate_release_notes.py ${{ steps.version_info.outputs.VERSION }} > release_notes.md
         else
-          echo "## Release ${{ steps.version_info.outputs.VERSION }}" > release_notes.md
+          echo "# Release ${{ steps.version_info.outputs.VERSION }}" > release_notes.md
           echo "" >> release_notes.md
-          echo "### What's New" >> release_notes.md
-          echo "- 🚀 New features and improvements" >> release_notes.md
+          echo "# What's New" >> release_notes.md
+          echo "- New features and improvements" >> release_notes.md
           echo "- 🐛 Bug fixes and stability enhancements" >> release_notes.md
-          echo "- 📚 Documentation updates" >> release_notes.md
+          echo "- Documentation updates" >> release_notes.md
           echo "" >> release_notes.md
-          echo "### Installation" >> release_notes.md
+          echo "# Installation" >> release_notes.md
           echo "\`\`\`bash" >> release_notes.md
           echo "pip install pepelugpt==${{ steps.version_info.outputs.VERSION }}" >> release_notes.md
           echo "\`\`\`" >> release_notes.md
@@ -189,7 +189,7 @@ jobs:
         cat release_notes.md >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
         
-    - name: 🌟 Create Release
+    - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.version_info.outputs.VERSION }}
@@ -202,35 +202,35 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
   notify:
-    name: 📢 Release Notifications
+    name: Release Notifications
     runs-on: ubuntu-latest
     needs: create-release
     if: always()
     
     steps:
-    - name: 🎉 Success Notification
+    - name: Success Notification
       if: needs.create-release.result == 'success'
       run: |
-        echo '🚀 Release created successfully!'
-        echo '✨ The cosmic evolution continues...'
-        echo '📦 Artifacts have been uploaded to the release'
+        echo 'Release created successfully!'
+        echo 'The cosmic evolution continues...'
+        echo 'Artifacts have been uploaded to the release'
         
-    - name: ⚠️ Failure Notification
+    - name: Failure Notification
       if: needs.create-release.result == 'failure'
       run: |
-        echo '❌ Release creation failed'
-        echo '🔧 Check the logs and try again'
-        echo '💡 Common issues:'
+        echo 'Release creation failed'
+        echo 'Check the logs and try again'
+        echo 'Common issues:'
         echo '  - Version format incorrect'
-        echo '  - Build artifacts missing'
+        echo '  -  Build artifacts missing'
         echo '  - Permission issues'
         exit 1
         
-    - name: 📊 Release Summary
+    - name: Release Summary
       if: needs.create-release.result == 'success'
       run: |
-        echo '## 📋 Release Summary'
-        echo '- ✅ Validation passed'
-        echo '- ✅ Build completed'
-        echo '- ✅ Release created'
-        echo '- ✅ Assets uploaded'
+        echo '# Release Summary'
+        echo '- Validation passed'
+        echo '- Build completed'
+        echo '- Release created'
+        echo '- Assets uploaded'

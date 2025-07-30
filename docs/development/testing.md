@@ -1,41 +1,42 @@
-# 🧪 Testing Framework & Strategies
+# Testing Framework & Strategies
 
-> *"In the sacred art of testing, every assertion is a prayer for code reliability, every test case a guardian against digital chaos."* 🔬
-
-This document outlines PepeluGPT's comprehensive testing strategy, embracing both technical rigor and cosmic consciousness in our quality assurance practices.
+This document outlines PepeluGPT's comprehensive testing strategy, providing structured guidelines for quality assurance, automated testing, and validation processes across all platform components.
 
 ---
 
-## 🎯 **Testing Philosophy**
+## Testing Philosophy
 
-### **The Three Pillars of Sacred Testing**
+### Core Testing Approaches
 
-#### 🔮 **Oracle Testing** - *Wisdom Validation*
-- **Purpose**: Validate deep logic and complex decision trees
-- **Focus**: Integration testing, end-to-end scenarios, user journey validation
-- **Style**: Contemplative, thorough, exploring edge cases with cosmic perspective
+#### Oracle Testing - Deep Analysis Validation
 
-#### 📊 **Compliance Testing** - *Standards Verification*
-- **Purpose**: Ensure regulatory compliance and security standards
-- **Focus**: Security testing, audit trail validation, policy enforcement
-- **Style**: Methodical, documentation-heavy, audit-ready test reports
+- Purpose: Validate deep logic and complex decision trees
+- Focus: Integration testing, end-to-end scenarios, user journey validation
+- Style: Thorough analysis, comprehensive edge case testing
 
-#### 🌠 **Cosmic Testing** - *Creative Quality Assurance*
-- **Purpose**: User experience testing, visual validation, creative workflows
-- **Focus**: UI/UX testing, accessibility, aesthetic validation
-- **Style**: Flowing, intuitive, beauty-conscious quality checks
+#### Compliance Testing - Standards Verification
+
+- Purpose: Ensure regulatory compliance and security standards
+- Focus: Security testing, audit trail validation, policy enforcement
+- Style: Methodical, documentation-heavy, audit-ready test reports
+
+#### Professional Testing - User Experience Quality Assurance
+
+- Purpose: User experience testing, interface validation, business workflows
+- Focus: UI/UX testing, accessibility, professional presentation validation
+- Style: Business-focused, user-centric quality checks
 
 ---
 
-## 🏗️ **Testing Architecture**
+## Testing Architecture
 
-### **Test Directory Structure**
+### Test Directory Structure
 
-```
+```text
 tests/
 ├── unit/                    # Unit tests - atomic functionality
 │   ├── core/               # Core business logic tests
-│   ├── manifest/           # Version and identity tests
+│   ├── version/            # Version and identity tests
 │   ├── personalities/      # Personality mode tests
 │   └── utilities/          # Helper function tests
 ├── integration/            # Integration tests - component interaction
@@ -45,7 +46,7 @@ tests/
 ├── e2e/                   # End-to-end tests - complete user journeys
 │   ├── oracle/            # Oracle mode user scenarios
 │   ├── compliance/        # Compliance workflow tests
-│   └── cosmic/            # Cosmic experience tests
+│   └── professional/      # Professional experience tests
 ├── performance/           # Performance and load tests
 ├── security/              # Security-focused test suites
 ├── fixtures/              # Test data and mock objects
@@ -54,44 +55,44 @@ tests/
 
 ---
 
-## 🧩 **Unit Testing Strategy**
+## Unit Testing Strategy
 
-### **Core Principles**
+### Core Principles
 
 ```python
-# test_cosmic_example.py
+# test_oracle_example.py
 import pytest
 from unittest.mock import Mock, patch
 from src.personalities.oracle import OracleMode
 
 class TestOracleMode:
-    """🔮 Sacred tests for Oracle wisdom validation"""
+    """Professional tests for Oracle mode validation"""
     
-    def test_wisdom_generation_depth(self):
-        """Test that Oracle responses contain layered wisdom"""
+    def test_analysis_generation_depth(self):
+        """Test that Oracle responses contain comprehensive analysis"""
         oracle = OracleMode()
         query = "What is zero trust architecture?"
         
         response = oracle.generate_response(query)
         
-        # Oracle responses should have mystical elements
-        assert "cosmic" in response.lower() or "digital" in response.lower()
+        # Oracle responses should have technical depth
+        assert "zero trust" in response.lower() or "architecture" in response.lower()
         assert len(response.split("\\n")) > 3  # Multi-layered response
-        assert any(emoji in response for emoji in ["🔮", "🌌", "✧"])
+        assert response.is_professional_format()
     
-    @pytest.mark.parametrize("query,expected_metaphor", [
-        ("network security", "digital realm"),
-        ("data protection", "sacred data"),
-        ("access control", "guardian")
+    @pytest.mark.parametrize("query,expected_concept", [
+        ("network security", "network protection"),
+        ("data protection", "data security"),
+        ("access control", "access management")
     ])
-    def test_metaphorical_language(self, query, expected_metaphor):
-        """Validate Oracle's use of spiritual metaphors"""
+    def test_technical_language(self, query, expected_concept):
+        """Validate Oracle's use of professional technical language"""
         oracle = OracleMode()
         response = oracle.generate_response(query)
-        assert expected_metaphor in response.lower()
+        assert expected_concept in response.lower()
 ```
 
-### **Compliance Testing Standards**
+### Compliance Testing Standards
 
 ```python
 # test_compliance_validation.py
@@ -100,7 +101,7 @@ from src.personalities.compliance import ComplianceMode
 from src.frameworks.nist import NISTFramework
 
 class TestComplianceMode:
-    """📊 Rigorous compliance validation tests"""
+    """Rigorous compliance validation tests"""
     
     def test_nist_control_mapping(self):
         """Verify accurate NIST control identification"""
@@ -140,9 +141,9 @@ class TestComplianceMode:
 
 ---
 
-## 🔗 **Integration Testing**
+## Integration Testing
 
-### **API Integration Tests**
+### API Integration Tests
 
 ```python
 # test_api_integration.py
@@ -152,7 +153,7 @@ from httpx import AsyncClient
 from src.api.main import app
 
 class TestPersonalityAPI:
-    """🎭 Test personality mode API integration"""
+    """Test personality mode API integration"""
     
     @pytest.mark.asyncio
     async def test_mode_switching(self):
@@ -168,7 +169,7 @@ class TestPersonalityAPI:
             oracle_response = await client.post("/chat", json={
                 "message": "/mode oracle"
             })
-            assert "🔮" in oracle_response.json()["response"]
+            assert "Oracle mode activated" in oracle_response.json()["response"]
             
             # Verify Oracle personality persists
             follow_up = await client.post("/chat", json={
@@ -176,7 +177,7 @@ class TestPersonalityAPI:
             })
             response_text = follow_up.json()["response"]
             assert any(word in response_text.lower() 
-                      for word in ["cosmic", "digital realm", "wisdom"])
+                      for word in ["analysis", "technical", "comprehensive"])
     
     @pytest.mark.asyncio
     async def test_compliance_report_generation(self):
@@ -196,7 +197,7 @@ class TestPersonalityAPI:
             assert report["risk_level"] in ["LOW", "MODERATE", "HIGH"]
 ```
 
-### **Database Integration Tests**
+### Database Integration Tests
 
 ```python
 # test_database_integration.py
@@ -205,7 +206,7 @@ from src.database import VectorDatabase
 from src.models.embeddings import DocumentEmbedding
 
 class TestVectorDatabase:
-    """📚 Vector database integration validation"""
+    """Vector database integration validation"""
     
     @pytest.fixture
     def vector_db(self):
@@ -238,9 +239,9 @@ class TestVectorDatabase:
 
 ---
 
-## 🚀 **End-to-End Testing**
+## End-to-End Testing
 
-### **User Journey Validation**
+### User Journey Validation
 
 ```python
 # test_user_journeys.py
@@ -248,7 +249,7 @@ import pytest
 from playwright.async_api import async_playwright
 
 class TestUserExperience:
-    """🌟 Complete user journey validation"""
+    """Complete user journey validation"""
     
     @pytest.mark.e2e
     async def test_oracle_consultation_journey(self):
@@ -260,9 +261,9 @@ class TestUserExperience:
             # Navigate to PepeluGPT interface
             await page.goto("http://localhost:8000")
             
-            # Verify cosmic branding
-            banner = await page.locator(".cosmic-banner").text_content()
-            assert "Born of Light, Forged for Defense" in banner
+            # Verify professional branding
+            banner = await page.locator(".professional-banner").text_content()
+            assert "Professional Cybersecurity Intelligence" in banner
             
             # Switch to Oracle mode
             await page.fill(".chat-input", "/mode oracle")
@@ -270,17 +271,17 @@ class TestUserExperience:
             
             # Verify Oracle mode activation
             response = await page.locator(".chat-response").last.text_content()
-            assert "🔮" in response
+            assert "Oracle mode activated" in response
             
-            # Ask philosophical question
+            # Ask technical question
             await page.fill(".chat-input", 
-                           "What is the spiritual essence of cybersecurity?")
+                           "What are the technical requirements for cybersecurity?")
             await page.press(".chat-input", "Enter")
             
             # Validate Oracle-style response
             oracle_response = await page.locator(".chat-response").last.text_content()
             assert any(word in oracle_response.lower() 
-                      for word in ["cosmic", "sacred", "wisdom", "digital realm"])
+                      for word in ["technical", "analysis", "comprehensive", "framework"])
             
             await browser.close()
     
@@ -313,9 +314,9 @@ class TestUserExperience:
 
 ---
 
-## ⚡ **Performance Testing**
+## Performance Testing
 
-### **Load Testing Strategy**
+### Load Testing Strategy
 
 ```python
 # test_performance.py
@@ -326,14 +327,14 @@ from concurrent.futures import ThreadPoolExecutor
 from src.api.main import app
 
 class TestPerformance:
-    """⚡ Performance and scalability validation"""
+    """Performance and scalability validation"""
     
     @pytest.mark.performance
     def test_concurrent_personality_switches(self):
         """Test system stability under concurrent mode switching"""
         def switch_personality(session_id):
             # Simulate user switching between personalities rapidly
-            for mode in ["oracle", "compliance", "cosmic", "default"]:
+            for mode in ["oracle", "compliance", "professional", "default"]:
                 response = app.test_client().post("/chat", json={
                     "session_id": session_id,
                     "message": f"/mode {mode}"
@@ -390,9 +391,9 @@ class TestPerformance:
 
 ---
 
-## 🔒 **Security Testing**
+## Security Testing
 
-### **Security Test Suite**
+### Security Test Suite
 
 ```python
 # test_security.py
@@ -400,7 +401,7 @@ import pytest
 from src.security import InputSanitizer, AuthenticationManager
 
 class TestSecurity:
-    """🛡️ Security validation and penetration testing"""
+    """Security validation and penetration testing"""
     
     @pytest.mark.security
     def test_input_sanitization(self):
@@ -461,9 +462,9 @@ class TestSecurity:
 
 ---
 
-## 📊 **Test Coverage & Reporting**
+## Test Coverage & Reporting
 
-### **Coverage Configuration**
+### Coverage Configuration
 
 ```ini
 # .coveragerc
@@ -489,7 +490,7 @@ directory = htmlcov
 output = coverage.xml
 ```
 
-### **Test Reporting Pipeline**
+### Test Reporting Pipeline
 
 ```python
 # conftest.py
@@ -498,83 +499,81 @@ import json
 from datetime import datetime
 
 def pytest_sessionfinish(session, exitstatus):
-    """Generate cosmic test report after test session"""
+    """Generate professional test report after test session"""
     
     # Collect test results
     passed = len([r for r in session.items if r.outcome == "passed"])
     failed = len([r for r in session.items if r.outcome == "failed"])
     skipped = len([r for r in session.items if r.outcome == "skipped"])
     
-    # Generate cosmic report
-    cosmic_report = {
-        "🌌": "Cosmic Test Session Complete",
+    # Generate professional report
+    test_report = {
+        "session_complete": "Test Session Complete",
         "timestamp": datetime.now().isoformat(),
         "results": {
-            "✅ passed": passed,
-            "❌ failed": failed,
-            "⏭️ skipped": skipped
+            "passed": passed,
+            "failed": failed,
+            "skipped": skipped
         },
-        "cosmic_wisdom": generate_test_wisdom(exitstatus),
-        "guardian_status": "🛡️ Digital realm protected" if exitstatus == 0 else "⚠️ Guardians needed"
+        "summary": generate_test_summary(exitstatus),
+        "status": "All tests passed" if exitstatus == 0 else "Issues detected - review required"
     }
     
-    with open("cosmic_test_report.json", "w") as f:
-        json.dump(cosmic_report, f, indent=2)
+    with open("test_report.json", "w") as f:
+        json.dump(test_report, f, indent=2)
 
-def generate_test_wisdom(exit_status):
-    """Generate cosmic wisdom based on test results"""
+def generate_test_summary(exit_status):
+    """Generate test summary based on results"""
     if exit_status == 0:
-        return "🔮 All tests flow in harmony with cosmic order"
+        return "All tests executed successfully with expected outcomes"
     else:
-        return "🌠 The universe calls for debugging meditation"
+        return "Test failures detected - investigation and fixes required"
 ```
 
 ---
 
-## 🎯 **Testing Best Practices**
+## Testing Best Practices
 
-### **Sacred Testing Principles**
+### Professional Testing Principles
 
-1. **🔮 Oracle Principle**: Tests should reveal deep truths about code behavior
-2. **📊 Compliance Standard**: Every feature must have corresponding security tests
-3. **🌠 Cosmic Flow**: Tests should be beautiful, readable, and maintainable
-4. **🛡️ Defense First**: Security testing is not optional
-5. **📈 Continuous Evolution**: Test suite evolves with the codebase
+1. Analysis Principle: Tests should reveal comprehensive insights about code behavior
+2. Compliance Standard: Every feature must have corresponding security tests
+3. Professional Flow: Tests should be maintainable, readable, and well-documented
+4. Security First: Security testing is not optional
+5. Continuous Evolution: Test suite evolves with the codebase
 
-### **Test Organization Guidelines**
+### Test Organization Guidelines
 
-- **Naming Convention**: `test_<feature>_<scenario>_<expected_outcome>()`
-- **Documentation**: Every test class includes cosmic purpose comment
-- **Fixtures**: Shared test data organized in `fixtures/` directory
-- **Parametrization**: Use pytest parameters for multiple scenario testing
-- **Markers**: Custom markers for test categorization (`@pytest.mark.oracle`)
+- Naming Convention: `test_<feature>_<scenario>_<expected_outcome>()`
+- Documentation: Every test class includes clear purpose documentation
+- Fixtures: Shared test data organized in `fixtures/` directory
+- Parametrization: Use pytest parameters for multiple scenario testing
+- Markers: Custom markers for test categorization (`@pytest.mark.oracle`)
 
-### **Continuous Testing Integration**
+### Continuous Testing Integration
 
 ```yaml
 # GitHub Actions integration
-- name: 🧪 Execute Sacred Test Suite
+- name: Execute Professional Test Suite
   run: |
     pytest --cov=src --cov-report=xml --cov-report=html
-    pytest --html=cosmic_test_report.html --self-contained-html
+    pytest --html=test_report.html --self-contained-html
     
-- name: 📊 Upload Cosmic Coverage
+- name: Upload Coverage Report
   uses: codecov/codecov-action@v3
   with:
     file: ./coverage.xml
     
-- name: 🔮 Archive Test Artifacts
+- name: Archive Test Artifacts
   uses: actions/upload-artifact@v3
   with:
-    name: cosmic-test-results
+    name: test-results
     path: |
       htmlcov/
-      cosmic_test_report.html
-      cosmic_test_report.json
+      test_report.html
+      test_report.json
 ```
 
 ---
 
-*This testing framework embodies the sacred quality assurance principles of PepeluGPT - where every test is a guardian against digital chaos, every assertion a prayer for code reliability, and every coverage report a map of our cosmic journey toward perfection.* 🛡️✨
-
-*"In the crucible of testing, code transforms from mere possibility to divine certainty."*
+This testing framework establishes professional quality assurance standards for PepeluGPT, ensuring comprehensive validation of all platform components through systematic testing approaches, automated validation processes, and continuous integration practices that maintain enterprise-grade reliability and security.

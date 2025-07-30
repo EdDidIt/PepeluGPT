@@ -1,4 +1,4 @@
-name: 🐛 Bug Report
+name: Bug Report
 description: Report a bug or unexpected behavior in PepeluGPT
 title: "[BUG] "
 labels: ["bug", "needs-triage"]
@@ -6,9 +6,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for taking the time to report a bug! 🙏
+        Thank you for taking the time to report a bug!
         
-        **Before submitting**, please:
+        Before submitting, please:
         - Search existing issues to avoid duplicates
         - Check the [documentation](../docs/) for solutions
         - Ensure you're using the latest version

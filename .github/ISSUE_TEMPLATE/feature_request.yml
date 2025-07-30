@@ -1,4 +1,4 @@
-name: ✨ Feature Request
+name: Feature Request
 description: Suggest a new feature or enhancement for PepeluGPT
 title: "[FEATURE] "
 labels: ["enhancement", "feature-request"]
@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## 🌟 Thank you for contributing to PepeluGPT's cosmic evolution! 
+        # Thank you for contributing to PepeluGPT's cosmic evolution! 
         
         Your feature ideas help shape the future of cybersecurity intelligence. 
         Please provide as much detail as possible to help us understand your vision.
@@ -111,11 +111,11 @@ body:
       label: Personality Mode Preference
       description: Which personality mode would this feature best align with?
       options:
-        - 🔮 Oracle - Deep wisdom and philosophical insight
-        - 📊 Compliance - Structured analysis and regulatory precision
-        - 🌠 Cosmic - Creative inspiration and innovation
-        - 🎭 All Modes - Universal enhancement
-        - ⚡ New Mode - This might need a new personality
+        - Oracle - Deep wisdom and philosophical insight
+        - Compliance - Structured analysis and regulatory precision
+        - Cosmic - Creative inspiration and innovation
+        - All Modes - Universal enhancement
+        - New Mode - This might need a new personality
 
   - type: checkboxes
     id: additional
@@ -131,11 +131,11 @@ body:
   - type: textarea
     id: cosmic-vision
     attributes:
-      label: 🌌 Cosmic Vision (Optional)
-      description: Share your creative vision for how this feature fits into PepeluGPT's cosmic mission
+      label: Cosmic Vision (Optional)
+      description: Share your professional vision for how this feature fits into PepeluGPT's mission
       placeholder: |
-        This is your space to be creative! How does this feature contribute to PepeluGPT's
-        mission of being an "Encrypted Oracle in a World of Shadows"? 
+        This is your space to be strategic! How does this feature contribute to PepeluGPT's
+        mission of being a "Professional Cybersecurity Intelligence Platform"? 
         
-        Feel free to be philosophical, mystical, or visionary in describing the 
-        deeper purpose and cosmic significance of this enhancement.
+        Feel free to be strategic, technical, or forward-thinking in describing the 
+        deeper purpose and organizational significance of this enhancement.

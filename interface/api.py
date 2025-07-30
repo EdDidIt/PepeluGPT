@@ -6,7 +6,6 @@ This module provides a foundation for web interfaces, REST APIs, or integrations
 
 from typing import Dict, Any, List, Optional
 from datetime import datetime
-import json
 import logging
 from pathlib import Path
 
@@ -17,20 +16,20 @@ from pathlib import Path
 class PepeluAPI:
     """API interface for PepeluGPT functionality."""
     
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the API interface."""
         self.logger = logging.getLogger(__name__)
-        self.active_sessions = {}
+        self.active_sessions: Dict[str, Dict[str, Any]] = {}
         
         # Import core components
         try:
             import sys
             sys.path.append(str(Path(__file__).parent.parent))
-            from core.core import get_core
-            from storage.vector_db.retriever import PepeluRetriever
+            from core.core import get_core  # type: ignore
+            from storage.vector_db.retriever import PepeluRetriever  # type: ignore
             
-            self.core = get_core()
-            self.retriever = PepeluRetriever()
+            self.core = get_core()  # type: ignore
+            self.retriever = PepeluRetriever()  # type: ignore
             
         except ImportError as e:
             self.logger.error(f"Failed to import core components: {e}")
@@ -39,12 +38,12 @@ class PepeluAPI:
     
     def get_system_info(self) -> Dict[str, Any]:
         """Get comprehensive system information."""
-        if not self.core:
+        if not self.core:  # type: ignore
             return {"error": "Core system not available"}
         
         try:
-            status = self.core.get_system_status()
-            db_stats = self.retriever.get_database_stats() if self.retriever else {}
+            status = self.core.get_system_status()  # type: ignore
+            db_stats = self.retriever.get_database_stats() if self.retriever else {}  # type: ignore
             
             return {
                 "system_status": status,
@@ -58,14 +57,14 @@ class PepeluAPI:
     def search_documents(self, query: str, top_k: int = 10, 
                         threshold: float = 0.7) -> Dict[str, Any]:
         """Search documents using semantic search."""
-        if not self.retriever or not self.retriever.is_ready():
+        if not self.retriever or not self.retriever.is_ready():  # type: ignore
             return {
                 "error": "Search system not ready",
                 "suggestion": "Run setup to initialize the vector database"
             }
         
         try:
-            results = self.retriever.search(query, top_k, threshold)
+            results = self.retriever.search(query, top_k, threshold)  # type: ignore
             
             return {
                 "query": query,
@@ -87,7 +86,7 @@ class PepeluAPI:
             return {"error": "Retriever not available"}
         
         try:
-            documents = self.retriever.list_available_documents()
+            documents = self.retriever.list_available_documents()  # type: ignore
             
             return {
                 "total_documents": len(documents),
@@ -104,7 +103,7 @@ class PepeluAPI:
             return {"error": "Retriever not available"}
         
         try:
-            doc_summary = self.retriever.get_document_summary(file_path)
+            doc_summary = self.retriever.get_document_summary(file_path)  # type: ignore
             
             if not doc_summary:
                 return {"error": "Document not found"}
@@ -119,23 +118,23 @@ class PepeluAPI:
     
     def validate_setup(self) -> Dict[str, Any]:
         """Validate system setup and readiness."""
-        if not self.core:
+        if not self.core:  # type: ignore
             return {"error": "Core system not available"}
         
         try:
-            validation = self.core.validate_environment()
-            config = self.core.config
+            validation = self.core.validate_environment()  # type: ignore
+            config = self.core.config  # type: ignore
             
-            setup_status = {
-                "environment_valid": all(validation.values()),
+            setup_status: Dict[str, Any] = {
+                "environment_valid": all(validation.values()),  # type: ignore
                 "components": validation,
                 "configuration": {
-                    "app_name": config.get("application", {}).get("name", "PepeluGPT"),
-                    "version": config.get("application", {}).get("version", "unknown"),
-                    "mode": config.get("application", {}).get("mode", "local"),
-                    "offline_mode": config.get("security", {}).get("offline_mode", True)
+                    "app_name": config.get("application", {}).get("name", "PepeluGPT"),  # type: ignore
+                    "version": config.get("application", {}).get("version", "unknown"),  # type: ignore
+                    "mode": config.get("application", {}).get("mode", "local"),  # type: ignore
+                    "offline_mode": config.get("security", {}).get("offline_mode", True)  # type: ignore
                 },
-                "recommendations": self._get_setup_recommendations(validation)
+                "recommendations": self._get_setup_recommendations(validation)  # type: ignore
             }
             
             return setup_status
@@ -143,20 +142,20 @@ class PepeluAPI:
         except Exception as e:
             return {"error": f"Setup validation failed: {e}"}
     
-    def _get_setup_recommendations(self, validation: Dict[str, bool]) -> List[str]:
+    def _get_setup_recommendations(self, validation: Dict[str, bool]) -> List[str]:  # type: ignore
         """Generate setup recommendations based on validation results."""
-        recommendations = []
+        recommendations: List[str] = []
         
-        if not validation.get("documents_available", False):
+        if not validation.get("documents_available", False):  # type: ignore
             recommendations.append("Add cybersecurity documents to the cyber_documents/ folder")
         
-        if not validation.get("vector_db_ready", False):
-            recommendations.append("Run 'python core/cli.py setup' to build the vector database")
+        if not validation.get("vector_db_ready", False):  # type: ignore
+            recommendations.append("Run 'python core/cli.py setup' to  Build the vector database")
         
-        if not validation.get("dir_data", False):
+        if not validation.get("dir_data", False):  # type: ignore
             recommendations.append("Ensure data directory exists and is writable")
         
-        if not validation.get("dir_logs", False):
+        if not validation.get("dir_logs", False):  # type: ignore
             recommendations.append("Ensure logs directory exists for system logging")
         
         if not recommendations:
@@ -169,7 +168,7 @@ class PepeluAPI:
         if not session_id:
             session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         
-        session = {
+        session: Dict[str, Any] = {
             "session_id": session_id,
             "created": datetime.now().isoformat(),
             "messages": [],
@@ -193,14 +192,14 @@ class PepeluAPI:
         session = self.active_sessions[session_id]
         
         # Add user message to session
-        user_message = {
+        user_message: Dict[str, Any] = {
             "role": "user",
             "content": message,
             "timestamp": datetime.now().isoformat()
         }
-        session["messages"].append(user_message)
+        session["messages"].append(user_message)  # type: ignore
         
-        response_data = {
+        response_data: Dict[str, Any] = {
             "session_id": session_id,
             "user_message": message,
             "response": "Chat processing not yet implemented in API mode",
@@ -209,18 +208,18 @@ class PepeluAPI:
         }
         
         # If context search is enabled, include relevant documents
-        if context_search and self.retriever and self.retriever.is_ready():
-            search_results = self.retriever.search(message, top_k=3)
+        if context_search and self.retriever and self.retriever.is_ready():  # type: ignore
+            search_results = self.retriever.search(message, top_k=3)  # type: ignore
             response_data["context_documents"] = search_results
         
         # Add assistant response to session
-        assistant_message = {
+        assistant_message: Dict[str, Any] = {
             "role": "assistant", 
             "content": response_data["response"],
             "timestamp": response_data["timestamp"],
             "context_documents": response_data.get("context_documents", [])
         }
-        session["messages"].append(assistant_message)
+        session["messages"].append(assistant_message)  # type: ignore
         
         return response_data
     
@@ -233,9 +232,9 @@ class PepeluAPI:
         
         return {
             "session_id": session_id,
-            "created": session["created"],
-            "message_count": len(session["messages"]),
-            "messages": session["messages"]
+            "created": session["created"],  # type: ignore
+            "message_count": len(session["messages"]),  # type: ignore
+            "messages": session["messages"]  # type: ignore
         }
     
     def export_session(self, session_id: str, format: str = "json") -> Dict[str, Any]:

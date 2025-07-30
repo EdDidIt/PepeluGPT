@@ -1,10 +1,11 @@
-from openpyxl import load_workbook
+from typing import Dict, Any, List
+from openpyxl import load_workbook  # type: ignore
 
-def parse(filepath):
+def parse(filepath: str) -> Dict[str, Any]:
     try:
         # Load the Excel workbook
         workbook = load_workbook(filepath, data_only=True)
-        content = ""
+        content: str = ""
         
         # Process all worksheets
         for sheet_name in workbook.sheetnames:
@@ -13,7 +14,7 @@ def parse(filepath):
             
             # Extract data from all cells
             for row in sheet.iter_rows(values_only=True):
-                row_text = []
+                row_text: List[str] = []
                 for cell_value in row:
                     if cell_value is not None:
                         row_text.append(str(cell_value))

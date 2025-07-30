@@ -13,9 +13,9 @@ extend-exclude = '''
     | \.mypy_cache
     | \.tox
     | \.venv
-    | _build
+    | _ Build
     | buck-out
-    | build
+    |  Build
     | dist
     | __pycache__
     | cyber_vector_db
@@ -125,7 +125,7 @@ exclude = [
     "__pycache__",
     ".venv",
     "venv",
-    "build",
+    " Build",
     "dist",
     "*.egg-info",
     "cyber_vector_db",
@@ -135,17 +135,17 @@ per-file-ignores = [
     "__init__.py:F401",  # Allow unused imports in __init__.py
 ]
 
-[build-system]
+[ Build-system]
 requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
-build-backend = "setuptools.build_meta"
+ Build-backend = "setuptools. Build_meta"
 
 [project]
 name = "pepelugpt"
-description = "Sacred Cybersecurity Intelligence Platform"
+description = "Professional Cybersecurity Intelligence Platform"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "PepeluGPT Team", email = "team@pepelugpt.dev"},
+    {name = "PepeluGPT Team", email = "ed-pepelu@outlook.com"},
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

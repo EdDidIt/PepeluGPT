@@ -1,4 +1,6 @@
-def parse(filepath):
+from typing import Dict, Optional, Any
+
+def parse(filepath: str) -> Dict[str, Optional[Any]]:
     try:
         # Read text file with different encoding fallbacks
         encodings = ['utf-8', 'utf-16', 'latin-1', 'cp1252']

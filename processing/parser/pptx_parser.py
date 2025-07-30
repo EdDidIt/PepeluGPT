@@ -1,10 +1,11 @@
-from pptx import Presentation
+from typing import Dict, Any
+from pptx import Presentation  # type: ignore
 
-def parse(filepath):
+def parse(filepath: str) -> Dict[str, Any]:
     try:
         # Load the PowerPoint presentation
         prs = Presentation(filepath)
-        content = ""
+        content = ""  # Start as plain string
         
         # Extract text from all slides
         for slide_num, slide in enumerate(prs.slides, 1):
@@ -12,8 +13,10 @@ def parse(filepath):
             
             # Extract text from all shapes in the slide
             for shape in slide.shapes:
-                if hasattr(shape, "text") and shape.text.strip():
-                    content += shape.text + "\n"
+                if hasattr(shape, "text"):
+                    shape_text = getattr(shape, "text", "")
+                    if isinstance(shape_text, str) and shape_text.strip():
+                        content += shape_text + "\n"
             content += "\n"
         
         return {

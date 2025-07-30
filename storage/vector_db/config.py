@@ -1,5 +1,3 @@
-from pathlib import Path
-
 # Default paths
 PARSED_DOCS_FILE = "parsed_cyber_documents.json"
 DB_PATH = "cyber_vector_db"

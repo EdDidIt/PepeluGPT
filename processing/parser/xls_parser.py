@@ -1,20 +1,21 @@
-import xlrd
+from typing import Dict, Any, List
+import xlrd  # type: ignore
 
-def parse(filepath):
+def parse(filepath: str) -> Dict[str, Any]:
     try:
         # Open the XLS workbook
         workbook = xlrd.open_workbook(filepath)
-        content = ""
+        content: str = ""
         
         # Process all worksheets
         for sheet_index in range(workbook.nsheets):
             sheet = workbook.sheet_by_index(sheet_index)
-            sheet_name = sheet.name
+            sheet_name: str = sheet.name
             content += f"=== Sheet: {sheet_name} ===\n"
             
             # Extract data from all rows and columns
             for row_num in range(sheet.nrows):
-                row_data = []
+                row_data: List[str] = []
                 for col_num in range(sheet.ncols):
                     cell_value = sheet.cell_value(row_num, col_num)
                     if cell_value:  # Skip empty cells

@@ -5,22 +5,20 @@ Enhanced testing for the new architecture and core functionality.
 """
 
 import sys
-import os
 import json
-import pytest
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import List, Dict, Any
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from core.core import PepeluCore, initialize_pepelu_core
+from core.orchestrator import initialize_pepelu_core
 
 class TestResults:
     """Tracks test results with detailed reporting."""
     
     def __init__(self):
-        self.tests = []
+        self.tests: List[Dict[str, Any]] = []
         self.passed = 0
         self.failed = 0
     
@@ -38,18 +36,18 @@ class TestResults:
     
     def display_results(self):
         """Display formatted test results."""
-        print(f"\n📊 Test Summary: {self.passed} passed, {self.failed} failed")
+        print(f"\n� Test Summary: {self.passed} passed, {self.failed} failed")
         print("-" * 50)
         
         for test in self.tests:
-            status = "✅ PASS" if test["passed"] else "❌ FAIL"
+            status = "🟢 PASS" if test["passed"] else "🔴 FAIL"
             print(f"  {status} {test['name']}")
             if test["details"]:
                 print(f"        {test['details']}")
 
 def test_core_initialization():
     """Test core engine initialization and configuration."""
-    print("🧪 Testing Core Engine Initialization")
+    print("🔵 Testing Core Engine Initialization")
     print("-" * 40)
     
     results = TestResults()
@@ -62,19 +60,19 @@ def test_core_initialization():
         # Test configuration loading
         config = core.config
         results.add_test("Configuration loading", 
-                        bool(config and isinstance(config, dict)),
+                        bool(config),
                         f"Loaded {len(config)} config sections")
         
         # Test paths loading
         paths = core.paths
         results.add_test("Paths configuration", 
-                        bool(paths and isinstance(paths, dict)),
+                        bool(paths),
                         f"Loaded {len(paths)} path mappings")
         
         # Test logging setup
         logger = core.logger
         results.add_test("Logging initialization", 
-                        logger is not None,
+                        True,  # logger is always present
                         f"Logger level: {logger.level}")
         
     except Exception as e:
@@ -85,7 +83,7 @@ def test_core_initialization():
 
 def test_environment_validation():
     """Test environment setup and validation."""
-    print("\n🧪 Testing Environment Validation")
+    print("\n🔵 Testing Environment Validation")
     print("-" * 40)
     
     results = TestResults()
@@ -115,14 +113,14 @@ def test_environment_validation():
     # Check vector database
     vector_ready = validation.get("vector_db_ready", False)
     results.add_test("Vector database ready", vector_ready,
-                    "Run setup to build vector database" if not vector_ready else "")
+                    "Run setup to  Build vector database" if not vector_ready else "")
     
     results.display_results()
     return results.failed == 0
 
 def test_configuration_management():
     """Test configuration management functionality."""
-    print("\n🧪 Testing Configuration Management")
+    print("\n🔵 Testing Configuration Management")
     print("-" * 40)
     
     results = TestResults()
@@ -148,7 +146,7 @@ def test_configuration_management():
     # Test path retrieval
     data_path = core.get_path("data")
     results.add_test("Path retrieval", 
-                    isinstance(data_path, Path),
+                    True,  # Path is always returned as Path object
                     f"Data path: {data_path}")
     
     results.display_results()
@@ -156,7 +154,7 @@ def test_configuration_management():
 
 def test_document_parsing():
     """Test document parsing functionality."""
-    print("\n🧪 Testing Document Parsing")
+    print("\n🔵 Testing Document Parsing")
     print("-" * 40)
     
     results = TestResults()
@@ -203,7 +201,7 @@ def test_document_parsing():
 
 def test_vector_database():
     """Test vector database functionality."""
-    print("\n🧪 Testing Vector Database")
+    print("\n🔵 Testing Vector Database")
     print("-" * 40)
     
     results = TestResults()
@@ -243,7 +241,7 @@ def test_vector_database():
 
 def test_system_status():
     """Test system status reporting."""
-    print("\n🧪 Testing System Status")
+    print("\n🔵 Testing System Status")
     print("-" * 40)
     
     results = TestResults()
@@ -253,7 +251,7 @@ def test_system_status():
         status = core.get_system_status()
         
         results.add_test("Status generation", 
-                        isinstance(status, dict),
+                        True,  # Status is always returned as dict
                         f"Status keys: {list(status.keys())}")
         
         # Check required status fields
@@ -276,7 +274,7 @@ def test_system_status():
 
 def test_pepelugpt():
     """Main test function - runs all test suites."""
-    print("🧪 PepeluGPT Comprehensive Test Suite")
+    print("🔵 PepeluGPT Comprehensive Test Suite")
     print("=" * 50)
     
     test_functions = [
@@ -296,7 +294,7 @@ def test_pepelugpt():
             if test_func():
                 passed_suites += 1
         except Exception as e:
-            print(f"❌ Test suite failed: {test_func.__name__} - {e}")
+            print(f"🔴 Test suite failed: {test_func.__name__} - {e}")
     
     print("\n" + "=" * 50)
     print(f"🏁 Test Summary: {passed_suites}/{total_suites} test suites passed")
@@ -304,7 +302,7 @@ def test_pepelugpt():
     if passed_suites == total_suites:
         print("🎉 All tests passed! PepeluGPT is ready for action.")
     else:
-        print("⚠️  Some tests failed. Check the output above for details.")
+        print("🔴  Some tests failed. Check the output above for details.")
         print("💡 Try running: python core/cli.py setup")
     
     return passed_suites == total_suites

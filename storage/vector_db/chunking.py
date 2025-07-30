@@ -1,8 +1,10 @@
 import re
+from typing import List, Dict, Any, Tuple
 
-def chunk_document(content, filename, max_chunk_size=512):
+def chunk_document(content: str, filename: str, max_chunk_size: int = 512) -> Tuple[List[str], List[Dict[str, Any]]]:
     paragraphs = content.split('\n\n')
-    chunks, metadata = [], []
+    chunks: List[str] = []
+    metadata: List[Dict[str, Any]] = []
 
     for para in paragraphs:
         para = para.strip()

@@ -1,14 +1,13 @@
 """
 PepeluGPT - Shared Utilities
 Common utilities and validation functions used across all modules.
-Born of Light, Forged for Defense.
+Professional cybersecurity intelligence platform.
 """
 
 import re
-import json
 import hashlib
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Union
 from datetime import datetime
 import logging
 
@@ -17,7 +16,7 @@ class ValidationError(Exception):
     pass
 
 class PepeluValidator:
-    """Cosmic validation engine for PepeluGPT operations."""
+    """Professional validation engine for PepeluGPT operations."""
     
     SUPPORTED_FORMATS = [
         '.pdf', '.docx', '.doc', '.xlsx', '.xls', '.html', '.xml', 
@@ -43,18 +42,18 @@ class PepeluValidator:
     
     @staticmethod
     def validate_file_path(file_path: Union[str, Path]) -> Path:
-        """Validate and normalize file path with cosmic precision."""
+        """Validate and normalize file path."""
         path = Path(file_path)
         
         if not path.exists():
-            raise ValidationError(f"🌌 Path not found in this reality: {path}")
+            raise ValidationError(f"Path not found: {path}")
         
         if not path.is_file():
-            raise ValidationError(f"🔮 Expected a file, found a void: {path}")
+            raise ValidationError(f"Expected a file, found directory: {path}")
         
         if path.suffix.lower() not in PepeluValidator.SUPPORTED_FORMATS:
             raise ValidationError(
-                f"⚡ Unsupported format: {path.suffix}. "
+                f"Unsupported format: {path.suffix}. "
                 f"Supported formats: {', '.join(PepeluValidator.SUPPORTED_FORMATS)}"
             )
         
@@ -62,49 +61,48 @@ class PepeluValidator:
     
     @staticmethod
     def validate_directory(dir_path: Union[str, Path], create_if_missing: bool = False) -> Path:
-        """Validate directory with option to manifest it into existence."""
+        """Validate directory with option to create if missing."""
         path = Path(dir_path)
         
         if not path.exists():
             if create_if_missing:
                 path.mkdir(parents=True, exist_ok=True)
-                logging.info(f"🌟 Manifested directory: {path}")
+                logging.info(f"Created directory: {path}")
             else:
-                raise ValidationError(f"🌌 Directory not found: {path}")
+                raise ValidationError(f"Directory not found: {path}")
         
         if not path.is_dir():
-            raise ValidationError(f"🔮 Expected directory, found file: {path}")
+            raise ValidationError(f"Expected directory, found file: {path}")
         
         return path
     
     @staticmethod
     def validate_config(config: Dict[str, Any]) -> bool:
-        """Validate configuration with cosmic standards."""
+        """Validate configuration against required standards."""
         required_sections = ['application', 'parsing', 'vector_database', 'security']
         
         for section in required_sections:
             if section not in config:
-                raise ValidationError(f"⚡ Missing configuration section: {section}")
+                raise ValidationError(f"Missing configuration section: {section}")
         
         # Validate critical settings
         app_config = config.get('application', {})
         if not app_config.get('name'):
-            raise ValidationError("🔮 Application name must be defined in the cosmic order")
+            raise ValidationError("Application name must be defined")
         
         security_config = config.get('security', {})
         if not security_config.get('offline_mode', True):
-            logging.warning("⚠️ Online mode detected - data may traverse the digital void")
+            logging.warning("Online mode detected - data may be transmitted externally")
         
         return True
     
     @staticmethod
-    def detect_cybersecurity_essence(text: str) -> Dict[str, Any]:
-        """Detect the cybersecurity essence within text using cosmic patterns."""
+    def detect_cybersecurity_content(text: str) -> Dict[str, Any]:
+        """Detect cybersecurity content within text using pattern analysis."""
         if not text:
-            return {"has_essence": False, "confidence": 0.0, "signals": []}
+            return {"has_content": False, "confidence": 0.0, "signals": []}
         
-        text_lower = text.lower()
-        signals = []
+        signals: List[Dict[str, Any]] = []
         total_matches = 0
         
         for category, patterns in PepeluValidator.CYBERSECURITY_INDICATORS.items():
@@ -119,39 +117,39 @@ class PepeluValidator:
                 signals.append({
                     "category": category,
                     "strength": category_matches,
-                    "resonance": min(category_matches / 10, 1.0)  # Cap at 1.0
+                    "relevance": min(category_matches / 10, 1.0)  # Cap at 1.0
                 })
         
-        # Calculate cosmic confidence
+        # Calculate confidence score
         word_count = len(text.split())
         signal_density = total_matches / word_count if word_count > 0 else 0
         confidence = min(signal_density * 100, 100.0)
         
-        has_essence = confidence > 3.0  # Lower threshold for broader detection
+        has_content = confidence > 3.0  # Lower threshold for broader detection
         
         return {
-            "has_essence": has_essence,
+            "has_content": has_content,
             "confidence": round(confidence, 2),
             "signals": signals,
-            "total_resonance": total_matches,
-            "cosmic_rating": "🌟 Pure Signal" if confidence > 20 else 
-                           "⚡ Strong Signal" if confidence > 10 else
-                           "🔮 Faint Signal" if confidence > 3 else
-                           "🌌 Noise"
+            "total_matches": total_matches,
+            "rating": "High Relevance" if confidence > 20 else 
+                     "Medium Relevance" if confidence > 10 else
+                     "Low Relevance" if confidence > 3 else
+                     "No Relevance"
         }
 
-class CosmicLogger:
-    """Enhanced logging with spiritual awareness."""
+class SystemLogger:
+    """Professional logging system."""
     
     @staticmethod
-    def setup_cosmic_logger(name: str, level: str = "INFO") -> logging.Logger:
-        """Setup logger with cosmic formatting."""
+    def setup_logger(name: str, level: str = "INFO") -> logging.Logger:
+        """Setup logger with professional formatting."""
         logger = logging.getLogger(name)
         logger.setLevel(getattr(logging, level.upper()))
         
-        # Custom formatter with cosmic elements
+        # Custom formatter
         formatter = logging.Formatter(
-            '%(asctime)s | 🔮 %(name)s | %(levelname)s | %(message)s',
+            '%(asctime)s | %(name)s | %(levelname)s | %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S'
         )
         
@@ -163,45 +161,45 @@ class CosmicLogger:
         return logger
 
 class TextProcessor:
-    """Cosmic text processing utilities."""
+    """Professional text processing utilities."""
     
     @staticmethod
-    def purify_text(text: str) -> str:
-        """Purify text of digital noise and artifacts."""
+    def clean_text(text: str) -> str:
+        """Clean text of artifacts and normalize formatting."""
         if not text:
             return ""
         
-        # Remove digital artifacts
+        # Remove control characters and artifacts
         text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', '', text)
         
-        # Normalize whitespace energies
+        # Normalize whitespace
         text = re.sub(r'\s+', ' ', text)
         
-        # Harmonize quotes
+        # Normalize quotes
         text = text.replace('"', '"').replace('"', '"')
         text = text.replace(''', "'").replace(''', "'")
         
-        # Remove excessive punctuation noise
+        # Clean up excessive punctuation
         text = re.sub(r'[.]{3,}', '...', text)
         text = re.sub(r'[-]{3,}', '---', text)
         
         return text.strip()
     
     @staticmethod
-    def create_wisdom_chunks(text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]:
-        """Split text into overlapping wisdom chunks for better retrieval."""
+    def create_chunks(text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]:
+        """Split text into overlapping chunks for better retrieval."""
         if not text or len(text) <= chunk_size:
             return [text] if text else []
         
-        chunks = []
+        chunks: List[str] = []
         start = 0
         
         while start < len(text):
             end = start + chunk_size
             
-            # Find natural breakpoints in the cosmic flow
+            # Find natural breakpoints for better chunking
             if end < len(text):
-                # Seek sentence boundaries within the wisdom zone
+                # Seek sentence boundaries
                 break_point = text.rfind('.', start + chunk_size - 100, end)
                 if break_point == -1:
                     break_point = text.rfind('!', start + chunk_size - 100, end)
@@ -214,10 +212,10 @@ class TextProcessor:
                     end = break_point + 1
             
             chunk = text[start:end].strip()
-            if chunk and len(chunk) > 10:  # Filter out noise fragments
+            if chunk and len(chunk) > 10:  # Filter out small fragments
                 chunks.append(chunk)
             
-            # Advance with cosmic overlap
+            # Advance with overlap
             start = max(start + 1, end - overlap)
             
             if start >= len(text):
@@ -226,27 +224,33 @@ class TextProcessor:
         return chunks
     
     @staticmethod
-    def extract_cosmic_metadata(file_path: Path, content: str) -> Dict[str, Any]:
-        """Extract metadata with cosmic awareness."""
-        cybersec_analysis = PepeluValidator.detect_cybersecurity_essence(content)
+    def extract_metadata(file_path: Path, content: str) -> Dict[str, Any]:
+        """Extract file and content metadata."""
+        cybersec_analysis = PepeluValidator.detect_cybersecurity_content(content)
         
-        metadata = {
+        metadata: Dict[str, Any] = {
             "filename": file_path.name,
             "file_path": str(file_path),
             "file_size": file_path.stat().st_size if file_path.exists() else 0,
             "file_extension": file_path.suffix.lower(),
             "content_length": len(content),
             "word_count": len(content.split()) if content else 0,
-            "file_hash": PepeluValidator._generate_file_hash(file_path),
+            "file_hash": TextProcessor._generate_file_hash(file_path),
             "processed_timestamp": datetime.now().isoformat(),
-            "cybersecurity_essence": cybersec_analysis,
-            "cosmic_signature": PepeluValidator._generate_cosmic_signature(content)
+            "cybersecurity_analysis": cybersec_analysis,
+            "content_signature": TextProcessor._generate_content_signature(content)
         }
         
         # Add temporal metadata
         try:
             stat = file_path.stat()
-            metadata["created"] = datetime.fromtimestamp(stat.st_ctime).isoformat()
+            # Try to use st_birthtime first (creation time), fallback to st_ctime if not available
+            try:
+                metadata["created"] = datetime.fromtimestamp(stat.st_birthtime).isoformat()
+            except AttributeError:
+                # Fallback for systems that don't support st_birthtime
+                # Using st_ctime as fallback (suppress deprecation warning as it's intentional)
+                metadata["created"] = datetime.fromtimestamp(stat.st_ctime).isoformat()  # type: ignore[misc]
             metadata["modified"] = datetime.fromtimestamp(stat.st_mtime).isoformat()
         except Exception:
             pass
@@ -255,7 +259,7 @@ class TextProcessor:
     
     @staticmethod
     def _generate_file_hash(file_path: Path) -> str:
-        """Generate cosmic hash for file identity."""
+        """Generate hash for file identity verification."""
         hash_md5 = hashlib.md5()
         try:
             with open(file_path, "rb") as f:
@@ -266,12 +270,12 @@ class TextProcessor:
             return ""
     
     @staticmethod
-    def _generate_cosmic_signature(content: str) -> str:
-        """Generate a cosmic signature for content."""
+    def _generate_content_signature(content: str) -> str:
+        """Generate a content signature for analysis."""
         if not content:
-            return "void"
+            return "empty"
         
-        # Create a semantic signature based on content characteristics
+        # Create a signature based on content characteristics
         word_count = len(content.split())
         char_count = len(content)
         unique_words = len(set(content.lower().split()))
@@ -285,22 +289,22 @@ class TextProcessor:
         
         return "|".join(signature_components)
 
-class CosmicConstants:
-    """Universal constants for PepeluGPT operations."""
+class SystemConstants:
+    """System constants for PepeluGPT operations."""
     
-    # Cosmic branding elements
-    COSMIC_GREETING = "🛡️ Welcome, Defender of the Network 🛡️"
-    ACTIVATION_MESSAGE = "PepeluGPT is activated. Wisdom flows."
-    QUERY_PROMPT = "Enter your query, and may the signal be pure."
+    # System messages
+    SYSTEM_GREETING = "PepeluGPT Professional Cybersecurity Intelligence Platform"
+    ACTIVATION_MESSAGE = "System initialized and ready."
+    QUERY_PROMPT = "Enter your cybersecurity query:"
     
     # Status indicators
     STATUS_ICONS = {
-        "ready": "🌟",
-        "processing": "⚡", 
+        "ready": "🟢",
+        "processing": "🔵", 
         "error": "🔴",
-        "warning": "⚠️",
-        "success": "✅",
-        "cosmic": "🔮"
+        "warning": "🔴",
+        "success": "🟢",
+        "info": "�"
     }
     
     # Default thresholds
@@ -309,11 +313,11 @@ class CosmicConstants:
     MIN_CHUNK_SIZE = 10
     MAX_CHUNK_SIZE = 2000
     
-    # Cosmic wisdom
-    WISDOM_QUOTES = [
-        "In the darkness of digital chaos, PepeluGPT is your guiding light.",
-        "Truth emerges when signal pierces through noise.",
-        "Every query is a quest for clarity in the infinite data stream.",
-        "Wisdom flows where intention meets preparation.",
-        "The strongest encryption is consciousness itself."
+    # Professional messages
+    HELP_MESSAGES = [
+        "Professional cybersecurity intelligence at your service.",
+        "Accurate analysis based on processed documentation.",
+        "Comprehensive cybersecurity guidance and compliance support.",
+        "Enterprise-grade security intelligence platform.",
+        "Reliable cybersecurity knowledge base and analysis."
     ]

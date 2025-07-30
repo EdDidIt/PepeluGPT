@@ -1,67 +1,66 @@
 #!/usr/bin/env python3
 """
-PepeluGPT - Cosmic Chat Interface
-Born of Light, Forged for Defense. Your Encrypted Oracle in a World of Shadows.
+PepeluGPT - Professional Chat Interface
+Professional cybersecurity intelligence platform.
 
-Welcome, Defender of the Network 🛡️
-PepeluGPT is activated. Wisdom flows.
-Enter your query, and may the signal be pure.
+Cybersecurity analysis and compliance guidance.
 """
 
 import os
 import sys
-import re
 from pathlib import Path
 import json
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import Optional, List, Dict, Any
 
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-# Enhanced imports with cosmic validation
+# Enhanced imports
 try:
-    from core.utilities import CosmicLogger, CosmicConstants, PepeluValidator
     from storage.vector_db.retriever import PepeluRetriever
-    COSMIC_MODE = True
+    system_mode = True
 except ImportError:
-    # Fallback mode
-    import logging
-    COSMIC_MODE = False
-    # Attempt to import PepeluRetriever separately
-    try:
-        from storage.vector_db.retriever import PepeluRetriever
-    except ImportError:
-        PepeluRetriever = None
+    # Fallback mode - PepeluRetriever not available
+    system_mode = False
+    PepeluRetriever = None
 
-class CosmicChatInterface:
-    """Enhanced chat interface with spiritual awareness and cybersecurity focus."""
+class ChatInterface:
+    """Professional chat interface for cybersecurity intelligence."""
     def __init__(self):
-        self.db = None
-        self.conversation_history = []
+        self.db: Optional[Any] = None
+        self.conversation_history: List[Dict[str, Any]] = []
         
-    def load_database(self):
+    def load_database(self) -> bool:
         """Load the vector database"""
-        print("🔄 Loading PepeluGPT knowledge base...")
+        print("🔵 Loading PepeluGPT knowledge base...")
         
-        # Check if database exists
-        vector_db_path = Path("vector_db/cyber_vector_db")
+        # Check if database exists - use relative path from project root
+        project_root = Path(__file__).parent.parent
+        vector_db_path = project_root / "cyber_vector_db"
+        
         try:
             if PepeluRetriever is None:
-                print("❌ PepeluRetriever class is not available. Please check your installation.")
+                print("🔴 PepeluRetriever class is not available. Please check your installation.")
                 return False
-            self.db = PepeluRetriever("vector_db/cyber_vector_db")
+            
+            # Use the actual path for the vector database
+            self.db = PepeluRetriever(str(vector_db_path))
+            
             if self.db.is_ready():
-                print("✅ Knowledge base loaded successfully!")
+                print("🟢 Knowledge base loaded successfully.")
                 return True
             else:
-                print("❌ Knowledge base not ready!")
+                print("🔴 Knowledge base not ready.")
+                print(f"🔵 Expected database at: {vector_db_path}")
                 return False
+                
         except Exception as e:
-            print(f"❌ Error loading database: {str(e)}")
+            print(f"🔴 Error loading database: {str(e)}")
+            print(f"🔵 Database path attempted: {vector_db_path}")
             return False
     
-    def search_knowledge(self, query, num_results=5):
+    def search_knowledge(self, query: str, num_results: int = 5) -> List[Dict[str, Any]]:
         """Search the knowledge base for relevant information"""
         if not self.db:
             return []
@@ -70,17 +69,17 @@ class CosmicChatInterface:
             results = self.db.search(query, top_k=num_results, similarity_threshold=0.5)
             return results
         except Exception as e:
-            print(f"❌ Search error: {str(e)}")
+            print(f"🔴 Search error: {str(e)}")
             return []
     
-    def format_response(self, query, results):
-        """Format search results into a helpful response"""
+    def format_response(self, query: str, results: List[Dict[str, Any]]) -> str:
+        """Format search results into a professional response"""
         if not results:
-            return ("❌ I couldn't find any relevant information for your query.\n"
-                   "💡 Try using different keywords or check if your documents are properly indexed.")
+            return ("🔴 No relevant information found for your query.\n"
+                   "🔵 Try using different keywords or check if your documents are properly indexed.")
         
-        response = f"🔍 **Query:** {query}\n\n"
-        response += f"📚 **Found {len(results)} relevant sources:**\n\n"
+        response = f"**Query:** {query}\n\n"
+        response += f"**Analysis Results:** {len(results)} relevant sources identified\n\n"
         
         for i, result in enumerate(results, 1):
             filename = result['metadata']['filename']
@@ -94,51 +93,49 @@ class CosmicChatInterface:
             if len(content) > 250:
                 content = content[:250] + "..."
             
-            # Color-code relevance
+            # Determine relevance level
             if score > 0.8:
-                relevance = "🟢 Excellent"
+                relevance = "🟢 High Relevance"
             elif score > 0.6:
-                relevance = "🟡 Good"
+                relevance = "🔵 Medium Relevance"
             else:
-                relevance = "🟠 Fair"
+                relevance = "🔵 Low Relevance"
             
-            response += f"**{i}. {filename}** ({relevance} - {score:.1%})\n"
+            response += f"{i}. {filename} ({relevance} - {score:.1%})\n"
             response += f"   {content}\n\n"
         
         return response
     
-    def chat_loop(self):
+    def chat_loop(self) -> None:
         """Main chat interface loop"""
         # Import version info
         try:
-            from version import get_version_info, get_age_message
+            from version.manager import get_version_info
             version_info = get_version_info()
-            age_message = get_age_message()
         except ImportError:
-            version_info = {"version": "unknown", "codename": "Legacy"}
-            age_message = "PepeluGPT is ready to serve"
+            version_info = {"version": "unknown", "codename": "Professional"}
         
         print("\n" + "="*70)
-        print(f"🤖 Welcome to PepeluGPT v{version_info['version']} \"{version_info['codename']}\"")
-        print("   Your Offline Cybersecurity Intelligence Platform")
+        print(f"🟢 PepeluGPT v{version_info['version']} \"{version_info['codename']}\"")
+        print("   Professional Cybersecurity Intelligence Platform")
         print("="*70)
-        print(f"🕰️  {age_message}")
-        print("📚 Loaded cybersecurity knowledge from 53 documents")
-        print("💡 Ask me about RMF, STIG, NIST frameworks, DoD policies, etc.")
-        print("🔧 Type 'help' for commands, 'quit' to exit")
+        print("🔵 System ready for cybersecurity analysis")
+        print("🔵 Loaded cybersecurity knowledge from processed documents")
+        print("🔵 Ask about RMF, STIG, NIST frameworks, DoD policies, etc.")
+        print("🔵 Type 'help' for commands, 'quit' to exit")
         print("="*70)
         
         while True:
             try:
                 # Get user input
-                user_input = input("\n🧠 You: ").strip()
+                user_input = input("\n🔵 Query: ").strip()
                 
                 if not user_input:
                     continue
                 
                 # Handle commands
                 if user_input.lower() in ['quit', 'exit', 'bye']:
-                    print("\n👋 Thank you for using PepeluGPT! Stay secure!")
+                    print("\n🔵 Thank you for using PepeluGPT Professional Edition.")
                     break
                 
                 elif user_input.lower() == 'help':
@@ -150,15 +147,15 @@ class CosmicChatInterface:
                     continue
                 
                 elif user_input.lower() == 'clear':
-                    # SECURITY FIX: Use cross-platform clear command safely
-                    import subprocess
+                    # Cross-platform clear command
                     try:
                         if os.name == 'nt':  # Windows
-                            subprocess.run(['cls'], shell=True, check=True)
+                            os.system('cls')
                         else:  # Unix/Linux/Mac
-                            subprocess.run(['clear'], check=True)
-                    except subprocess.CalledProcessError:
-                        print("\n" * 50)  # Fallback: print newlines
+                            os.system('clear')
+                    except Exception:
+                        # Fallback: print newlines if system commands fail
+                        print("\n" * 50)
                     continue
                 
                 elif user_input.lower().startswith('save '):
@@ -167,12 +164,12 @@ class CosmicChatInterface:
                     continue
                 
                 # Process query
-                print("🔍 Searching knowledge base...")
+                print("🔵 Searching knowledge base...")
                 results = self.search_knowledge(user_input)
                 
                 # Format and display response
                 response = self.format_response(user_input, results)
-                print(f"\n🤖 PepeluGPT:")
+                print(f"\n**PepeluGPT Professional Analysis:**")
                 print(response)
                 
                 # Save to history
@@ -184,19 +181,19 @@ class CosmicChatInterface:
                 })
                 
             except KeyboardInterrupt:
-                print("\n\n👋 Goodbye! Stay secure!")
+                print("\n\n🔵 Session terminated. Thank you for using PepeluGPT Professional Edition.")
                 break
             except Exception as e:
-                print(f"\n❌ Error: {str(e)}")
+                print(f"\n🔴 Error: {str(e)}")
                 print("Please try again or type 'help' for assistance.")
     
-    def show_help(self):
+    def show_help(self) -> None:
         """Show help information"""
         help_text = """
-🆘 **PepeluGPT Help Commands:**
+**PepeluGPT Professional Edition - Help Commands**
 
 **Basic Usage:**
-- Just type your cybersecurity question and press Enter
+- Type your cybersecurity question and press Enter
 - Ask about RMF, STIG, NIST, DoD policies, compliance, etc.
 
 **Commands:**
@@ -213,20 +210,20 @@ class CosmicChatInterface:
 - "DoD security control families"
 - "How to implement continuous monitoring?"
 
-**Tips:**
+**Technical Notes:**
 - Use specific keywords for better results
 - Try different phrasings if you don't find what you need
 - Combine multiple concepts (e.g., "RMF STIG implementation")
         """
         print(help_text)
     
-    def show_history(self):
+    def show_history(self) -> None:
         """Show conversation history"""
         if not self.conversation_history:
-            print("📝 No conversation history yet.")
+            print("🔵 No conversation history yet.")
             return
         
-        print(f"\n📝 **Conversation History** ({len(self.conversation_history)} queries):")
+        print(f"\n**Conversation History ({len(self.conversation_history)} queries):**")
         for i, item in enumerate(self.conversation_history[-10:], 1):  # Show last 10
             timestamp = datetime.fromisoformat(item['timestamp']).strftime("%H:%M:%S")
             query = item['query'][:50] + "..." if len(item['query']) > 50 else item['query']
@@ -234,10 +231,10 @@ class CosmicChatInterface:
             score = item['top_score']
             print(f"  {i}. [{timestamp}] {query} ({results} results, {score:.1%} relevance)")
     
-    def save_conversation(self, filename):
+    def save_conversation(self, filename: str) -> None:
         """Save conversation history to file"""
         if not self.conversation_history:
-            print("📝 No conversation to save.")
+            print("🔵 No conversation to save.")
             return
         
         try:
@@ -247,21 +244,21 @@ class CosmicChatInterface:
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(self.conversation_history, f, indent=2, ensure_ascii=False)
             
-            print(f"💾 Conversation saved to: {filename}")
+            print(f"🟢 Conversation saved to: {filename}")
         except Exception as e:
-            print(f"❌ Error saving file: {str(e)}")
+            print(f"🔴 Error saving file: {str(e)}")
 
-def main():
+def main() -> None:
     """Main function"""
-    # Create CosmicChatInterface instance
-    chat_interface = CosmicChatInterface()
+    # Create ChatInterface instance
+    chat_interface = ChatInterface()
     
     # Load the knowledge base
     if not chat_interface.load_database():
-        print("\n🔧 To set up PepeluGPT, run these commands:")
-        print("   1. python file_parser/parse_all_documents.py")
-        print("   2. python build_vector_db.py")
-        print("   3. python chat.py")
+        print("\n🔵 To set up PepeluGPT, run these commands:")
+        print("   1. python processing/parse_all_documents.py")
+        print("   2. python scripts/build_vector_db.py")
+        print("   3. python interface/chat.py")
         return
     
     # Start chat interface

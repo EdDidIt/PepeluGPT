@@ -1,4 +1,4 @@
-name: 🔒 Security Vulnerability
+name:  Security Vulnerability
 description: Report a security vulnerability (please use responsible disclosure)
 title: "[SECURITY] "
 labels: ["security", "high-priority"]
@@ -6,19 +6,19 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## ⚠️ **IMPORTANT: Security Disclosure Policy**
+        # IMPORTANT: Security Disclosure Policy
         
-        **For critical security vulnerabilities, please:**
-        1. **DO NOT** create a public issue
-        2. **Email directly**: security@pepelugpt.dev (or repository owner)
-        3. **Allow 24-48 hours** for initial response
+        For critical security vulnerabilities, please:
+        1. DO NOT create a public issue
+        2. Email directly: ed-pepelu@outlook.com (or repository owner)
+        3. Allow 24-48 hours for initial response
         
-        **Use this template only for:**
+        Use this template only for:
         - Low-risk security concerns
         - General security improvements
         - Security-related feature requests
         
-        Thank you for helping keep PepeluGPT secure! 🛡️
+        Thank you for helping keep PepeluGPT secure! 
 
   - type: dropdown
     id: severity
@@ -125,7 +125,7 @@ body:
       value: |
         ---
         
-        ## 🛡️ **Security Commitment**
+        #  Security Commitment
         
         PepeluGPT takes security seriously. We are committed to:
         - Responding to security reports within 24 hours
@@ -133,5 +133,5 @@ body:
         - Giving appropriate credit to security researchers
         - Maintaining transparency while protecting users
         
-        **Need to report a critical vulnerability privately?**
-        Email: security@pepelugpt.dev
+        Need to report a critical vulnerability privately?
+        Email: ed-pepelu@outlook.com

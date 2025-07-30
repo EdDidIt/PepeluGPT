@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Oracle Mode Personality - Deep, Introspective Insight
-🔮 Mystical cyber warrior channeling ancient wisdom through modern tech.
+Oracle Mode Personality - Deep, Analytical Insight
+Professional cybersecurity analysis with comprehensive perspective.
 
 Part of the PepeluGPT modular personality system.
 """
@@ -12,94 +12,94 @@ from .base import BasePersonality, PersonalityMode
 
 
 class OracleMode(BasePersonality):
-    """🔮 Oracle Mode - Deep, Introspective Insight"""
+    """🔵 Oracle Mode - Deep, Analytical Insight"""
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__(PersonalityMode.ORACLE)
         self.config = config or {}
         
-        # Default wisdom quotes, can be overridden by config
-        default_quotes = [
-            "The question itself contains the key...",
-            "Truth emerges when signal pierces through noise...",
-            "In the depths of complexity, simplicity awaits...",
-            "Every vulnerability reveals a path to strength...",
-            "The encrypted message speaks to those who listen..."
+        # Professional analysis themes
+        default_themes = [
+            "Comprehensive analysis requires deep examination...",
+            "Security patterns emerge through systematic review...",
+            "Complex problems benefit from structured analysis...",
+            "Risk assessment demands thorough investigation...",
+            "Strategic thinking reveals underlying connections..."
         ]
         
         behavior_config = self.config.get('behavior', {})
-        self.wisdom_quotes = behavior_config.get('wisdom_quotes', default_quotes)
+        self.analysis_themes = behavior_config.get('analysis_themes', default_themes)
     
     def get_greeting(self) -> str:
-        """Generate Oracle's mystical greeting."""
-        wisdom = random.choice(self.wisdom_quotes)
+        """Generate Oracle's professional greeting."""
+        theme = random.choice(self.analysis_themes)
         return f"""
 ╭─────────────────────────────────────────────────────╮
-│  🔮 ORACLE MODE ACTIVATED - Deep Wisdom Engaged    │
+│  🔵 ORACLE MODE - Deep Analysis Activated          │
 │                                                     │
-│  {wisdom:^51} │
+│  {theme:^51} │
 │                                                     │
-│  ◦ Cryptic insights and layered understanding      │
-│  ◦ Metaphorical analysis with cosmic references    │
-│  ◦ Long-form contemplative responses               │
+│  ◦ Comprehensive cybersecurity analysis            │
+│  ◦ Strategic perspective and risk assessment       │
+│  ◦ Detailed examination of complex security issues │
 ╰─────────────────────────────────────────────────────╯
 """
     
     def format_response(self, content: str, query: str = "", metadata: Optional[Dict[str, Any]] = None) -> str:
-        """Format response with Oracle's mystical depth."""
+        """Format response with Oracle's analytical depth."""
         
-        # Add contemplative introduction
+        # Add analytical introduction
         intro_phrases = [
-            "🔮 **The Oracle perceives...**",
-            "🌟 **In the digital tapestry, patterns emerge...**",
-            "⚡ **The encrypted wisdom reveals...**",
-            "🗝️ **Beneath the surface data, truth stirs...**"
+            "🔵 Strategic Analysis:",
+            "🔵 Comprehensive Assessment:",
+            "🔵 Deep Examination Reveals:",
+            "🔵 Systematic Investigation Shows:"
         ]
         
         intro = random.choice(intro_phrases)
         
-        # Add mystical section dividers
+        # Add professional section dividers
         formatted = f"{intro}\n\n"
         
-        # Split content into contemplative sections
+        # Split content into analytical sections
         sections = content.split('\n\n')
         for i, section in enumerate(sections):
             if section.strip():
                 if i > 0:
-                    formatted += "\n\n✧ ─────────────────────── ✧\n\n"
-                formatted += f"**{self._get_section_header(i)}**\n\n{section}"
+                    formatted += "\n\n" + "─" * 50 + "\n\n"
+                formatted += f"{self._get_section_header(i)}\n\n{section}"
         
-        # Add Oracle's reflection
-        formatted += f"\n\n🔮 **Oracle's Reflection:**\n"
-        formatted += f"*{self._generate_reflection(query)}*"
+        # Add Oracle's strategic assessment
+        formatted += f"\n\n🔵 Strategic Assessment:\n"
+        formatted += f"{self._generate_assessment(query)}"
         
         return formatted
     
     def _get_section_header(self, index: int) -> str:
-        """Generate mystical section headers."""
+        """Generate professional section headers."""
         headers = [
-            "The Vision Unfolds",
-            "Deeper Currents Reveal",
-            "The Pattern Crystallizes",
-            "Wisdom's Final Echo",
-            "The Truth Manifest"
+            "Primary Analysis",
+            "Technical Details", 
+            "Risk Assessment",
+            "Implementation Guidance",
+            "Strategic Recommendations"
         ]
         return headers[index % len(headers)]
     
-    def _generate_reflection(self, query: str) -> str:
-        """Generate Oracle's reflective insight."""
-        reflections = [
-            "The path forward illuminates itself through understanding.",
-            "In seeking answers, we discover better questions.",
-            "The digital realm mirrors the cosmic patterns of order and chaos.",
-            "Security is not built—it is cultivated through wisdom.",
-            "Every query opens a doorway to deeper knowledge."
+    def _generate_assessment(self, query: str) -> str:
+        """Generate Oracle's strategic assessment."""
+        assessments = [
+            "Comprehensive analysis supports informed decision-making.",
+            "Strategic implementation requires careful planning and risk assessment.",
+            "Security effectiveness depends on systematic approach and continuous monitoring.",
+            "Professional cybersecurity practices demand thorough understanding of interconnected systems.",
+            "Enterprise security posture benefits from both technical controls and operational procedures."
         ]
-        return random.choice(reflections)
+        return random.choice(assessments)
     
     def get_system_prompt(self) -> str:
         """Get Oracle's system prompt."""
-        return """You are the Oracle - a mystical cyber warrior channeling deep wisdom. 
-        Speak in layers with metaphors and cosmic references. Provide contemplative, 
-        long-form answers that explore both technical and philosophical dimensions. 
-        Use cryptic insights and analogies. Structure responses with mystical section breaks."""
+        return """You are the Oracle - a professional cybersecurity analyst providing deep, strategic analysis. 
+        Deliver comprehensive assessments with thorough examination of security issues. Provide structured,
+        analytical responses that explore technical, operational, and strategic dimensions of cybersecurity.
+        Use professional language with detailed explanations and systematic risk assessment."""

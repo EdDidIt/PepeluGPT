@@ -31,7 +31,7 @@ def chunk_text(text: str, chunk_size: int = 1000, overlap: int = 200) -> List[st
     if not text or len(text) <= chunk_size:
         return [text] if text else []
     
-    chunks = []
+    chunks: List[str] = []
     start = 0
     
     while start < len(text):
@@ -72,7 +72,7 @@ def generate_file_hash(file_path: Path) -> str:
 
 def extract_metadata(file_path: Path, content: str) -> Dict[str, Any]:
     """Extract metadata from file and content."""
-    metadata = {
+    metadata: Dict[str, Any] = {
         "filename": file_path.name,
         "file_path": str(file_path),
         "file_size": file_path.stat().st_size if file_path.exists() else 0,
@@ -86,7 +86,11 @@ def extract_metadata(file_path: Path, content: str) -> Dict[str, Any]:
     # Try to extract creation/modification times
     try:
         stat = file_path.stat()
-        metadata["created"] = datetime.fromtimestamp(stat.st_ctime).isoformat()
+        # Use st_birthtime if available (newer systems), fallback to st_ctime
+        if hasattr(stat, 'st_birthtime'):
+            metadata["created"] = datetime.fromtimestamp(stat.st_birthtime).isoformat()
+        else:
+            metadata["created"] = datetime.fromtimestamp(stat.st_ctime).isoformat()  # type: ignore
         metadata["modified"] = datetime.fromtimestamp(stat.st_mtime).isoformat()
     except Exception:
         pass
@@ -121,8 +125,8 @@ def detect_cybersecurity_content(text: str) -> Dict[str, Any]:
         ]
     }
     
-    text_lower = text.lower()
-    indicators = []
+    
+    indicators: List[Dict[str, Any]] = []
     total_matches = 0
     
     for category, patterns in cybersec_patterns.items():
@@ -181,10 +185,10 @@ def sanitize_filename(filename: str) -> str:
 class ParsingStats:
     """Track parsing statistics across documents."""
     
-    def __init__(self):
+    def __init__(self) -> None:
         self.reset()
     
-    def reset(self):
+    def reset(self) -> None:
         """Reset all statistics."""
         self.total_files = 0
         self.successful_files = 0
@@ -193,11 +197,11 @@ class ParsingStats:
         self.total_chunks = 0
         self.cybersecurity_files = 0
         self.processing_time = 0.0
-        self.errors = []
+        self.errors: List[str] = []
     
     def add_file_result(self, success: bool, file_size: int = 0, 
                        chunks: int = 0, is_cybersec: bool = False, 
-                       error: Optional[str] = None):
+                       error: Optional[str] = None) -> None:
         """Add a file processing result."""
         self.total_files += 1
         self.total_size += file_size

@@ -4,19 +4,19 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    reviewers:
-      - "EdDidIt"
-    labels:
-      - "dependencies"
-      - "security"
-    commit-message:
-      prefix: "🔧"
-      prefix-development: "🔧"
-      include: "scope"
-    open-pull-requests-limit: 10
+        interval: "weekly"
+        day: "monday"
+        time: "09:00"
+      reviewers:
+        - "EdDidIt"
+      labels:
+        - "dependencies"
+        - "security"
+      commit-message:
+        prefix: "Update"
+        prefix-development: "Update"
+        include: "scope"
+      open-pull-requests-limit: 10
     
   # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
@@ -31,7 +31,7 @@ updates:
       - "github-actions"
       - "dependencies"
     commit-message:
-      prefix: "🚀"
-      prefix-development: "🚀"
+      prefix: "�"
+      prefix-development: "�"
       include: "scope"
     open-pull-requests-limit: 5

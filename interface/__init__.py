@@ -7,7 +7,7 @@ Multiple interface options for different user preferences and use cases.
 Modules:
     - api: RESTful API for programmatic access
     - chat: Standard chat interface
-    - cosmic_chat: Enhanced chat with cosmic personality features
+    - professional_chat: Enhanced chat with professional personality features
 
 Usage:
     # API Interface
@@ -15,7 +15,7 @@ Usage:
     
     # Chat Interfaces  
     from interface.chat import ChatInterface
-    from interface.cosmic_chat import CosmicChatInterface
+    # from interface.professional_chat import ProfessionalChatInterface  # Not yet implemented
 """
 
 __version__ = "2.0.0"

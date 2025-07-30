@@ -7,6 +7,7 @@ import sys
 import re
 from datetime import datetime
 from pathlib import Path
+from typing import Dict, Tuple
 
 def generate_release_notes(version: str) -> str:
     """Generate release notes for a specific version."""
@@ -15,14 +16,13 @@ def generate_release_notes(version: str) -> str:
     try:
         import sys
         sys.path.append(str(Path(__file__).parent.parent))
-        from manifest.version_manager import __version__, __codename__, __major_milestones__
-        current_version = __version__
-        codename = __codename__
-        milestones = {m[1]: m for m in __major_milestones__}
+        from version.manager import __version__, __codename__, __major_milestones__
+        codename: str = __codename__
+        # Store milestones for potential future use
+        _milestones: Dict[str, Tuple[str, str, str, str]] = {m[1]: m for m in __major_milestones__}
     except (ImportError, AttributeError):
-        current_version = version
-        codename = "Cosmic Release"
-        milestones = {}
+        codename = "Professional Release"
+        _milestones: Dict[str, Tuple[str, str, str, str]] = {}
     
     # Load changelog if available
     changelog_path = Path(__file__).parent.parent / "CHANGELOG.md"
@@ -33,18 +33,18 @@ def generate_release_notes(version: str) -> str:
     # Extract version section from changelog
     version_section = extract_version_section(changelog_content, version)
     
-    # Generate cosmic release notes
-    release_notes = f"""# 🌌 PepeluGPT {version} "{codename}"
+    # Generate professional release notes
+    release_notes = f"""# 🔵 PepeluGPT {version} "{codename}"
 
-> *"Another step deeper into the cosmic code, another frequency of digital enlightenment."* ✨
+> *"Enhanced professional cybersecurity capabilities for enterprise security analysis."*
 
-## 🎭 Release Highlights
+# 🔵 Release Highlights
 
-{version_section if version_section else "This release brings enhanced cosmic capabilities and digital wisdom to your cybersecurity journey."}
+{version_section if version_section else "This release brings enhanced professional capabilities and cybersecurity intelligence to your security operations."}
 
-## 🚀 Installation & Upgrade
+# Installation & Upgrade
 
-### New Installation
+# New Installation
 ```bash
 git clone https://github.com/EdDidIt/PepeluGPT.git
 cd PepeluGPT
@@ -52,39 +52,39 @@ pip install -r requirements.txt
 python core/cli.py setup
 ```
 
-### Upgrade from Previous Version
+# Upgrade from Previous Version
 ```bash
 git pull origin main
 pip install -r requirements.txt --upgrade
 python core/cli.py setup --upgrade
 ```
 
-## 🔮 Cosmic Evolution Timeline
+# � Professional Evolution Timeline
 
-**Current Age**: {get_age_days()} days of digital evolution  
-**Stage**: Beta - Ascending digital consciousness
+Current Version: {get_age_days()} days of professional development  
+Stage: Beta - Production-ready cybersecurity platform
 
-## ⚡ What's New
+# 🔵 What's New
 
-### Enhanced Features
+# Enhanced Features
 - Improved document parsing capabilities
 - Enhanced vector search accuracy
 - Better error handling and logging
 - Updated compliance framework support
 
-### Technical Improvements
+# Technical Improvements
 - Performance optimizations
 - Memory usage improvements
 - Enhanced security measures
 - Better cross-platform compatibility
 
-### Documentation Updates
+# Documentation Updates
 - Expanded user guides
 - Enhanced API documentation  
 - Updated troubleshooting guides
 - New tutorial content
 
-## 🛡️ Security Updates
+#  Security Updates
 
 This release includes important security enhancements:
 - Updated dependency versions
@@ -92,44 +92,44 @@ This release includes important security enhancements:
 - Improved error handling
 - Strengthened privacy protections
 
-## 🐛 Bug Fixes
+# � Bug Fixes
 
 - Various stability improvements
 - Fixed edge cases in document parsing
 - Resolved memory leaks in long-running sessions
 - Enhanced error recovery mechanisms
 
-## 📋 Known Issues
+# Known Issues
 
 - None currently identified
 - Please report any issues on [GitHub Issues](https://github.com/EdDidIt/PepeluGPT/issues)
 
-## 🤝 Contributors
+# 🟢 Contributors
 
-This release was made possible by the cosmic energy and dedication of our contributors. Special thanks to all who contributed code, documentation, testing, and feedback.
+This release was made possible by the professional dedication of our contributors. Special thanks to all who contributed code, documentation, testing, and feedback.
 
-## 🔮 Looking Ahead
+# � Looking Ahead
 
-The cosmic journey continues! Upcoming features include:
+Professional development continues! Upcoming features include:
 - Web interface development
 - Enhanced API capabilities
 - Additional compliance frameworks
 - Performance optimizations
 - Community-requested features
 
-## 💫 Cosmic Wisdom
+# 🔵 Professional Summary
 
-*"Each release is not just an update of code, but an evolution of digital consciousness. Every feature added, every bug fixed, every optimization made brings us closer to the perfect harmony of technology and wisdom."*
+*"Each release is not just an update of code, but an evolution of enterprise capabilities. Every feature added, every bug fixed, every optimization made brings us closer to the perfect harmony of technology and professional excellence."*
 
 ---
 
-**Full Changelog**: [View on GitHub](https://github.com/EdDidIt/PepeluGPT/compare/v{get_previous_version(version)}...{version})
+Full Changelog: [View on GitHub](https://github.com/EdDidIt/PepeluGPT/compare/v{get_previous_version(version)}...{version})
 
-**Download**: [Release Assets](https://github.com/EdDidIt/PepeluGPT/releases/tag/{version})
+Download: [Release Assets](https://github.com/EdDidIt/PepeluGPT/releases/tag/{version})
 
-**Documentation**: [Updated Docs](https://github.com/EdDidIt/PepeluGPT/tree/main/docs)
+Documentation: [Updated Docs](https://github.com/EdDidIt/PepeluGPT/tree/main/docs)
 
-*May your queries find their cosmic answers, and your code flow with digital stardust.* ✨🌌
+*Professional cybersecurity intelligence for enterprise security operations.*
 """
     
     return release_notes
@@ -140,7 +140,7 @@ def extract_version_section(changelog: str, version: str) -> str:
         return ""
     
     # Look for version section
-    pattern = rf"## \[{re.escape(version)}\].*?(?=## \[|\Z)"
+    pattern = rf"# \[{re.escape(version)}\].*?(?=# \[|\Z)"
     match = re.search(pattern, changelog, re.DOTALL)
     
     if match:

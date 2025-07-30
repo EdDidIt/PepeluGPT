@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup
+from typing import Dict, Any
+from bs4 import BeautifulSoup  # type: ignore
 
-def parse(filepath):
+def parse(filepath: str) -> Dict[str, Any]:
     try:
         # Read HTML file
         with open(filepath, 'r', encoding='utf-8') as file:
@@ -15,14 +16,15 @@ def parse(filepath):
         # Extract title if present
         title = soup.find('title')
         if title:
-            content += f"Title: {title.get_text().strip()}\n\n"
+            title_text = title.get_text()  # type: ignore
+            content += f"Title: {title_text.strip()}\n\n"
         
         # Remove script and style elements
-        for script in soup(["script", "style"]):
-            script.extract()
+        for script in soup(["script", "style"]):  # type: ignore
+            script.extract()  # type: ignore
         
         # Get text content
-        text = soup.get_text()
+        text = soup.get_text()  # type: ignore
         
         # Clean up whitespace
         lines = (line.strip() for line in text.splitlines())

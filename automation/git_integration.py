@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-def run_git_command(command: list) -> tuple[bool, str]:
+def run_git_command(command: list[str]) -> tuple[bool, str]:
     """Run a git command and return success status and output."""
     try:
         result = subprocess.run(
@@ -29,16 +29,16 @@ def check_git_status() -> bool:
     """Check if the repository is clean and ready for tagging."""
     success, output = run_git_command(["git", "status", "--porcelain"])
     if not success:
-        print(f"❌ Git status check failed: {output}")
+        print(f"Git status check failed: {output}")
         return False
     
     if output:
-        print("⚠️  Repository has uncommitted changes:")
+        print("Repository has uncommitted changes:")
         print(output)
         response = input("Continue anyway? (y/n): ").lower().strip()
         return response in ['y', 'yes']
     
-    print("✅ Repository is clean")
+    print("Repository is clean")
     return True
 
 def get_current_branch() -> Optional[str]:
@@ -57,7 +57,7 @@ def create_version_tag(version: str, message: str) -> bool:
     if success:
         success, existing_tags = run_git_command(["git", "tag", "-l"])
         if tag_name in existing_tags:
-            print(f"⚠️  Tag {tag_name} already exists")
+            print(f"Tag {tag_name} already exists")
             response = input("Overwrite? (y/n): ").lower().strip()
             if response not in ['y', 'yes']:
                 return False
@@ -70,27 +70,27 @@ def create_version_tag(version: str, message: str) -> bool:
     ])
     
     if success:
-        print(f"✅ Created tag: {tag_name}")
+        print(f"Created tag: {tag_name}")
         
         # Ask if user wants to push the tag
         response = input("Push tag to remote? (y/n): ").lower().strip()
         if response in ['y', 'yes']:
             success, output = run_git_command(["git", "push", "origin", tag_name])
             if success:
-                print(f"✅ Pushed tag {tag_name} to remote")
+                print(f"Pushed tag {tag_name} to remote")
             else:
-                print(f"❌ Failed to push tag: {output}")
+                print(f"Failed to push tag: {output}")
         
         return True
     else:
-        print(f"❌ Failed to create tag: {output}")
+        print(f"Failed to create tag: {output}")
         return False
 
 def list_version_tags():
     """List all version tags."""
     success, output = run_git_command(["git", "tag", "-l", "v*", "--sort=-version:refname"])
     if success and output:
-        print("🏷️  Existing version tags:")
+        print("Existing version tags:")
         for tag in output.split('\n')[:10]:  # Show last 10 tags
             success, tag_info = run_git_command([
                 "git", "log", "-1", "--pretty=format:%h %s (%cr)", tag
@@ -100,7 +100,7 @@ def list_version_tags():
             else:
                 print(f"  {tag}")
     else:
-        print("📝 No version tags found")
+        print("No version tags found")
 
 def generate_release_commit_message(version: str, codename: str) -> str:
     """Generate a conventional commit message for the release."""
@@ -108,7 +108,7 @@ def generate_release_commit_message(version: str, codename: str) -> str:
 
 def create_release_workflow():
     """Interactive workflow for creating a release."""
-    print("\n🚀 PepeluGPT Release Workflow")
+    print("\nPepeluGPT Release Workflow")
     print("=" * 40)
     
     # Check Git status
@@ -118,9 +118,9 @@ def create_release_workflow():
     # Get current branch
     branch = get_current_branch()
     if branch:
-        print(f"📍 Current branch: {branch}")
+        print(f"Current branch: {branch}")
         if branch != "main" and branch != "master":
-            print("⚠️  You're not on the main branch")
+            print("You're not on the main branch")
             response = input("Continue anyway? (y/n): ").lower().strip()
             if response not in ['y', 'yes']:
                 return False
@@ -132,10 +132,10 @@ def create_release_workflow():
         version = version_info['version']
         codename = version_info['codename']
     except ImportError:
-        print("❌ Could not load version information")
+        print("Could not load version information")
         return False
     
-    print(f"\n📦 Creating release for v{version} '{codename}'")
+    print(f"\nCreating release for v{version} '{codename}'")
     
     # List existing tags
     list_version_tags()
@@ -143,7 +143,7 @@ def create_release_workflow():
     # Create commit if there are changes
     success, status = run_git_command(["git", "status", "--porcelain"])
     if success and status:
-        print("\n📝 Committing version changes...")
+        print("\nCommitting version changes...")
         commit_message = generate_release_commit_message(version, codename)
         
         # Add version-related files
@@ -154,15 +154,15 @@ def create_release_workflow():
         
         success, output = run_git_command(["git", "commit", "-m", commit_message])
         if success:
-            print("✅ Committed version changes")
+            print("Committed version changes")
         else:
-            print(f"⚠️  Commit failed: {output}")
+            print(f"Commit failed: {output}")
     
     # Create tag
     tag_message = f"PepeluGPT v{version} '{codename}' - Cybersecurity Intelligence Platform"
     if create_version_tag(version, tag_message):
-        print(f"\n🎉 Release v{version} created successfully!")
-        print("\n💡 Next steps:")
+        print(f"\nRelease v{version} created successfully!")
+        print("\nNext steps:")
         print("  1. Create release notes on GitHub")
         print("  2. Update documentation")
         print("  3. Notify users of the new version")
@@ -207,9 +207,9 @@ Examples:
             message = sys.argv[2] if len(sys.argv) > 2 else f"Release v{version_info['version']}"
             create_version_tag(version_info['version'], message)
         except ImportError:
-            print("❌ Could not load version information")
+            print("Could not load version information")
     else:
-        print(f"❌ Unknown command: {command}")
+        print(f"Unknown command: {command}")
 
 if __name__ == "__main__":
     main()
