@@ -15,7 +15,7 @@ from .manager import (
 
 __all__ = [
     'get_version_info',
-    'get_age_message', 
+    'get_age_message',
     'get_version_banner',
     'get_milestone_history',
     'get_version_command_output',
