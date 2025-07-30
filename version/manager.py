@@ -22,6 +22,7 @@ __major_milestones__ = [
     ("2025-07-29", "0.3.1", "Quantum Guardian", "Modular architecture and versioning")
 ]
 
+
 def get_version_info() -> Dict[str, Any]:
     """Get comprehensive version information."""
     return {
@@ -32,15 +33,16 @@ def get_version_info() -> Dict[str, Any]:
         "birth_date": __birth_date__
     }
 
+
 def get_build_age() -> Dict[str, Any]:
     """Calculate how long PepeluGPT has been operational."""
     birth = datetime.strptime(__birth_date__, "%Y-%m-%d").date()
     release = datetime.strptime(__release_date__, "%Y-%m-%d").date()
     today = date.today()
-    
+
     total_age = (today - birth).days
     current_version_age = (today - release).days
-    
+
     return {
         "total_days": total_age,
         "current_version_days": current_version_age,
@@ -49,17 +51,18 @@ def get_build_age() -> Dict[str, Any]:
         "today": today.strftime("%Y-%m-%d")
     }
 
+
 def get_age_message() -> str:
     """Get a professional status message for PepeluGPT."""
     age_info = get_build_age()
     total_days = age_info["total_days"]
-    
+
     # Calculate years, months, and days for total age
     years = total_days // 365
     remaining_days = total_days % 365
     months = remaining_days // 30
     days = remaining_days % 30
-    
+
     from typing import List
     age_parts: List[str] = []
     if years > 0:
@@ -68,9 +71,9 @@ def get_age_message() -> str:
         age_parts.append(f"{months} month{'s' if months != 1 else ''}")
     if days > 0 or not age_parts:
         age_parts.append(f"{days} day{'s' if days != 1 else ''}")
-    
+
     age_str = ", ".join(age_parts)
-    
+
     # Professional status messages based on age
     if total_days < 30:
         status = "Recently deployed and operational 🟢"
@@ -80,14 +83,15 @@ def get_age_message() -> str:
         status = "Established platform with proven reliability 🟢"
     else:
         status = "Mature cybersecurity intelligence platform 🟢"
-    
+
     return f"PepeluGPT has been operational for {age_str}. {status}"
+
 
 def get_version_banner() -> str:
     """Get a formatted version banner for display."""
     info = get_version_info()
     age_info = get_build_age()
-    
+
     return f"""
 ╔═══════════════════════════════════════════════════════════════╗
 ║                    PEPELU GPT {info['version']}                           ║
