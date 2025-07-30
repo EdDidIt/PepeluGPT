@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # Enhanced imports with cosmic validation
 try:
     from core.utilities import CosmicLogger, CosmicConstants, PepeluValidator
-    from vector_db.retriever import PepeluRetriever
+    from storage.vector_db.retriever import PepeluRetriever
     COSMIC_MODE = True
 except ImportError:
     # Fallback mode
@@ -30,7 +30,7 @@ except ImportError:
     COSMIC_MODE = False
     # Attempt to import PepeluRetriever separately
     try:
-        from vector_db.retriever import PepeluRetriever
+        from storage.vector_db.retriever import PepeluRetriever
     except ImportError:
         PepeluRetriever = None
 

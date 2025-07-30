@@ -8,10 +8,9 @@ while directing users to the new enhanced CLI interface.
 """
 
 import sys
-import os
 import subprocess
 from pathlib import Path
-from version import get_version_info, get_age_message
+from version.manager import get_version_info, get_age_message
 
 def main():
     """Main entry point with modern CLI forwarding."""

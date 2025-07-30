@@ -3,7 +3,13 @@
 Quick answer about NIST SP 800-53 Control Families
 """
 
-from vector_db.retriever import PepeluRetriever
+import sys
+from pathlib import Path
+
+# Add project root to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from storage.vector_db.retriever import PepeluRetriever
 
 def get_control_families_info():
     retriever = PepeluRetriever()

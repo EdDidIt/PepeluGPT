@@ -29,9 +29,9 @@ def benchmark_embedding_generation(text_samples: List[str]) -> Dict[str, Any]:
     
     print("🧠 Benchmarking Embedding Generation...")
     
-    # Test vector_db system
+    # Test storage.vector_db system
     try:
-        from vector_db.embedding import EmbeddingModel
+        from storage.vector_db.embedding import EmbeddingModel
         
         start_time = time.time()
         embedding_model = EmbeddingModel()
@@ -59,9 +59,9 @@ def benchmark_embedding_generation(text_samples: List[str]) -> Dict[str, Any]:
         print(f"  ❌ Failed to initialize vector_db embedding: {e}")
         results['vector_db']['initialization_failed'] = str(e)
     
-    # Test vector_storage system
+    # Test storage.vector_db system (the actual existing system)
     try:
-        from vector_storage.embedding import EmbeddingModel as StorageEmbeddingModel
+        from storage.vector_db.embedding import EmbeddingModel as StorageEmbeddingModel
         
         start_time = time.time()
         storage_embedding_model = StorageEmbeddingModel()

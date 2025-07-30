@@ -27,7 +27,7 @@ class PepeluAPI:
             import sys
             sys.path.append(str(Path(__file__).parent.parent))
             from core.core import get_core
-            from vector_db.retriever import PepeluRetriever
+            from storage.vector_db.retriever import PepeluRetriever
             
             self.core = get_core()
             self.retriever = PepeluRetriever()

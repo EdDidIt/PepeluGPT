@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # Enhanced imports with cosmic validation
 try:
     from core.utilities import CosmicLogger, CosmicConstants, PepeluValidator
-    from vector_db.retriever import PepeluRetriever
+    from storage.vector_db.retriever import PepeluRetriever
     from core.response_personalities import personality_manager, switch_personality_mode, get_personality_help
     COSMIC_MODE = True
 except ImportError as e:

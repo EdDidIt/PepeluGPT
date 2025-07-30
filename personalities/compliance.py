@@ -9,7 +9,7 @@ Part of the PepeluGPT modular personality system.
 import random
 from typing import Dict, Any, Optional
 from datetime import datetime
-from .base_personality import BasePersonality, PersonalityMode
+from .base import BasePersonality, PersonalityMode
 
 
 class ComplianceMode(BasePersonality):

@@ -6,10 +6,10 @@ Implements the modular personality system for PepeluGPT.
 
 from typing import Dict, Optional, List
 from datetime import datetime
-from .base_personality import PersonalityMode, BasePersonality
-from .oracle_mode import OracleMode
-from .compliance_mode import ComplianceMode
-from .cosmic_mode import CosmicMode
+from .base import PersonalityMode, BasePersonality
+from .oracle import OracleMode
+from .compliance import ComplianceMode
+from .cosmic import CosmicMode
 
 
 class PersonalityRouter:

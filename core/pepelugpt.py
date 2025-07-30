@@ -16,12 +16,10 @@ Usage:
 
 import sys
 from pathlib import Path
-from typing import Optional
 import typer
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
-from rich import print as rprint
 
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -44,7 +42,7 @@ class PepeluCore:
         self.core = None
         try:
             # Try to get existing core instance
-            from core.core import get_core, initialize_pepelu_core
+            from core.orchestrator import get_core, initialize_pepelu_core
             self.core = get_core()
             if not self.core:
                 if verbose:
@@ -57,7 +55,9 @@ class PepeluCore:
             if verbose:
                 console.print(f"⚠️ Core initialization issue: {e}", style="yellow")
     
-    def get_system_status(self):
+    from typing import Dict, Any
+
+    def get_system_status(self) -> Dict[str, Any]:
         """Get system status with fallback."""
         if self.core:
             return self.core.get_system_status()
@@ -67,7 +67,7 @@ class PepeluCore:
             "ready_for_chat": self._check_basic_readiness(),
             "environment_validation": {
                 "documents_available": Path("cyber_documents").exists() and len(list(Path("cyber_documents").glob("*.*"))) > 0,
-                "vector_db_ready": Path("vector_db/cyber_vector_db").exists(),
+                "vector_db_ready": Path("cyber_vector_db").exists(),
                 "dir_data": Path("data").exists() or Path("parsed_cyber_documents.json").exists(),
                 "dir_logs": Path("logs").exists()
             }
@@ -77,12 +77,12 @@ class PepeluCore:
         """Basic readiness check."""
         return (Path("cyber_documents").exists() and 
                 len(list(Path("cyber_documents").glob("*.*"))) > 0 and
-                (Path("vector_db/cyber_vector_db").exists() or Path("parsed_cyber_documents.json").exists()))
+                (Path("cyber_vector_db").exists() or Path("parsed_cyber_documents.json").exists()))
 
 def display_cosmic_banner():
     """Display the enhanced cosmic banner."""
     try:
-        from manifest.version_manager import get_version_banner
+        from version.manager import get_version_banner
         console.print(get_version_banner())
     except ImportError:
         # Fallback cosmic banner
@@ -110,19 +110,19 @@ def setup(
     console.print("\n[bold green]🚀 PepeluGPT Setup & Initialization[/bold green]")
     console.print("-" * 40)
     
-    core = PepeluCore(verbose)
+    # Removed unused variable assignment to 'core'
     
     if not _validate_environment(verbose):
         raise typer.Exit(1)
     
     try:
         with console.status("[bold green]📄 Parsing cybersecurity documents..."):
-            from file_parser.parse_all_documents import main as parse_main
+            from processing.parse_all_documents import main as parse_main
             parse_main()
         console.print("✅ Document parsing completed", style="green")
         
         with console.status("[bold green]🧠 Building vector database..."):
-            from vector_db.builder import main as build_main
+            from storage.vector_db.builder import main as build_main
             build_main()
         console.print("✅ Vector database built", style="green")
         
@@ -182,7 +182,7 @@ def status(
     
     # Show version info if available
     try:
-        from manifest.version_manager import get_version_info, get_build_age
+        from version.manager import get_version_info, get_build_age
         version_info = get_version_info()
         age_info = get_build_age()
         console.print(f"🔢 Version: {version_info['version']} \"{version_info['codename']}\" ({version_info['stage']})")
@@ -228,7 +228,7 @@ def status(
     # Additional verbose information
     if verbose:
         console.print("\n[bold yellow]📁 Directory Structure:[/bold yellow]")
-        dirs_to_check = ["cyber_documents", "data", "logs", "vector_db", "file_parser", "interface"]
+        dirs_to_check = ["cyber_documents", "data", "logs", "cyber_vector_db", "processing", "interface"]
         for dir_name in dirs_to_check:
             dir_path = Path(dir_name)
             if dir_path.exists():
@@ -252,12 +252,12 @@ def update(
     
     try:
         with console.status("[bold yellow]📄 Re-parsing documents..."):
-            from file_parser.parse_all_documents import main as parse_main
+            from processing.parse_all_documents import main as parse_main
             parse_main()
         console.print("✅ Document parsing completed", style="green")
         
         with console.status("[bold yellow]🧠 Rebuilding vector database..."):
-            from vector_db.builder import main as build_main
+            from storage.vector_db.builder import main as build_main
             build_main()
         console.print("✅ Vector database rebuilt", style="green")
         
@@ -347,7 +347,7 @@ def version(
     Shows version details, build information, and cosmic evolution status.
     """
     try:
-        from manifest.version_manager import get_version_command_output
+        from version.manager import get_version_command_output
         console.print(get_version_command_output())
     except ImportError:
         console.print("[bold cyan]🤖 PepeluGPT Version Information[/bold cyan]")
@@ -368,7 +368,7 @@ def age(
     console.print("=" * 40)
     
     try:
-        from manifest.version_manager import get_age_message, get_milestone_history
+        from version.manager import get_age_message, get_milestone_history
         age_message = get_age_message()
         console.print(f"\n{age_message}")
         console.print(get_milestone_history())
@@ -404,8 +404,8 @@ def _validate_environment(verbose: bool = False) -> bool:
         console.print(f"✅ Found {doc_count} documents to process", style="green")
     
     # Check if file_parser module exists
-    if not Path("file_parser").exists():
-        console.print("❌ file_parser/ module not found!", style="red")
+    if not Path("processing").exists():
+        console.print("❌ processing/ module not found!", style="red")
         return False
     
     if verbose:

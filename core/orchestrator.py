@@ -10,11 +10,10 @@ This module handles the core functionality including:
 - Security validation
 """
 
-import json
 import yaml
 import logging
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 from datetime import datetime
 
 class PepeluCore:
@@ -22,21 +21,21 @@ class PepeluCore:
     
     def __init__(self, config_path: Optional[str] = None):
         """Initialize the core engine with configuration."""
-        self.config_path = config_path or "config/default_config.json"
+        self.config_path = config_path or "config/default_config.yaml"
         self.paths_config = "config/paths.yaml"
         self.config = self.load_config()
         self.paths = self.load_paths()
         self.logger = self.setup_logging()
         
     def load_config(self) -> Dict[str, Any]:
-        """Load application configuration from JSON file."""
+        """Load application configuration from YAML file."""
         try:
             with open(self.config_path, 'r') as f:
-                config = json.load(f)
+                config = yaml.safe_load(f)
             return config
         except FileNotFoundError:
             return self.get_default_config()
-        except json.JSONDecodeError as e:
+        except yaml.YAMLError:
             return self.get_default_config()
     
     def load_paths(self) -> Dict[str, str]:
@@ -98,7 +97,7 @@ class PepeluCore:
     
     def validate_environment(self) -> Dict[str, bool]:
         """Validate that all required components are available."""
-        validation_results = {}
+        validation_results: Dict[str, bool] = {}
         
         # Check critical directories
         critical_paths = [
@@ -122,7 +121,7 @@ class PepeluCore:
         
         # Check vector database
         vector_path = Path(self.paths.get('vector_db', './cyber_vector_db'))
-        validation_results["vector_db_ready"] = (
+        validation_results["vector_db_ready"] = bool(
             vector_path.exists() and 
             (vector_path / "faiss_index.bin").exists()
         )
@@ -133,7 +132,7 @@ class PepeluCore:
         """Get comprehensive system status."""
         validation = self.validate_environment()
         
-        status = {
+        status: Dict[str, Any] = {
             "timestamp": datetime.now().isoformat(),
             "application": self.config.get("application", {}),
             "environment_validation": validation,
@@ -148,8 +147,8 @@ class PepeluCore:
     def initialize_directories(self) -> bool:
         """Create necessary directories if they don't exist."""
         try:
-            for path_key, path_value in self.paths.items():
-                if isinstance(path_value, str) and not path_value.endswith('.json'):
+            for _, path_value in self.paths.items():
+                if not path_value.endswith('.json'):
                     path = Path(path_value)
                     path.mkdir(parents=True, exist_ok=True)
                     self.logger.info(f"Ensured directory exists: {path}")
