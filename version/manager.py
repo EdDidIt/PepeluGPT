@@ -53,7 +53,6 @@ def get_age_message() -> str:
     """Get a poetic age message for PepeluGPT."""
     age_info = get_build_age()
     total_days = age_info["total_days"]
-    version_days = age_info["current_version_days"]
     
     # Calculate years, months, and days for total age
     years = total_days // 365
@@ -61,7 +60,8 @@ def get_age_message() -> str:
     months = remaining_days // 30
     days = remaining_days % 30
     
-    age_parts = []
+    from typing import List
+    age_parts: List[str] = []
     if years > 0:
         age_parts.append(f"{years} year{'s' if years != 1 else ''}")
     if months > 0:
