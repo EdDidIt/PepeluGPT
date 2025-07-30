@@ -136,12 +136,14 @@ def get_version_command_output() -> str:
 
 {milestones}
 
-� Development Roadmap:
-  • Enhanced analysis capabilities
-  • Advanced compliance workflows
-  • Real-time collaboration features
-  • Multi-language document support
-     return f""" ... """
+def get_roadmap():
+    return f"""
+    Development Roadmap:
+    • Enhanced analysis capabilities
+    • Advanced compliance workflows
+    • Real-time collaboration features
+    • Multi-language document support
+    """
 
 
 def validate():
