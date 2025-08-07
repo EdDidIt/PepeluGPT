@@ -1,0 +1,26 @@
+data_management:
+  cache_dir: cyber_vector_db
+  cache_validation: hash
+  enable_caching: true
+  source_dir: cyber_documents
+learning:
+  enabled: false
+  feedback_db: learning/feedback.db
+  learning_rate: 0.001
+  min_training_examples: 10
+llm:
+  device: auto
+  max_length: 200
+  model: microsoft/DialoGPT-small
+  temperature: 0.7
+logging:
+  level: INFO
+model:
+  name: default-model
+  parameters:
+    temperature: 0.7
+vector_db:
+  chunk_size: 1000
+  index_path: cyber_vector_db/faiss_index.bin
+  metadata_path: cyber_vector_db/metadata.pkl
+  overlap: 200

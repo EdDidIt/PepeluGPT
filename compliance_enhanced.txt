@@ -1,0 +1,33 @@
+# HELP pepelugpt_ai_risk_score AI-calculated predictive risk score (0-10)
+# TYPE pepelugpt_ai_risk_score gauge
+# HELP pepelugpt_ai_confidence AI confidence score for risk assessment
+# TYPE pepelugpt_ai_confidence gauge
+# HELP pepelugpt_ai_findings_total Total number of AI findings detected
+# TYPE pepelugpt_ai_findings_total counter
+# HELP pepelugpt_findings_critical Number of critical findings
+# TYPE pepelugpt_findings_critical gauge
+# HELP pepelugpt_plugin_execution_success Plugin execution success (1=success, 0=failure)
+# TYPE pepelugpt_plugin_execution_success gauge
+pepelugpt_ai_risk_score{workspace="."} 0.0 1754178986012
+pepelugpt_ai_confidence{workspace="."} 0.0 1754178986012
+pepelugpt_ai_findings_total{workspace="."} 7.0 1754178986012
+pepelugpt_ai_critical_patterns{workspace="."} 0.0 1754178986012
+pepelugpt_ai_emerging_threats{workspace="."} 0.0 1754178986012
+pepelugpt_ai_anomalies_detected{workspace="."} 1.0 1754178986012
+pepelugpt_ai_recommendations_generated{workspace="."} 2.0 1754178986012
+pepelugpt_findings_critical{workspace="."} 0.0 1754178986012
+pepelugpt_findings_high{workspace="."} 2.0 1754178986012
+pepelugpt_findings_medium{workspace="."} 2.0 1754178986012
+pepelugpt_findings_low{workspace="."} 0.0 1754178986012
+pepelugpt_findings_info{workspace="."} 3.0 1754178986012
+pepelugpt_audit_history_count{workspace="."} 0.0 1754178986012
+pepelugpt_audit_improvement_rate{workspace="."} 0.0 1754178986012
+pepelugpt_workspace_python_files{workspace="."} 0.0 1754178986012
+pepelugpt_workspace_config_files{workspace="."} 0.0 1754178986012
+pepelugpt_workspace_docker_present{workspace="."} 0.0 1754178986012
+pepelugpt_plugin_execution_success{workspace="."} 1.0 1754178986012
+pepelugpt_plugin_execution_time{workspace="."} 6.604194641113281e-05 1754178986012
+pepelugpt_compliance_gaps_critical{workspace="."} 0.0 1754178986012
+pepelugpt_compliance_gaps_moderate{workspace="."} 0.0 1754178986012
+pepelugpt_compliance_audit_readiness{workspace="."} 0.0 1754178986012
+pepelugpt_compliance_health_score{workspace="."} 0.0 1754178986012

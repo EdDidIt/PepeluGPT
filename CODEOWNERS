@@ -1,0 +1,36 @@
+# Code Owners
+
+## Global owners
+
+* @maintainers
+
+## Core system
+
+/core/ @core-team @maintainers
+/cli/ @cli-team @maintainers
+
+## Security and compliance
+
+/plugins/security/ @security-team @maintainers
+/cyber_documents/ @security-team @compliance-team
+SECURITY.md @security-team @maintainers
+
+## Infrastructure
+
+/docker-compose*.yml @devops-team @maintainers
+/Dockerfile @devops-team @maintainers
+/.github/ @devops-team @maintainers
+
+## Documentation
+
+/docs/ @docs-team @maintainers
+README.md @docs-team @maintainers
+CONTRIBUTING.md @docs-team @maintainers
+
+## Configuration
+
+/config/ @config-team @maintainers
+
+## Testing
+
+/tests/ @qa-team @maintainers

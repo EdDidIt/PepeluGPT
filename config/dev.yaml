@@ -1,0 +1,23 @@
+# Development configuration for PepeluGPT
+
+model:
+  name: "dev-model"
+  parameters:
+    temperature: 0.9  # Higher for experimentation
+
+logging:
+  level: DEBUG  # Verbose logging for development
+
+# Data management configuration
+data_management:
+  cache_dir: "cyber_vector_db_dev"
+  source_dir: "cyber_documents"
+  enable_caching: true
+  cache_validation: "hash"
+
+# Vector database configuration
+vector_db:
+  index_path: "cyber_vector_db_dev/faiss_index.bin"
+  metadata_path: "cyber_vector_db_dev/metadata.pkl"
+  chunk_size: 500  # Smaller chunks for faster dev cycles
+  overlap: 100

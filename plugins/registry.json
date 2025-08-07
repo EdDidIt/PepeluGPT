@@ -1,0 +1,41 @@
+{
+  "registry_version": "1.0",
+  "plugins": {
+    "demo": {
+      "name": "Demo Plugin",
+      "version": "1.0.0",
+      "framework": "DEMO",
+      "description": "Demo plugin for testing",
+      "author": "PepeluGPT Team",
+      "category": "custom",
+      "file": "custom/demo_plugin.py",
+      "controls": [
+        "DEMO-001",
+        "DEMO-002"
+      ],
+      "requirements": [],
+      "enabled": true,
+      "registered_at": "2025-08-02T18:00:00Z"
+    },
+    "ai_intelligence": {
+      "name": "AI Intelligence Engine",
+      "version": "1.0.0",
+      "framework": "AI-POWERED",
+      "description": "Advanced AI plugin for threat pattern detection and predictive analysis",
+      "author": "PepeluGPT AI Research Team",
+      "category": "core",
+      "file": "core/ai_intelligence.py",
+      "controls": [
+        "AI-001",
+        "AI-002", 
+        "AI-003",
+        "AI-004",
+        "AI-005"
+      ],
+      "requirements": ["audit_history", "temporal_data", "pattern_analysis"],
+      "enabled": true,
+      "registered_at": "2025-08-02T19:00:00Z"
+    }
+  },
+  "last_updated": "2025-08-02T19:00:00Z"
+}

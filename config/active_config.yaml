@@ -1,0 +1,45 @@
+# Adaptive mode configuration - AI-enhanced, feedback-driven responses
+
+model:
+  name: "adaptive-model"
+  parameters:
+    temperature: 0.8
+
+logging:
+  level: DEBUG
+
+# Learning system configuration
+learning:
+  enabled: true  # Enable adaptive learning features
+  feedback_db: "learning/feedback.db"
+  min_training_examples: 5  # Lower threshold for testing
+  learning_rate: 0.001
+  confidence_threshold: 0.7  # Lower threshold for testing (vs default 0.8)
+  correction_weight: 2.5  # Higher weight for corrections in training
+  
+# LLM configuration (adaptive mode with learning enabled)
+llm:
+  model: "microsoft/DialoGPT-small"  # Small model for development
+  device: "auto"
+  max_length: 200
+  temperature: 0.8
+
+# Data management configuration
+data_management:
+  cache_dir: "cyber_vector_db"
+  source_dir: "cyber_documents"
+  enable_caching: true
+  cache_validation: "hash"
+
+# Vector database configuration
+vector_db:
+  index_path: "cyber_vector_db/faiss_index.bin"
+  metadata_path: "cyber_vector_db/metadata.pkl"
+  chunk_size: 1000
+  overlap: 200
+
+# Adaptive mode specific settings
+adaptive:
+  debug_learning: true
+  verbose_feedback: true
+  mock_ml_dependencies: false  # Set to true to test without installing ML packages

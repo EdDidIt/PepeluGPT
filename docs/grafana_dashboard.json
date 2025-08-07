@@ -1,0 +1,437 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "PepeluGPT AI Intelligence Dashboard",
+    "tags": ["pepelugpt", "ai", "security", "intelligence"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "AI Risk Score",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "pepelugpt_ai_risk_score",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 2.5
+                },
+                {
+                  "color": "orange",
+                  "value": 5.0
+                },
+                {
+                  "color": "red",
+                  "value": 7.5
+                }
+              ]
+            },
+            "unit": "short",
+            "min": 0,
+            "max": 10
+          }
+        },
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "textMode": "auto",
+          "colorMode": "value"
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "AI Confidence Score",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "pepelugpt_ai_confidence",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 0.6
+                },
+                {
+                  "color": "green",
+                  "value": 0.8
+                }
+              ]
+            },
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Total AI Findings",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "pepelugpt_ai_findings_total",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 5
+                },
+                {
+                  "color": "red",
+                  "value": 10
+                }
+              ]
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 4,
+        "title": "Plugin Execution Success",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "pepelugpt_plugin_execution_success",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            },
+            "unit": "short",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        }
+      },
+      {
+        "id": 5,
+        "title": "Findings by Severity",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "pepelugpt_findings_critical",
+            "refId": "A",
+            "legendFormat": "Critical"
+          },
+          {
+            "expr": "pepelugpt_findings_high",
+            "refId": "B",
+            "legendFormat": "High"
+          },
+          {
+            "expr": "pepelugpt_findings_medium",
+            "refId": "C",
+            "legendFormat": "Medium"
+          },
+          {
+            "expr": "pepelugpt_findings_low",
+            "refId": "D",
+            "legendFormat": "Low"
+          },
+          {
+            "expr": "pepelugpt_findings_info",
+            "refId": "E",
+            "legendFormat": "Info"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Critical"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "fixed",
+                    "fixedColor": "red"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "High"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "fixed",
+                    "fixedColor": "orange"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Medium"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "fixed",
+                    "fixedColor": "yellow"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Low"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "fixed",
+                    "fixedColor": "blue"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Info"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "fixed",
+                    "fixedColor": "green"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 6,
+        "title": "AI Intelligence Metrics",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "pepelugpt_ai_critical_patterns",
+            "refId": "A",
+            "legendFormat": "Critical Patterns"
+          },
+          {
+            "expr": "pepelugpt_ai_emerging_threats",
+            "refId": "B",
+            "legendFormat": "Emerging Threats"
+          },
+          {
+            "expr": "pepelugpt_ai_anomalies_detected",
+            "refId": "C",
+            "legendFormat": "Anomalies"
+          },
+          {
+            "expr": "pepelugpt_ai_recommendations_generated",
+            "refId": "D",
+            "legendFormat": "Recommendations"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        }
+      },
+      {
+        "id": 7,
+        "title": "Workspace Characteristics",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "pepelugpt_workspace_python_files",
+            "refId": "A",
+            "legendFormat": "Python Files"
+          },
+          {
+            "expr": "pepelugpt_workspace_config_files",
+            "refId": "B",
+            "legendFormat": "Config Files"
+          },
+          {
+            "expr": "pepelugpt_workspace_docker_present",
+            "refId": "C",
+            "legendFormat": "Docker Present"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto"
+            },
+            "unit": "short"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "uid": "pepelugpt-ai-dashboard",
+    "version": 1,
+    "weekStart": ""
+  }
+}

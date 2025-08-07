@@ -1,0 +1,120 @@
+# PepeluGPT User Roles Configuration
+# Define default modes and preferences for different user roles
+
+roles:
+  # Security Operations Center Analyst
+  analyst:
+    default_mode: deterministic
+    description: "SOC analyst requiring fast, consistent responses"
+    preferences:
+      temperature: 0.1
+      enable_suggestions: false
+      auto_switch: false
+    access_levels:
+      - basic_queries
+      - compliance_checks
+      - incident_response
+    
+  # Security Researcher  
+  researcher:
+    default_mode: learning
+    description: "Security researcher exploring new threats and concepts"
+    preferences:
+      temperature: 0.7
+      enable_suggestions: true
+      auto_switch: true
+    access_levels:
+      - advanced_queries
+      - threat_analysis
+      - research_tools
+      
+  # System Administrator
+  admin:
+    default_mode: mixed
+    description: "Admin with full control and mode switching capabilities"
+    preferences:
+      temperature: 0.5
+      enable_suggestions: true
+      auto_switch: false
+      can_override: true
+    access_levels:
+      - all_features
+      - mode_management
+      - user_management
+      
+  # Compliance Officer
+  compliance:
+    default_mode: deterministic
+    description: "Compliance officer requiring auditable, consistent responses"
+    preferences:
+      temperature: 0.05
+      enable_suggestions: false
+      auto_switch: false
+      require_citations: true
+    access_levels:
+      - compliance_queries
+      - audit_trails
+      - documentation
+      
+  # Security Trainee
+  trainee:
+    default_mode: learning
+    description: "Learning-focused mode for training and education"
+    preferences:
+      temperature: 0.8
+      enable_suggestions: true
+      auto_switch: true
+      show_explanations: true
+    access_levels:
+      - educational_content
+      - guided_learning
+      - basic_queries
+
+# Role-based mode switching rules
+switching_rules:
+  analyst:
+    # Analysts rarely need learning mode
+    suggest_learning: false
+    lock_deterministic: true
+    
+  researcher:
+    # Researchers benefit from both modes
+    suggest_learning: true
+    auto_suggest_deterministic: 
+      - "compliance"
+      - "audit"
+      - "checklist"
+      
+  admin:
+    # Admins have full flexibility
+    suggest_learning: true
+    suggest_deterministic: true
+    can_override_locks: true
+    
+  compliance:
+    # Compliance officers need consistency
+    suggest_learning: false
+    lock_deterministic: true
+    require_audit_trail: true
+    
+  trainee:
+    # Trainees benefit from adaptive learning
+    suggest_learning: true
+    discourage_deterministic: true
+
+# Default role if none specified
+default_role: analyst
+
+# Role detection patterns (optional)
+role_detection:
+  analyst:
+    keywords: ["soc", "incident", "alert", "monitoring"]
+    domains: ["security.company.com", "soc."]
+    
+  researcher:
+    keywords: ["research", "analysis", "threat", "intelligence"]
+    domains: ["research.", "intel."]
+    
+  compliance:
+    keywords: ["compliance", "audit", "policy", "regulation"]
+    domains: ["compliance.", "audit."]

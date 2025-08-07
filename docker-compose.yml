@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  pepelugpt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pepelugpt-app
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount config directory for easy configuration changes
+      - ./config:/app/config:ro
+      # Mount cyber_documents for document processing
+      - ./cyber_documents:/app/cyber_documents:ro
+      # Persistent vector database
+      - pepelu_vector_db:/app/cyber_vector_db
+      # Logs directory
+      - pepelu_logs:/app/logs
+    environment:
+      - PEPELU_ENV=production
+      - PYTHONPATH=/app
+    restart: unless-stopped
+    networks:
+      - pepelu-network
+
+  # Optional: Redis for caching (if you want to add caching layer)
+  redis:
+    image: redis:7-alpine
+    container_name: pepelugpt-redis
+    volumes:
+      - pepelu_redis:/data
+    networks:
+      - pepelu-network
+    restart: unless-stopped
+
+  # Optional: Vector database backup service
+  backup:
+    image: alpine:latest
+    container_name: pepelugpt-backup
+    volumes:
+      - pepelu_vector_db:/data/vector_db:ro
+      - ./backups:/backups
+    command: |
+      sh -c "
+        while true; do
+          tar -czf /backups/vector_db_backup_$$(date +%Y%m%d_%H%M%S).tar.gz -C /data vector_db
+          find /backups -name '*.tar.gz' -mtime +7 -delete
+          sleep 86400
+        done
+      "
+    networks:
+      - pepelu-network
+    restart: unless-stopped
+
+volumes:
+  pepelu_vector_db:
+    driver: local
+  pepelu_logs:
+    driver: local
+  pepelu_redis:
+    driver: local
+
+networks:
+  pepelu-network:
+    driver: bridge

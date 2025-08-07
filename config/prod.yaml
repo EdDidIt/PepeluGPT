@@ -1,0 +1,32 @@
+# Production configuration for PepeluGPT
+
+model:
+  name: "production-model"
+  parameters:
+    temperature: 0.3  # Lower for consistency
+
+logging:
+  level: INFO  # Clean production logs
+
+# Data management configuration
+data_management:
+  cache_dir: "cyber_vector_db_prod"
+  source_dir: "cyber_documents"
+  enable_caching: true
+  cache_validation: "hash"
+
+# Vector database configuration
+vector_db:
+  index_path: "cyber_vector_db_prod/faiss_index.bin"
+  metadata_path: "cyber_vector_db_prod/metadata.pkl"
+  chunk_size: 1000  # Optimized for production
+  overlap: 200
+
+# Production-specific settings
+security:
+  enable_audit_logging: true
+  max_query_length: 4096
+
+performance:
+  cache_ttl: 3600  # 1 hour cache TTL
+  max_concurrent_queries: 10

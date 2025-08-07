@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PepeluGPT Configuration Schema",
+  "type": "object",
+  "properties": {
+    "engine": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["adaptive", "classic", "dev", "prod"],
+          "description": "Operating mode for the engine"
+        },
+        "log_level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+          "default": "INFO"
+        },
+        "max_workers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32,
+          "default": 4
+        }
+      },
+      "required": ["mode"]
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "scan_depth": {
+          "type": "string",
+          "enum": ["surface", "deep", "comprehensive"],
+          "default": "deep"
+        },
+        "severity_threshold": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "default": "medium"
+        },
+        "auto_remediation": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "plugins": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disabled": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "custom_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "interface": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "port": {
+              "type": "integer",
+              "minimum": 1024,
+              "maximum": 65535,
+              "default": 8080
+            },
+            "host": {
+              "type": "string",
+              "default": "127.0.0.1"
+            }
+          }
+        },
+        "web": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "port": {
+              "type": "integer",
+              "minimum": 1024,
+              "maximum": 65535,
+              "default": 3000
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["engine"]
+}

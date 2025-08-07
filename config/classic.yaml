@@ -1,0 +1,45 @@
+# Classic mode configuration template
+# Stable, production-ready responses without learning adaptations
+
+model:
+  name: "classic-model"
+  parameters:
+    temperature: 0.1  # Low temperature for consistent responses
+
+logging:
+  level: INFO
+
+# Learning system configuration - DISABLED for classic mode
+learning:
+  enabled: false  # <<<< KEY SETTING: false = classic mode
+  feedback_db: "learning/feedback.db"
+  min_training_examples: 10
+  learning_rate: 0.001
+  
+# LLM configuration (disabled in classic mode)
+llm:
+  model: "microsoft/DialoGPT-small"
+  device: "auto"
+  max_length: 200
+  temperature: 0.1
+
+# Data management configuration
+data_management:
+  cache_dir: "cyber_vector_db"
+  source_dir: "cyber_documents"
+  enable_caching: true
+  cache_validation: "hash"
+
+# Vector database configuration
+vector_db:
+  index_path: "cyber_vector_db/faiss_index.bin"
+  metadata_path: "cyber_vector_db/metadata.pkl"
+  chunk_size: 1000
+  overlap: 200
+
+# Classic mode specific settings
+classic:
+  strict_rules: true
+  cache_responses: true
+  disable_llm_generation: true
+  use_exact_matches: true

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  pepelugpt:
+    build:
+      target: builder  # Use builder stage for development tools
+    volumes:
+      # Mount source code for hot reloading
+      - .:/app
+      # Override vector db path for dev
+      - pepelu_vector_db_dev:/app/cyber_vector_db_dev
+    environment:
+      - PEPELU_ENV=development
+      - PYTHONPATH=/app
+    command: ["python", "main.py", "--config", "config/dev.yaml"]
+    ports:
+      - "8000:8000"
+      - "5678:5678"  # For debugger if needed
+
+volumes:
+  pepelu_vector_db_dev:
+    driver: local

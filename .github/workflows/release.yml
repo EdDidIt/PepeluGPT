@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Poetry
+        uses: snok/install-poetry@v1
+      - name: Publish Package
+        run: |
+          poetry install
+          poetry build
+          poetry publish --username $PYPI_USER --password $PYPI_PASS
+      - name: Deploy Docs
+        run: |
+          # stub for documentation deployment
+          echo "Deploying docs..."
